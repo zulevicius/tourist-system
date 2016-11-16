@@ -1,0 +1,37 @@
+{% load static %}
+
+<script src="{% static 'AdminLTE/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'AdminLTE/plugins/datatables/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+    $(document).ready( function () {
+        $('.table').DataTable({
+            "iDisplayLength": 25,
+            {# "dom": 'flrti<"center"p>',#}
+            "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"f><"pull-right"l><"clearfix">>>ti<"row view-pager"<"col-sm-12"<"text-center"p>>>',
+            padding: false,
+            "oLanguage": {
+                "sEmptyTable":      "Lentelėje nėra duomenų",
+                "sInfo":            "Rodomi įrašai nuo _START_ iki _END_ iš _TOTAL_ įrašų",
+                "sInfoEmpty":       "Rodomi įrašai nuo 0 iki 0 iš 0",
+                "sInfoFiltered":    "(atrinkta iš _MAX_ įrašų)",
+                "sInfoPostFix":     "",
+                "sInfoThousands":   " ",
+                "sLengthMenu":      "Rodyti _MENU_ įrašus",
+                "sLoadingRecords":  "Įkeliama...",
+                "sProcessing":      "Apdorojama...",
+                "sSearch":          "Ieškoti:",
+                "sThousands":       " ",
+                "sUrl":             "",
+                "sZeroRecords":     "Įrašų nerasta",
+
+                "oPaginate": {
+                    "sFirst": "Pirmas",
+                    "sPrevious": "Ankstesnis",
+                    "sNext": "Tolimesnis",
+                    "sLast": "Paskutinis"
+                }
+            }
+        });
+    });
+</script>

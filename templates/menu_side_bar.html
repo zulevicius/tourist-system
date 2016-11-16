@@ -1,0 +1,48 @@
+{% load i18n %}
+{% load staticfiles %}
+
+<aside class="main-sidebar">
+
+    <section class="sidebar">
+    </section>
+
+</aside>
+
+
+<style>
+    .submenu-item-light {
+        background-color: #F9FAFC;
+    }
+
+    .submenu-item-dark {
+        background-color: #222d32;
+    }
+
+</style>
+
+<script>
+    $( document ).ready(function() {
+
+      var body = document.getElementsByTagName("body")[0];
+      var sidebar = document.getElementsByClassName("control-sidebar")[0];
+
+      if(hasClass(body, "skin-blue-light") && hasClass(sidebar, "control-sidebar-dark")) {
+          body.className = "sidebar-mini skin-blue";
+      }
+
+      sidebar = $(".control-sidebar");
+      var submenuItem = $(".submenu-item");
+
+      if (sidebar.hasClass("control-sidebar-light")) {
+        submenuItem.removeClass("submenu-item-dark");
+        submenuItem.addClass("submenu-item-light");
+      } else {
+        submenuItem.removeClass("submenu-item-light");
+        submenuItem.addClass("submenu-item-dark");
+      };
+    });
+
+    function hasClass(element, cls) {
+        return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+    }
+</script>
