@@ -91,5 +91,5 @@ class Image(models.Model):
     filename = models.CharField(max_length=128, verbose_name="Failo vardas", blank=True, null=True)
 
     class Meta:
-        verbose_name = "Paveiksliukas"
-        verbose_name_plural = "Paveikslėlis"
+        verbose_name = "Paveikslėlis"
+        verbose_name_plural = "Paveikslėliai"
