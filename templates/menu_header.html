@@ -25,11 +25,34 @@
 <!-- Messages: style can be found in dropdown.less-->
 
 
-            <li>
-                <a href="#" >
-                    <span class="">Atsijungti</span>
-                </a>
-            </li>
+                {% if request.user.is_anonymous %}
+                    <li>
+                        <a href="{% url 'app_tourist:login' %}">
+                            <span class="">Prisijungimas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'app_tourist:register' %}">
+                            <span class="">Registracija</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'app_tourist:forgot_password' %}">
+                            <span class="">Pamiršau slaptažodį</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'app_tourist:change_password' %}">
+                            <span class="">Keisti slaptažodį</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'app_tourist:logout' %}">
+                            <span class="">Atsijungti</span>
+                        </a>
+                    </li>
+                {% endif %}
         <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
         </li>

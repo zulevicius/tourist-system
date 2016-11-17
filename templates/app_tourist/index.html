@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 
-{% block header %}
-    <h1 class="h1 page-header">Tourist system</h1>
-{% endblock %}
-
 {% block my_css %}
 {% endblock %}
 
 {% block page_header %}
-    Start
+    Turizmo sistema
 {% endblock %}
 
 {% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="callout callout-{{ message.tags }}" style="text-align: center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
      <div class="row">
         krc namai

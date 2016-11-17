@@ -1,0 +1,38 @@
+{% load widget_tweaks %}
+{% load core_extras %}
+
+<div class="form-group {{ size }} {% if field.errors.as_text %} has-error {% endif %}">
+    <label for="{{ field.id_for_label }}" class="control-label">
+        {% if label %}
+            {{ label }}
+        {% else %}
+            {{ field.label }}
+        {% if field.field.required %}*{% endif %}
+        {% endif %}
+    </label>
+          {% if field|field_type == "integerfield" or field|field_type == "floatfield" %}
+                  {{ field|add_class:"form-control"|append_attr:"style:width: 7em" }}
+          {% elif field|field_type == "filefield" or field|field_type == "booleanfield" %}
+                  {{ field }}
+          {% elif field|field_type == "typedchoicefield" or field|widget_type == "select" %}
+                    {{ field|add_class:"form-control" }}
+          {% elif field|field_type == "datefield" %}
+                    {{ field|add_class:"form-control" }}
+          {% else %}
+                {% if field|widget_type == "select" %}
+                    <div class="col-sm-5">
+                        {{ field|add_class:"form-control" }}<span class="glyphicon glyphicon-menu-down form-control-feedback" style="padding-right: 20px;"></span>
+                    </div>
+                {% else %}
+                    {{ field|add_class:"form-control" }}
+                {% endif %}
+          {% endif %}
+
+    {% if field.errors.as_text %}
+        <div class="has-error">
+            <span class="help-block">
+                {{ field.errors.as_text }}
+            </span>
+        </div>
+    {% endif %}
+</div>

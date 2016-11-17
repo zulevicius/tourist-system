@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block my_css %}
+{% endblock %}
+
+{% block my_js %}
+{% endblock %}
+
+{% block page_header %}
+
+    Prisijungimas
+
+{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="callout callout-{{ message.tags }}" style="text-align: center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" action="">
+        {% csrf_token %}
+
+        <div class="box box-primary">
+
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-fw ion-log-in"></i> Prisijungimas</h3>
+            </div>
+
+            <div class="box-body">
+
+                <div class="row">
+                    {% include "forms/form_field.html" with field=form.username label="Naudotojo vardas" size="col-sm-5" %}
+                </div>
+
+                <div class="row">
+                    {% include "forms/form_field.html" with field=form.password label="Slaptažodis" size="col-sm-5" %}
+                </div>
+
+                <button class="btn btn-success" style="float: right;"><i class="fa fa-fw fa-check"></i> Prisijungti</button>
+            </div>
+        </div>
+
+    </form>
+
+{% endblock %}

@@ -9,8 +9,8 @@ class Place(models.Model):
     address = models.CharField(max_length=128, verbose_name="Adresas", blank=True, null=True)
 
     class Meta:
-        verbose_name = "Vietovė"
-        verbose_name_plural = "Vietovės"
+        verbose_name = "Vieta"
+        verbose_name_plural = "Vietos"
 
     def __str__(self):
         return self.title

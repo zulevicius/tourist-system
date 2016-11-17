@@ -6,7 +6,10 @@
 <html>
 
 <head>
-    <title>Tourist system</title>
+    <title> TS -
+        {% block page_header %}
+        {% endblock %}
+    </title>
 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta charset="utf-8">
@@ -69,10 +72,6 @@
         .select2-container--default .select2-selection--single .select2-selection__arrow b {
             border-color: #888 transparent transparent transparent;
             border-style: none;
-            border-top-style: none;
-            border-right-style: none;
-            border-bottom-style: none;
-            border-left-style: none;
         }
 
         select::-ms-expand {
@@ -93,8 +92,13 @@
                     height: 28px;
                 }
         }
-
     </style>
+
+    <script>
+        $(document).ready(function(){
+            $(".callout").fadeOut(10000);
+        });
+    </script>
 
     {% block my_js %}
     {% endblock %}
