@@ -11,6 +11,7 @@ from django.utils.crypto import get_random_string
 from django.views.generic import FormView, TemplateView, View
 
 from .forms import RemindPassword, UserRegister
+from app_tourist.models import VisitPlace
 
 
 def to_index(request):
@@ -44,6 +45,9 @@ class UserRegisterView(View):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
 
+            # if password != request.POST['psw2']:
+            #     messages.add_message(self.request, 25, 'Slaptažodžiai nesutampa', extra_tags="danger")
+            # else:
             user = form.save(commit=False)
             user.set_password(password)
             user.save()
@@ -132,11 +136,16 @@ def change_password(request):
 
         if user.check_password(old_psw):
             if new_psw == new_psw2:
-                user.set_password(new_psw)
-                user.save()
+                if len(new_psw) > 7:
+                    user.set_password(new_psw)
+                    user.save()
 
-                messages.add_message(request, 25, "Slaptažodis pakeistas. Prisijunkite iš naujo", extra_tags="success")
-                return redirect('app_tourist:index')
+                    messages.add_message(request, 25, "Slaptažodis pakeistas. Prisijunkite iš naujo",
+                                         extra_tags="success")
+                    return redirect('app_tourist:index')
+                else:
+                    messages.add_message(request, 25, "Slaptažodžio ilgis turi viršyti 7 simbolius",
+                                         extra_tags="danger")
             else:
                 messages.add_message(request, 25, "Nauji slaptažodžiai nesutampa", extra_tags="danger")
         else:

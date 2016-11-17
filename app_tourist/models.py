@@ -3,32 +3,34 @@ from django.db import models
 
 class Place(models.Model):
 
-    title = models.CharField(max_length=128, verbose_name="Pavadinimas", blank=True, null=True)
-    x = models.FloatField(verbose_name="X koordinatė", blank=True, null=True)
-    y = models.FloatField(verbose_name="Y koordinatė", blank=True, null=True)
-    address = models.CharField(max_length=128, verbose_name="Adresas", blank=True, null=True)
+    title = models.CharField(max_length=50, verbose_name="Pavadinimas", blank=True, null=True)
+    address = models.CharField(max_length=64, verbose_name="Adresas")
+    city = models.CharField(max_length=30, verbose_name="Miestas")
 
     class Meta:
         verbose_name = "Vieta"
         verbose_name_plural = "Vietos"
 
     def __str__(self):
-        return self.title
+        return "%s | %s" % (self.title, self.address)
 
 
 class TourObject(models.Model):
 
-    title = models.CharField(max_length=128, verbose_name="Pavadinimas")
+    title = models.CharField(max_length=50, verbose_name="Pavadinimas")
     place = models.ForeignKey(Place, verbose_name="Vietovė")
     ticket_price = models.FloatField(verbose_name="Bilieto kaina")
 
     last_update = models.DateTimeField(verbose_name="Paskutinis atnaujinimas")
-    link = models.CharField(max_length=128, verbose_name="Oficialus puslapis")
+    link = models.CharField(max_length=128, blank=True, null=True, verbose_name="Oficialus puslapis")
     extra_info = models.TextField(blank=True, null=True, verbose_name="Papildoma informacija")
 
     class Meta:
         verbose_name = "Turistinis objektas"
         verbose_name_plural = "Turistiniai objektai"
+
+    def __str__(self):
+        return self.title
 
 
 class VisitPlace(models.Model):
@@ -60,8 +62,9 @@ class VisitPlace(models.Model):
 
     is_museum = models.BooleanField(default=False, verbose_name="Muziejus")
     is_park_or_square = models.BooleanField(default=False, verbose_name="Parkas / Aikštė")
-    is_famous_place = models.BooleanField(default=False, verbose_name="Ižymi vieta")
+    is_panorama = models.BooleanField(default=False, verbose_name="Panorama")
     is_monument = models.BooleanField(default=False, verbose_name="Istorinis paminklas")
+    is_church = models.BooleanField(default=False, verbose_name="Bažnyčia")
     is_palace = models.BooleanField(default=False, verbose_name="Dvaras / Pilis")
     is_nature_object = models.BooleanField(default=False, verbose_name="Gamtos objektas")
 

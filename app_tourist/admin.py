@@ -3,24 +3,24 @@ from app_tourist.models import Image, Event, Place, TourObject, VisitPlace
 
 
 class PlaceAdmin(admin.ModelAdmin):
-    list_display = ['title', 'x', 'y', 'address']
-    search_fields = ['title', 'x', 'y', 'address']
+    list_display = ['title', 'address', 'city']
+    search_fields = ['title', 'address', 'city']
 
 admin.site.register(Place, PlaceAdmin)
 
 
 class TourObjectAdmin(admin.ModelAdmin):
-    list_display = ['title', 'place', 'ticket_price', 'last_update', 'link', 'extra_info']
-    search_fields = ['title', 'place', 'ticket_price', 'last_update', 'link', 'extra_info']
+    list_display = ['title' , 'place', 'ticket_price', 'last_update', 'link']
+    search_fields = ['title', 'place', 'ticket_price', 'last_update', 'link']
 
 admin.site.register(TourObject, TourObjectAdmin)
 
 
 class VisitPlaceAdmin(admin.ModelAdmin):
-    list_display = ['tour_object', 'always_available', 'is_museum', 'is_park_or_square', 'is_famous_place',
-                    'is_monument', 'is_palace', 'is_nature_object']
-    search_fields = ['tour_object', 'always_available', 'is_museum', 'is_park_or_square', 'is_famous_place',
-                     'is_monument', 'is_palace', 'is_nature_object']
+    list_display = ['tour_object', 'always_available', 'is_museum', 'is_park_or_square', 'is_panorama',
+                    'is_monument', 'is_church', 'is_palace', 'is_nature_object']
+    search_fields = ['tour_object', 'always_available', 'is_museum', 'is_park_or_square', 'is_panorama',
+                     'is_monument', 'is_church', 'is_palace', 'is_nature_object']
 
 admin.site.register(VisitPlace, VisitPlaceAdmin)
 
