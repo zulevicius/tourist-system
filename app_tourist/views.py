@@ -8,10 +8,20 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
-from django.views.generic import FormView, TemplateView, View
+from django.views.generic import FormView, ListView, TemplateView, View
 
 from .forms import RemindPassword, UserRegister
 from app_tourist.models import VisitPlace
+
+
+class VisitPlacesView(ListView):
+    template_name = 'app_tourist/visitplaces.html'
+    model = VisitPlace
+
+    def get_context_data(self):
+        context = super(VisitPlacesView, self).get_context_data()
+        context['visitPlacesList'] = VisitPlace.objects.all()
+        return context
 
 
 def to_index(request):

@@ -4,6 +4,21 @@
 <aside class="main-sidebar">
 
     <section class="sidebar">
+        <ul class="sidebar-menu">
+
+            {% if user.is_superuser %}
+                <li class="header info" style="font-size: 10pt;"><b> Super vartotojui</b></li>
+                <li><a href="/tourist-system/admin/"><i class="fa fa-fw fa-gears"></i> <span>Administravimas</span></a></li>
+            {% endif %}
+        </ul>
+
+        <ul class="sidebar-menu">
+
+            <li><a href="{% url 'app_tourist:index' %}">
+                <i class="fa fa-fw fa-map-signs"></i> <span> Lankytinos vietos</span></a>
+            </li>
+
+        </ul>
     </section>
 
 </aside>

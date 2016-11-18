@@ -17,19 +17,30 @@ class Place(models.Model):
 
 class TourObject(models.Model):
 
-    title = models.CharField(max_length=50, verbose_name="Pavadinimas")
+    title = models.CharField(max_length=100, verbose_name="Pavadinimas")
     place = models.ForeignKey(Place, verbose_name="Vietovė")
-    ticket_price = models.FloatField(verbose_name="Bilieto kaina")
+    ticket_price = models.FloatField(verbose_name="Didžiausia bilieto kaina")
 
     last_update = models.DateTimeField(verbose_name="Paskutinis atnaujinimas")
-    link = models.CharField(max_length=128, blank=True, null=True, verbose_name="Oficialus puslapis")
+    link = models.CharField(max_length=200, blank=True, null=True, verbose_name="Oficialus puslapis")
     extra_info = models.TextField(blank=True, null=True, verbose_name="Papildoma informacija")
+    main_photo = models.ImageField(verbose_name="Pagrindinė nuotrauka", blank=True, null=True)
 
     class Meta:
         verbose_name = "Turistinis objektas"
         verbose_name_plural = "Turistiniai objektai"
 
     def __str__(self):
+        try:
+            if self.visitplace:
+                return "%s (Priskirtas)" % self.title
+        except: pass
+
+        try:
+            if self.event:
+                return "%s (Priskirtas)" % self.title
+        except: pass
+
         return self.title
 
 
@@ -79,6 +90,8 @@ class Event(models.Model):
     event_date = models.DateTimeField(verbose_name="Renginio data")
     event_end_date = models.DateTimeField(verbose_name="Renginio pabaiga")
 
+    min_ticket_price = models.FloatField(blank=True, null=True, verbose_name="Mažiausia bilieto kaina")
+
     is_concert = models.BooleanField(default=False, verbose_name="Koncertas")
     is_festival = models.BooleanField(default=False, verbose_name="Masinė kultūros šventė")
     is_exhibition = models.BooleanField(default=False, verbose_name="Paroda")
@@ -91,7 +104,7 @@ class Event(models.Model):
 class Image(models.Model):
 
     tour_object = models.ForeignKey(TourObject, verbose_name="Turistinis objektas")
-    filename = models.CharField(max_length=128, verbose_name="Failo vardas", blank=True, null=True)
+    image = models.ImageField(verbose_name="Paveiksliukas", blank=True, null=True)
 
     class Meta:
         verbose_name = "Paveikslėlis"

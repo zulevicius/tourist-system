@@ -33,7 +33,7 @@ admin.site.register(Event, EventAdmin)
 
 
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ['tour_object', 'filename']
-    search_fields = ['tour_object', 'filename']
+    list_display = ['tour_object']
+    search_fields = ['tour_object']
 
 admin.site.register(Image, ImageAdmin)
