@@ -1,27 +1,96 @@
 # -*- coding: utf-8 -*-
+import datetime
+import json
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
 from django.views.generic import FormView, ListView, TemplateView, View
 
 from .forms import RemindPassword, UserRegister
-from app_tourist.models import VisitPlace
+from app_tourist.models import Event, Image, VisitPlace
 
 
 class VisitPlacesView(ListView):
     template_name = 'app_tourist/visitplaces.html'
     model = VisitPlace
 
-    def get_context_data(self):
+    def get_context_data(self, **kwargs):
         context = super(VisitPlacesView, self).get_context_data()
         context['visitPlacesList'] = VisitPlace.objects.all()
         return context
+
+
+def review_visitplace(request, pk):
+
+    vp = VisitPlace.objects.get(pk = pk)
+    events = Event.objects.filter(tour_object__place=vp.tour_object.place, event_date__gte=datetime.datetime.now())
+    images = Image.objects.filter(tour_object=vp.tour_object)
+
+    args = {'visit_place': vp, 'events': events, 'images': images}
+
+    return render(request, 'app_tourist/review_visitplace.html', args)
+
+
+class EventsView(ListView):
+    template_name = 'app_tourist/events.html'
+    model = Event
+
+    def get_context_data(self, **kwargs):
+        context = super(EventsView, self).get_context_data()
+        context['eventsList'] = Event.objects.all()
+        return context
+
+
+def review_event(request, pk):
+
+    ev = Event.objects.get(pk = pk)
+    images = Image.objects.filter(tour_object=ev.tour_object)
+
+    args = {'event': ev, 'images': images}
+
+    return render(request, 'app_tourist/review_event.html', args)
+
+
+def get_working_hours_by_weekday(request):
+
+    pk = int(request.GET['pk'])
+    weekday = int(request.GET['weekday'])
+
+    result = [('pk', pk)]
+    vp = VisitPlace.objects.get(pk = pk)
+
+    if vp.always_available:
+        result.append(('start', "always"))
+    elif weekday == 0:
+        result.append(('start', str(vp.mondayWorkingHoursStart)))
+        result.append(('end', str(vp.mondayWorkingHoursEnd)))
+    elif weekday == 1:
+        result.append(('start', str(vp.tuesdayWorkingHoursStart)))
+        result.append(('end', str(vp.tuesdayWorkingHoursEnd)))
+    elif weekday == 2:
+        result.append(('start', str(vp.wednesdayWorkingHoursStart)))
+        result.append(('end', str(vp.wednesdayWorkingHoursEnd)))
+    elif weekday == 3:
+        result.append(('start', str(vp.thursdayWorkingHoursStart)))
+        result.append(('end', str(vp.thursdayWorkingHoursEnd)))
+    elif weekday == 4:
+        result.append(('start', str(vp.fridayWorkingHoursStart)))
+        result.append(('end', str(vp.fridayWorkingHoursEnd)))
+    elif weekday == 5:
+        result.append(('start', str(vp.saturdayWorkingHoursStart)))
+        result.append(('end', str(vp.saturdayWorkingHoursEnd)))
+    elif weekday == 6:
+        result.append(('start', str(vp.sundayWorkingHoursStart)))
+        result.append(('end', str(vp.sundayWorkingHoursEnd)))
+
+    return HttpResponse(json.dumps(result), content_type='application/json')
 
 
 def to_index(request):

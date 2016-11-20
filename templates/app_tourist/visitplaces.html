@@ -1,6 +1,128 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block my_css %}
+    .modal-escape {
+        color:white;
+        font-size: large;
+        width: 26px;
+        height: 26px;
+        text-align: center;
+        border: white solid 1px;
+        float: right;
+        cursor: pointer;
+    }
+
+    .modal {
+        text-align: center;
+    }
+
+    .modal-dialog {
+        display: inline-block;
+        width:auto;
+    }
+
+{% endblock %}
+
+{% block my_js %}
+    {% include 'datatables/datatables_js_no_custom.html' %}
+
+    <script type="text/javascript" src="{% static 'ajax.js' %}"></script>
+    <script>
+        var dtSettings = {
+            scrollX : true,
+            scrollCollapse : true,
+            "iDisplayLength": {{ visitPlacesList|length }},
+             {# "dom": 'flrti<"center"p>',#}
+             "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"f><"clearfix">>>',
+             padding: false,
+             "order": [[ 1, "desc" ]],
+             "aoColumnDefs" : [
+             {
+                'bSortable' : false,
+                'aTargets' : [ 0 ]
+             }],
+             "fnInfoCallback": function( oSettings, _START_, _END_, _TOTAL_ ) {
+                 return "Rodomi įrašai nuo " + _START_ + " iki " + _END_ + " iš " + _TOTAL_ + " įrašų";
+             },
+             "oLanguage": {
+                 "sEmptyTable":      "Lentelėje nėra duomenų",
+                 "sInfo":            "Rodomi įrašai nuo _START_ iki _END_ iš _TOTAL_ įrašų",
+                 "sInfoEmpty":       "Rodomi įrašai nuo 0 iki 0 iš 0",
+                 "sInfoFiltered":    "(atrinkta iš _MAX_ įrašų)",
+                 "sInfoPostFix":     "",
+                 "sInfoThousands":   " ",
+                 "sLengthMenu":      "Rodyti _MENU_ įrašus",
+                 "sLoadingRecords":  "Įkeliama...",
+                 "sProcessing":      "Apdorojama...",
+                 "sSearch":          "Ieškoti:",
+                 "sThousands":       " ",
+                 "sUrl":             "",
+                 "sZeroRecords":     "Įrašų nerasta",
+
+{#                 "oPaginate": {#}
+{#                     "sFirst": "Pirmas",#}
+{#                     "sPrevious": "Ankstesnis",#}
+{#                     "sNext": "Tolimesnis",#}
+{#                     "sLast": "Paskutinis"#}
+{#                }#}
+            }
+        };
+
+        function setWorkingHours() {
+
+            var date = $("#datepicker").datepicker('getDate');
+            var weekday = date.getUTCDay();
+            var table = $('#table');
+
+            table.dataTable().fnDestroy();
+
+            var starts = document.getElementsByClassName("job-start");
+            for (var i = 0; i < starts.length; i++)
+            {
+                var pk = starts[i].id.split("-")[1];
+                var data = {'pk': pk, 'weekday': weekday};
+                ajax("{% url 'app_tourist:work_hours_by_weekday' %}", data, function(results) {
+                    var pk = results[0][1];
+                    if (results[1][1] === 'always')
+                        document.getElementById('s-' + pk).innerHTML = "Atidaryta visuomet";
+                    else if (results[1][1] === 'None') {
+                        document.getElementById('s-' + pk).innerHTML = "";
+                        document.getElementById('e-' + pk).innerHTML = "";
+                    }
+                    else {
+                        document.getElementById('s-' + pk).innerHTML =
+                                results[1][1].substring(0, results[1][1].length - 3);
+                        document.getElementById('e-' + pk).innerHTML =
+                                results[2][1].substring(0, results[2][1].length - 3);
+                    }
+                })
+            }
+
+            table.dataTable(dtSettings).fnDraw();
+        }
+
+        $(document).ready( function () {
+            var table = $('#table');
+            table.DataTable(dtSettings);
+            table.on( 'page.dt', function () {
+                console.log(table.page.info());
+                setWorkingHours();
+            } );
+
+            var datepicker = $('#datepicker');
+            datepicker.datepicker({
+                autoclose: true,
+                todayHighlight: true,
+                onSelect: function() {
+                    setWorkingHours();
+                }
+            });
+            datepicker.datepicker().datepicker("setDate", new Date());
+            setWorkingHours();
+        });
+
+    </script>
 {% endblock %}
 
 {% block page_header %}
@@ -24,7 +146,92 @@
         </div>
 
         <div class="box-body">
+            <div class="row form-group col-sm-6">
+              <label>Lankymo diena:</label>
 
+              <div class="input-group date">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <input class="form-control pull-right" id="datepicker" type="text">
+              </div>
+            </div>
+
+            <table id="table" class="table table-responsive table-bordered table-striped" style="border: none;">
+                <thead>
+                    <tr>
+                        <th>Nuotrauka</th>
+                        <th>Pavadinimas<i class="fa fa-fw fa-sort"></i></th>
+                        <th>Adresas<i class="fa fa-fw fa-sort"></i></th>
+                        <th>Miestas <i class="fa fa-fw fa-sort"></i></th>
+                        <th>Max bilieto kaina <i class="fa fa-eur"></i><i class="fa fa-fw fa-sort"></i></th>
+                        <th>Darbo pradžia <i class="fa fa-fw fa-sort"></i></th>
+                        <th>Darbo pabaiga <i class="fa fa-fw fa-sort"></i> </th>
+                        <th style="width:140px;">Tipas<i class="fa fa-fw fa-sort"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vp in visitPlacesList %}
+                        <div class="modal fade" id="img{{ forloop.counter0 }}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel">
+                           <div class="modal-dialog" role="document">
+                             <div class="modal-header" style="border: none;">
+                               <p class="modal-escape" data-dismiss="modal" aria-label="Close">
+                                 <span aria-hidden="true">&times;</span>
+                               </p>
+                             </div>
+
+                             <div class="modal-content" style="background-color: transparent;">
+                                 <img class="img-responsive" src="{{ vp.tour_object.main_photo.url }}">
+                             </div>
+
+                             <div class="modal-footer" style="background-color: transparent; border: none;">
+                                 <p style="color: #fff; text-align: center;">
+                                     {{ vp.tour_object.title }}
+                                 </p>
+                             </div>
+                           </div>
+                        </div>
+                        <tr>
+                            <td align="center">
+                                <a data-toggle="modal" data-target="#img{{ forloop.counter0 }}">
+                                    <img class="img-thumbnail"
+                                         src="{{ vp.tour_object.main_photo.url }}" height="360" width="480">
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'app_tourist:review_visitplace' vp.pk %}">
+                                    {{ vp.tour_object.title }}
+                                </a>
+                            </td>
+                            <td>{{ vp.tour_object.place.address }}</td>
+                            <td>{{ vp.tour_object.place.city }}</td>
+                            <td>{{ vp.tour_object.ticket_price }}</td>
+                            <td class="job-start" id="s-{{ vp.pk }}">
+                                {% if vp.always_available %}
+                                    Atidaryta visuomet
+                                {% elif vp.mondayWorkingHoursStart %}
+                                    {{ vp.mondayWorkingHoursStart }}
+                                {% endif %}
+                            </td>
+                            <td class="job-end" id="e-{{ vp.pk }}">
+                                {% if vp.mondayWorkingHoursEnd %}
+                                    {{ vp.mondayWorkingHoursEnd }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if vp.is_museum %}Muziejus<br>{% endif %}
+                                {% if vp.is_park_or_square %}Parkas / Aikštė<br>{% endif %}
+                                {% if vp.is_panorama %}Panorama<br>{% endif %}
+                                {% if vp.is_monument %}Istorinis paminklas<br>{% endif %}
+                                {% if vp.is_church%}Bažnyčia<br>{% endif %}
+                                {% if vp.is_palace%}Dvaras / Pilis<br>{% endif %}
+                                {% if vp.is_nature_object %}Gamtos objektas{% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
      </div>
 

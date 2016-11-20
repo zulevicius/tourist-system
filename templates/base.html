@@ -16,7 +16,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 
-    <link rel="stylesheet" type="text/css" href="{% static 'AdminLTE/bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'AdminLTE/bootstrap/css/bootstrap.css' %}" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -30,7 +30,7 @@
     <script type="text/javascript" src="{% static 'AdminLTE/dist/js/app.min.js' %}"></script>
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="{% static 'jquery-ui.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'AdminLTE/bootstrap/js/bootstrap.min.js' %}"></script>
     <!-- SlimScroll -->
@@ -69,10 +69,10 @@
             background-color: #3c8dbc;
         }
 
-        .select2-container--default .select2-selection--single .select2-selection__arrow b {
-            border-color: #888 transparent transparent transparent;
-            border-style: none;
-        }
+{#        .select2-container--default .select2-selection--single .select2-selection__arrow b {#}
+{#            border-color: #888 transparent transparent transparent;#}
+{#            border-style: none;#}
+{#        }#}
 
         select::-ms-expand {
             display: none;

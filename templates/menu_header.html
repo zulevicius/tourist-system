@@ -31,22 +31,22 @@
                             <span class="">Prisijungimas</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{% url 'app_tourist:register' %}">
-                            <span class="">Registracija</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'app_tourist:forgot_password' %}">
-                            <span class="">Pamiršau slaptažodį</span>
-                        </a>
-                    </li>
+{#                    <li>#}
+{#                        <a href="{% url 'app_tourist:register' %}">#}
+{#                            <span class="">Registracija</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="{% url 'app_tourist:forgot_password' %}">#}
+{#                            <span class="">Pamiršau slaptažodį</span>#}
+{#                        </a>#}
+{#                    </li>#}
                 {% else %}
-                    <li>
-                        <a href="{% url 'app_tourist:change_password' %}">
-                            <span class="">Keisti slaptažodį</span>
-                        </a>
-                    </li>
+{#                    <li>#}
+{#                        <a href="{% url 'app_tourist:change_password' %}">#}
+{#                            <span class="">Keisti slaptažodį</span>#}
+{#                        </a>#}
+{#                    </li>#}
                     <li>
                         <a href="{% url 'app_tourist:logout' %}">
                             <span class="">Atsijungti</span>

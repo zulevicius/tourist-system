@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block my_css %}
+    .modal-escape {
+        color:white;
+        font-size: large;
+        width: 26px;
+        height: 26px;
+        text-align: center;
+        border: white solid 1px;
+        float: right;
+        cursor: pointer;
+    }
+
+    .modal {
+        text-align: center;
+    }
+
+    .modal-dialog {
+        display: inline-block;
+        width:auto;
+    }
+
+{% endblock %}
+
+{% block my_js %}
+    {% include 'datatables/datatables_js_no_custom.html' %}
+
+    <script>
+
+        $(document).ready( function () {
+            $('.table').DataTable({
+                scrollX : true,
+                scrollCollapse : true,
+                "iDisplayLength": 25,
+                 {# "dom": 'flrti<"center"p>',#}
+                 "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"f><"pull-right"l><"clearfix">>>ti<"row view-pager"<"col-sm-12"<"text-center"p>>>',
+                 padding: false,
+                 "order": [[ 1, "desc" ]],
+                 "aoColumnDefs" : [
+                 {
+                    'bSortable' : false,
+                    'aTargets' : [ 0 ]
+                 }],
+                 "fnInfoCallback": function( oSettings, _START_, _END_, _TOTAL_ ) {
+                     return "Rodomi įrašai nuo " + _START_ + " iki " + _END_ + " iš " + _TOTAL_ + " įrašų";
+                 },
+                 "oLanguage": {
+                     "sEmptyTable":      "Lentelėje nėra duomenų",
+                     "sInfo":            "Rodomi įrašai nuo _START_ iki _END_ iš _TOTAL_ įrašų",
+                     "sInfoEmpty":       "Rodomi įrašai nuo 0 iki 0 iš 0",
+                     "sInfoFiltered":    "(atrinkta iš _MAX_ įrašų)",
+                     "sInfoPostFix":     "",
+                     "sInfoThousands":   " ",
+                     "sLengthMenu":      "Rodyti _MENU_ įrašus",
+                     "sLoadingRecords":  "Įkeliama...",
+                     "sProcessing":      "Apdorojama...",
+                     "sSearch":          "Ieškoti:",
+                     "sThousands":       " ",
+                     "sUrl":             "",
+                     "sZeroRecords":     "Įrašų nerasta",
+
+                     "oPaginate": {
+                         "sFirst": "Pirmas",
+                         "sPrevious": "Ankstesnis",
+                         "sNext": "Tolimesnis",
+                         "sLast": "Paskutinis"
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block page_header %}
+    Renginiai
+{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="callout callout-{{ message.tags }}" style="text-align: center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+     <div class="box box-primary">
+
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa-fw glyphicon glyphicon-star-empty"></i> Renginiai</h3>
+        </div>
+
+        <div class="box-body">
+            <table id="table" class="table table-responsive table-bordered table-striped" style="border: none;">
+                <thead>
+                    <tr>
+                        <th>Nuotrauka</th>
+                        <th>Pavadinimas<i class="fa fa-fw fa-sort"></i></th>
+                        <th>Adresas<i class="fa fa-fw fa-sort"></i></th>
+                        <th>Miestas <i class="fa fa-fw fa-sort"></i></th>
+                        <th>Max bilieto kaina <i class="fa fa-eur"></i><i class="fa fa-fw fa-sort"></i></th>
+                        <th>Renginio pradžia <i class="fa fa-fw fa-sort"></i></th>
+                        <th>Renginio pabaiga <i class="fa fa-fw fa-sort"></i></th>
+                        <th>Tipas<i class="fa fa-fw fa-sort"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ev in eventsList %}
+                        <div class="modal fade" id="img{{ forloop.counter0 }}" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel">
+                           <div class="modal-dialog" role="document">
+                             <div class="modal-header" style="border: none;">
+                               <p class="modal-escape" data-dismiss="modal" aria-label="Close">
+                                 <span aria-hidden="true">&times;</span>
+                               </p>
+                             </div>
+
+                             <div class="modal-content" style="background-color: transparent;">
+                                 <img class="img-responsive" src="{{ ev.tour_object.main_photo.url }}">
+                             </div>
+
+                             <div class="modal-footer" style="background-color: transparent; border: none;">
+                                 <p style="color: #fff; text-align: center;">
+                                     {{ ev.tour_object.title }}
+                                 </p>
+                             </div>
+                           </div>
+                        </div>
+                        <tr>
+                            <td align="center">
+                                <a data-toggle="modal" data-target="#img{{ forloop.counter0 }}">
+                                    <img class="img-thumbnail"
+                                         src="{{ ev.tour_object.main_photo.url }}" height="360" width="480">
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'app_tourist:review_event' ev.pk %}">
+                                    {{ ev.tour_object.title }}
+                                </a>
+                            </td>
+                            <td>{{ ev.tour_object.place.address }}</td>
+                            <td>{{ ev.tour_object.place.city }}</td>
+                            <td>{{ ev.tour_object.ticket_price }}</td>
+                            <td>
+                                {{ ev.event_date|date:'Y-m-d H:i' }}
+                            </td>
+                            <td>
+                                {{ ev.event_end_date|date:'Y-m-d H:i' }}
+                            </td>
+                            <td>
+                                {% if ev.is_concert %}Koncertas<br>{% endif %}
+                                {% if ev.is_exhibition %}Paroda<br>{% endif %}
+                                {% if ev.is_festival %}Masinė kultūros šv.<br>{% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+     </div>
+
+{% endblock %}

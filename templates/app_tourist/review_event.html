@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% load core_extras %}
+
+{% block my_css %}
+    .modal-escape {
+        color:white;
+        font-size: large;
+        width: 26px;
+        height: 26px;
+        text-align: center;
+        border: white solid 1px;
+        float: right;
+        cursor: pointer;
+    }
+
+    .modal {
+        text-align: center;
+    }
+
+    .modal-dialog {
+        display: inline-block;
+        width:auto;
+    }
+
+    #hover-white:hover {
+        background: #fff;
+    }
+
+{% endblock %}
+
+{% block my_js %}
+{% endblock %}
+
+{% block page_header %}
+    {{ event.tour_object.title }}
+{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="callout callout-{{ message.tags }}" style="text-align: center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="modal fade" id="main_photo" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel">
+       <div class="modal-dialog" role="document">
+         <div class="modal-header" style="border: none;">
+           <p class="modal-escape" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </p>
+         </div>
+
+         <div class="modal-content">
+             <img class="img-responsive" src="{{ event.tour_object.main_photo.url }}" height="400">
+         </div>
+
+         <div class="modal-footer" style="background-color: transparent; border: none;">
+             <p style="color: #fff; text-align: center;">
+                 {{ event.tour_object.title }}
+             </p>
+         </div>
+       </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+          <div class="box box-widget widget-user">
+            <a data-toggle="modal" data-target="#main_photo" style="cursor:pointer;">
+              <div class="widget-user-header bg-black" style="background: url('{{ event.tour_object.main_photo.url }}') center center;">
+                  <h3 class="widget-user-username">{{ event.tour_object.title }}</h3>
+                  <h5 class="widget-user-desc">
+                    {% if event.is_festival %}Masinė kultūros šventė&emsp;{% endif %}
+                    {% if event.is_concert %}Koncertas&emsp;{% endif %}
+                    {% if event.is_exhibition %}Paroda&emsp;{% endif %}
+                  </h5>
+              </div>
+            </a>
+            <div class="box-footer no-padding">
+              <ul class="nav nav-stacked">
+                <li>
+                    <a>
+                        <i class="fa fa-fw fa-map-pin"></i> Vieta
+                        <span class="pull-right">
+                            {{ event.tour_object.place.address }}, {{ event.tour_object.place.city }}
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <i class="fa fa-fw fa-eur"></i> Bilieto kaina
+                        <span class="pull-right">
+                            {{ event.min_ticket_price }} - {{ event.tour_object.ticket_price }}
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <i class="fa fa-fw fa-external-link"></i> Daugiau informacijos
+                        <div id="link" style="color: #3c8dbc; cursor: pointer; word-break: break-all;">
+                            {{ event.tour_object.link }}
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <i class="fa fa-fw fa-hourglass-1"></i> Pradžia
+                        <span class="pull-right">
+                            {{ event.event_date|date:'Y-m-d H:i' }}
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <i class="fa fa-fw fa-hourglass-end"></i> Pabaiga
+                        <span class="pull-right">
+                            {{ event.event_end_date|date:'Y-m-d H:i' }}
+                        </span>
+                    </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+            {% if images %}
+            <div class="col-md-6">
+              <div class="box box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Daugiau nuotraukų</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        {% for img in images %}
+                            <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}"
+                                {% if forloop.counter0 == 0 %}
+                                    class="active"
+                                {% endif %}
+                            >
+                            </li>
+                        {% endfor %}
+                    </ol>
+                    <div class="carousel-inner">
+                      {% for img in images %}
+                        <div class="item {% if forloop.counter0 == 0%}active{% endif %}">
+                          <img style="max-height: 350px;"
+                                  class="img-responsive center-block" src="{{ img.image.url }}">
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                      <span class="fa fa-angle-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                      <span class="fa fa-angle-right"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Bendra informacija</h3>
+                </div>
+                <div class="box-body">
+                    {% for par in event.tour_object.extra_info|by_paragraphs %}
+                        <p>{{ par }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Kur ieškoti?</h3>
+                </div>
+                <div class="box-body">
+                    <div id="map" style="width: 100%; height: 600px;"></div>
+
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label for="transport"></label>
+                        <select name="transport" id="transport">
+                            <option value="DRIVING" selected>Automobilis</option>
+                            <option value="WALKING">Pėsčiomis</option>
+                            <option value="BICYCLING">Dviratis</option>
+                            <option value="TRANSIT">Viešasis transportas</option>
+                        </select>
+                        <button  class="btn btn-sm btn-default" id="get-directions">
+                            Gauti nuorodas
+                        </button>
+                    </div>
+                    <script>
+
+                        var address = "{{ event.tour_object.place.address }} " +
+                            "{{ event.tour_object.place.city }} " + "{{ event.tour_object.place.title }}";
+                        var marker = null;
+
+                        function initMap() {
+
+                          var directionsService = new google.maps.DirectionsService;
+                          var directionsDisplay = new google.maps.DirectionsRenderer;
+                          var geocoder = new google.maps.Geocoder();
+
+                          geocoder.geocode({'address': address}, function(results, status){
+                              if (status === google.maps.GeocoderStatus.OK) {
+                                  var latitude = parseFloat(results[0].geometry.location.lat());
+                                  var longitude = parseFloat(results[0].geometry.location.lng());
+
+                                  var initPlace = {lat: latitude, lng: longitude};
+                                  var map = new google.maps.Map(document.getElementById('map'), {
+                                      zoom: 15,
+                                      center: initPlace
+                                  });
+                                  directionsDisplay.setMap(map);
+
+                                  var onChangeHandler = function() {
+                                    calculateAndDisplayRoute(directionsService, directionsDisplay);
+                                  };
+                                  document.getElementById('get-directions').addEventListener('click', onChangeHandler);
+{#                                  document.getElementById('transport').addEventListener('click', onChangeHandler);#}
+
+                                  marker = new google.maps.Marker({
+                                      position: initPlace,
+                                      map: map,
+                                      title: "{{ event.tour_object.title }}\n" +
+                                        "{{ event.tour_object.place.address }}, " +
+                                        "{{ event.tour_object.place.city }}"
+                                  });
+                              }
+                          });
+                        }
+
+                          function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+                              if (navigator.geolocation) {
+                                  navigator.geolocation.getCurrentPosition(function(position) {
+                                      var pos = {
+                                          lat: parseFloat(position.coords.latitude),
+                                          lng: parseFloat(position.coords.longitude)
+                                      };
+
+                                      if (marker !== null || marker !== undefined) marker.setMap(null);
+
+                                      directionsService.route({
+                                          origin: pos,
+                                          destination: address,
+                                          travelMode: document.getElementById('transport').value
+                                      }, function(response, status) {
+                                          if (status === 'OK') {
+                                              directionsDisplay.setDirections(response);
+                                          } else {
+                                              window.alert('Tokio maršruto nerandama..');
+                                          }
+                                      });
+                                  });
+                              }
+                          }
+
+                    </script>
+                    <script async defer
+                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgGtHQYaLqrZ6eOo3NdMShGVUsXzqt9KM&callback=initMap">
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    $(document).ready( function () {
+        $("#transport").select2({'minimumResultsForSearch': -1});
+
+        $('.select2-arrow').append('<i class="fa fa-angle-down"></i>');
+        document.getElementById("link").onclick = function(){
+            window.location.href = "{{ event.tour_object.link }}";
+        };
+
+        $('.carousel').carousel({
+            interval: false
+        }).on('slide.bs.carousel', function (e) {
+            var nextH = $(e.relatedTarget).height();
+            $(this).find('.active.item').parent().animate({
+                height: nextH
+            }, 250);
+        });
+    });
+    </script>
+{% endblock %}
