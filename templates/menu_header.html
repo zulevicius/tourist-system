@@ -27,7 +27,7 @@
 
                 {% if request.user.is_anonymous %}
                     <li>
-                        <a href="{% url 'app_tourist:login' %}">
+                        <a href="{% url 'app_auth:login' %}">
                             <span class="">Prisijungimas</span>
                         </a>
                     </li>
@@ -48,7 +48,7 @@
 {#                        </a>#}
 {#                    </li>#}
                     <li>
-                        <a href="{% url 'app_tourist:logout' %}">
+                        <a href="{% url 'app_auth:logout' %}">
                             <span class="">Atsijungti</span>
                         </a>
                     </li>
