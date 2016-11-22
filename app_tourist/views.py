@@ -2,7 +2,9 @@
 import datetime
 import json
 
-from django.http import HttpResponse
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView
 
@@ -18,6 +20,31 @@ class MyToursView(ListView):
         context['myToursList'] = Tour.objects.filter(user = self.request.user)
 
         return context
+
+
+def create_tour(request):
+
+    title = request.POST['tour_name']
+    tour = Tour(title = title, user=request.user)
+    tour.save()
+
+    messages.add_message(request, 25, 'Maršrutas %s sukurtas' % title, extra_tags="success")
+
+    url = reverse('app_tourist:my_tours')
+    return HttpResponseRedirect(url)
+
+
+def delete_tour(request, pk):
+
+    tour = Tour.objects.get(pk = pk)
+    title = tour.title
+    if tour.user == request.user:
+        tour.delete()
+
+    messages.add_message(request, 25, 'Maršrutas %s ištrintas' % title, extra_tags="success")
+
+    url = reverse('app_tourist:my_tours')
+    return HttpResponseRedirect(url)
 
 
 class VisitPlacesView(ListView):

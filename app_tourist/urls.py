@@ -13,7 +13,10 @@ urlpatterns = [
     url(r'^perziureti-lankytina-vieta/(?P<pk>\d+)/$', views.review_visitplace, name='review_visitplace'),
     url(r'^renginiai/$', views.EventsView.as_view(), name='events'),
     url(r'^perziureti-rengini/(?P<pk>\d+)/$', views.review_event, name='review_event'),
+
     url(r'^mano-marsrutai/$', login_required(views.MyToursView.as_view()), name='my_tours'),
+    url(r'^naujas-marsrutas/$', login_required(views.create_tour), name='create_tour'),
+    url(r'^istrinti-marsruta/(?P<pk>\d+)/$', login_required(views.delete_tour), name='delete_tour'),
 
     url(r'^gauti-darbo-laika-pagal-sav-diena/$', views.get_working_hours_by_weekday, name='work_hours_by_weekday'),
     url(r'^prideti-objekta-i-marsruta/$', views.add_tour_object_to_tour, name='add_object_to_tour'),

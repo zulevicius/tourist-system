@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.mail import EmailMessage
@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
-from django.views.generic import FormView, ListView, TemplateView, View
+from django.views.generic import FormView, View
 
 from .forms import RemindPassword, UserRegister
 
