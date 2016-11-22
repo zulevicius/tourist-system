@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -109,3 +110,17 @@ class Image(models.Model):
     class Meta:
         verbose_name = "Paveikslėlis"
         verbose_name_plural = "Paveikslėliai"
+
+
+class Tour(models.Model):
+
+    title = models.CharField(max_length=50, verbose_name="Pavadinimas")
+    user = models.ForeignKey(User, verbose_name="Naudotojas")
+    tour_objects = models.ManyToManyField(TourObject, verbose_name="Objektai")
+
+    class Meta:
+        verbose_name = "Maršrutas"
+        verbose_name_plural = "Maršrutai"
+
+    def __str__(self):
+        return self.title

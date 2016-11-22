@@ -20,6 +20,12 @@
                 <i class="fa-fw glyphicon glyphicon-star-empty"></i> <span> Renginiai</span></a>
             </li>
 
+            {% if request.user.is_authenticated %}
+            <li><a href="{% url 'app_tourist:my_tours' %}">
+                <i class="fa fa-fw fa-map-o"></i> <span> Mano maršrutai</span></a>
+            </li>
+            {% endif %}
+
 
             <li class="header info" style="font-size: 10pt;">Paskyra</li>
             {% if request.user.is_anonymous %}

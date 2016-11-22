@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% load core_extras %}
+{% load static %}
+{% load tourist_extras %}
 
 {% block my_css %}
     .modal-escape {
@@ -29,6 +30,24 @@
 {% endblock %}
 
 {% block my_js %}
+    <script type="text/javascript" src="{% static 'ajax.js' %}"></script>
+
+    <script>
+        function addToTour() {
+            var optionSelected = $("#tours").find("option:selected").val();
+            var data = {'tour_pk': optionSelected, 'tour_object_pk': {{ visit_place.tour_object.pk }} };
+
+            ajax("{% url 'app_tourist:add_object_to_tour' %}", data, function(result) {
+                var tours = $("#tours");
+                tours.find("option").remove();
+                for (var i = 0; i < result.length; i++) {
+                    for (var prop in result[i]){
+                        tours.append('<option value="' + prop + '">'+ result[i][prop] +'</option>');
+                    }
+                }
+            });
+        }
+    </script>
 {% endblock %}
 
 {% block page_header %}
@@ -211,6 +230,34 @@
                         {% endif %}
                     </a>
                 </li>
+                <li>
+                    <a>
+                        <i class="fa fa-fw fa-refresh"></i> Atnaujinta
+                        <span class="pull-right">
+                            {{ visit_place.tour_object.last_update|date:'Y-m-d H:i' }}
+                        </span>
+                    </a>
+                </li>
+                {% if request.user.is_authenticated %}
+                <li>
+                    <a>
+                        <i data-toggle="tooltip" class="fa fa-fw fa-info-circle"
+                            title="Lankytinos vietos / renginio pridėjimas prie maršruto. Jeigu pasirinkimuose nerandate
+                                kurio maršruto, vadinasi prie jo šis objektas jau yra pridėtas.">
+                        </i>
+                        <select name="tours" id="tours">
+                            {% for tour in tours %}
+                                <option value="{{ tour.pk }}" {% if forloop.counter == 1 %}selected{% endif %}>
+                                    {{ tour.title }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <span class="pull-right">
+                            <button class="btn btn-default btn-sm" onclick="addToTour()">Pridėti</button>
+                        </span>
+                    </a>
+                </li>
+                {% endif %}
               </ul>
             </div>
           </div>
@@ -279,7 +326,9 @@
                       {% for ev in events %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{ ev.tour_object.title }}</td>
+                            <td>
+                                <a href="{% url 'app_tourist:review_event' ev.pk %}">{{ ev.tour_object.title }}</a>
+                            </td>
                             <td>
                                 {% if ev.min_ticket_price %}
                                     {{ ev.min_ticket_price }} - {{ ev.tour_object.ticket_price }}
@@ -417,7 +466,7 @@
 
     <script>
     $(document).ready( function () {
-        $("#transport").select2({'minimumResultsForSearch': -1});
+        $("#transport, #tours").select2({'minimumResultsForSearch': -1});
 
         $('.select2-arrow').append('<i class="fa fa-angle-down"></i>');
         document.getElementById("link").onclick = function(){

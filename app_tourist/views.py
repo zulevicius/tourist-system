@@ -14,7 +14,18 @@ from django.utils.crypto import get_random_string
 from django.views.generic import FormView, ListView, TemplateView, View
 
 from .forms import RemindPassword, UserRegister
-from app_tourist.models import Event, Image, VisitPlace
+from app_tourist.models import Event, Image, Tour, TourObject, VisitPlace
+
+
+class MyToursView(ListView):
+    template_name = 'app_tourist/my_tours.html'
+    model = Tour
+
+    def get_context_data(self, **kwargs):
+        context = super(MyToursView, self).get_context_data()
+        context['myToursList'] = Tour.objects.filter(user = self.request.user)
+
+        return context
 
 
 class VisitPlacesView(ListView):
@@ -33,7 +44,14 @@ def review_visitplace(request, pk):
     events = Event.objects.filter(tour_object__place=vp.tour_object.place, event_date__gte=datetime.datetime.now())
     images = Image.objects.filter(tour_object=vp.tour_object)
 
-    args = {'visit_place': vp, 'events': events, 'images': images}
+    tours = None
+    if not request.user.is_anonymous():
+        tours = []
+        for t in Tour.objects.filter(user = request.user):
+            if vp.tour_object not in t.tour_objects.all():
+                tours.append(t)
+
+    args = {'visit_place': vp, 'events': events, 'images': images, 'tours': tours}
 
     return render(request, 'app_tourist/review_visitplace.html', args)
 
@@ -53,9 +71,48 @@ def review_event(request, pk):
     ev = Event.objects.get(pk = pk)
     images = Image.objects.filter(tour_object=ev.tour_object)
 
-    args = {'event': ev, 'images': images}
+    tours = None
+    if not request.user.is_anonymous():
+        tours = []
+        for t in Tour.objects.filter(user = request.user):
+            if ev.tour_object not in t.tour_objects.all():
+                tours.append(t)
+
+    args = {'event': ev, 'images': images, 'tours': tours}
 
     return render(request, 'app_tourist/review_event.html', args)
+
+
+def add_tour_object_to_tour(request):
+
+    tour_pk = int(request.GET['tour_pk'])
+    tour_object_pk = int(request.GET['tour_object_pk'])
+    tour = Tour.objects.get(pk = tour_pk)
+    tour_object = TourObject.objects.get(pk = tour_object_pk)
+
+    if tour.user == request.user:
+        tour.tour_objects.add(tour_object)
+        tour.save()
+
+    result = []
+    for t in Tour.objects.filter(user = request.user):
+        if tour_object not in t.tour_objects.all():
+            result.append({t.pk: t.title})
+
+    return HttpResponse(json.dumps(result), content_type='application/json')
+
+
+def remove_tour_object_from_tour(request):
+
+    tour_pk = int(request.GET['tour_pk'])
+    tour_object_pk = int(request.GET['tour_object_pk'])
+    tour = Tour.objects.get(pk=tour_pk)
+    tour_object = TourObject.objects.get(pk = tour_object_pk)
+
+    if tour.user == request.user:
+        tour.tour_objects.remove(tour_object)
+
+    return HttpResponse(json.dumps([]), content_type='application/json')
 
 
 def get_working_hours_by_weekday(request):

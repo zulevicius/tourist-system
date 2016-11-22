@@ -21,6 +21,7 @@
         display: inline-block;
         width:auto;
     }
+    .row { margin: 0; padding: 0; }
 
 {% endblock %}
 
@@ -30,8 +31,6 @@
     <script type="text/javascript" src="{% static 'ajax.js' %}"></script>
     <script>
         var dtSettings = {
-            scrollX : true,
-            scrollCollapse : true,
             "iDisplayLength": {{ visitPlacesList|length }},
              {# "dom": 'flrti<"center"p>',#}
              "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"f><"clearfix">>>',
@@ -105,10 +104,10 @@
         $(document).ready( function () {
             var table = $('#table');
             table.DataTable(dtSettings);
-            table.on( 'page.dt', function () {
-                console.log(table.page.info());
-                setWorkingHours();
-            } );
+{#            table.on( 'page.dt', function () {#}
+{#                console.log(table.page.info());#}
+{#                setWorkingHours();#}
+{#            } );#}
 
             var datepicker = $('#datepicker');
             datepicker.datepicker({
@@ -145,8 +144,8 @@
             <h3 class="box-title"><i class="fa fa-fw fa-map-signs"></i> Lankytinos vietos</h3>
         </div>
 
-        <div class="box-body">
-            <div class="row form-group col-sm-6">
+        <div class="box-body table-responsive" >
+            <div class="row form-group col-sm-6" style="margin-bottom: 10px;">
               <label>Lankymo diena:</label>
 
               <div class="input-group date">
@@ -157,11 +156,11 @@
               </div>
             </div>
 
-            <table id="table" class="table table-responsive table-bordered table-striped" style="border: none;">
+            <table id="table" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>Nuotrauka</th>
-                        <th>Pavadinimas<i class="fa fa-fw fa-sort"></i></th>
+                        <th style="white-space: normal;">Pavadinimas<i class="fa fa-fw fa-sort"></i></th>
                         <th>Adresas<i class="fa fa-fw fa-sort"></i></th>
                         <th>Miestas <i class="fa fa-fw fa-sort"></i></th>
                         <th>Max bilieto kaina <i class="fa fa-eur"></i><i class="fa fa-fw fa-sort"></i></th>
@@ -199,7 +198,7 @@
                                          src="{{ vp.tour_object.main_photo.url }}" height="360" width="480">
                                 </a>
                             </td>
-                            <td>
+                            <td style="white-space: normal;">
                                 <a href="{% url 'app_tourist:review_visitplace' vp.pk %}">
                                     {{ vp.tour_object.title }}
                                 </a>

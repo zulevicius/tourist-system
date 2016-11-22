@@ -21,6 +21,8 @@
         width:auto;
     }
 
+    .row { margin: 0; padding: 0; }
+
 {% endblock %}
 
 {% block my_js %}
@@ -30,44 +32,42 @@
 
         $(document).ready( function () {
             $('.table').DataTable({
-                scrollX : true,
-                scrollCollapse : true,
-                "iDisplayLength": 25,
-                 {# "dom": 'flrti<"center"p>',#}
-                 "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"f><"pull-right"l><"clearfix">>>ti<"row view-pager"<"col-sm-12"<"text-center"p>>>',
-                 padding: false,
-                 "order": [[ 1, "desc" ]],
-                 "aoColumnDefs" : [
-                 {
-                    'bSortable' : false,
-                    'aTargets' : [ 0 ]
-                 }],
-                 "fnInfoCallback": function( oSettings, _START_, _END_, _TOTAL_ ) {
-                     return "Rodomi įrašai nuo " + _START_ + " iki " + _END_ + " iš " + _TOTAL_ + " įrašų";
-                 },
-                 "oLanguage": {
-                     "sEmptyTable":      "Lentelėje nėra duomenų",
-                     "sInfo":            "Rodomi įrašai nuo _START_ iki _END_ iš _TOTAL_ įrašų",
-                     "sInfoEmpty":       "Rodomi įrašai nuo 0 iki 0 iš 0",
-                     "sInfoFiltered":    "(atrinkta iš _MAX_ įrašų)",
-                     "sInfoPostFix":     "",
-                     "sInfoThousands":   " ",
-                     "sLengthMenu":      "Rodyti _MENU_ įrašus",
-                     "sLoadingRecords":  "Įkeliama...",
-                     "sProcessing":      "Apdorojama...",
-                     "sSearch":          "Ieškoti:",
-                     "sThousands":       " ",
-                     "sUrl":             "",
-                     "sZeroRecords":     "Įrašų nerasta",
+            "iDisplayLength": {{ eventsList|length }},
+             {# "dom": 'flrti<"center"p>',#}
+             "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"f><"clearfix">>>',
+             padding: false,
+             "order": [[ 1, "desc" ]],
+             "aoColumnDefs" : [
+             {
+                'bSortable' : false,
+                'aTargets' : [ 0 ]
+             }],
+             "fnInfoCallback": function( oSettings, _START_, _END_, _TOTAL_ ) {
+                 return "Rodomi įrašai nuo " + _START_ + " iki " + _END_ + " iš " + _TOTAL_ + " įrašų";
+             },
+             "oLanguage": {
+                 "sEmptyTable":      "Lentelėje nėra duomenų",
+                 "sInfo":            "Rodomi įrašai nuo _START_ iki _END_ iš _TOTAL_ įrašų",
+                 "sInfoEmpty":       "Rodomi įrašai nuo 0 iki 0 iš 0",
+                 "sInfoFiltered":    "(atrinkta iš _MAX_ įrašų)",
+                 "sInfoPostFix":     "",
+                 "sInfoThousands":   " ",
+                 "sLengthMenu":      "Rodyti _MENU_ įrašus",
+                 "sLoadingRecords":  "Įkeliama...",
+                 "sProcessing":      "Apdorojama...",
+                 "sSearch":          "Ieškoti:",
+                 "sThousands":       " ",
+                 "sUrl":             "",
+                 "sZeroRecords":     "Įrašų nerasta",
 
-                     "oPaginate": {
-                         "sFirst": "Pirmas",
-                         "sPrevious": "Ankstesnis",
-                         "sNext": "Tolimesnis",
-                         "sLast": "Paskutinis"
-                    }
-                }
-            });
+{#                 "oPaginate": {#}
+{#                     "sFirst": "Pirmas",#}
+{#                     "sPrevious": "Ankstesnis",#}
+{#                     "sNext": "Tolimesnis",#}
+{#                     "sLast": "Paskutinis"#}
+{#                }#}
+            }
+          });
         });
     </script>
 {% endblock %}
@@ -92,12 +92,12 @@
             <h3 class="box-title"><i class="fa-fw glyphicon glyphicon-star-empty"></i> Renginiai</h3>
         </div>
 
-        <div class="box-body">
-            <table id="table" class="table table-responsive table-bordered table-striped" style="border: none;">
+        <div class="box-body table-responsive">
+            <table id="table" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>Nuotrauka</th>
-                        <th>Pavadinimas<i class="fa fa-fw fa-sort"></i></th>
+                        <th style="white-space: normal;">Pavadinimas<i class="fa fa-fw fa-sort"></i></th>
                         <th>Adresas<i class="fa fa-fw fa-sort"></i></th>
                         <th>Miestas <i class="fa fa-fw fa-sort"></i></th>
                         <th>Max bilieto kaina <i class="fa fa-eur"></i><i class="fa fa-fw fa-sort"></i></th>
@@ -135,7 +135,7 @@
                                          src="{{ ev.tour_object.main_photo.url }}" height="360" width="480">
                                 </a>
                             </td>
-                            <td>
+                            <td style="white-space: normal;">
                                 <a href="{% url 'app_tourist:review_event' ev.pk %}">
                                     {{ ev.tour_object.title }}
                                 </a>

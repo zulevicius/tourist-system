@@ -115,6 +115,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = "/tourist-system/prisijungimas/"
+# LOGIN_REDIRECT_URL = "/tourist-system/pradzia/"
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block my_css %}
+{% endblock %}
+
+{% block my_js %}
+    <script type="text/javascript" src="{% static 'ajax.js' %}"></script>
+    <script>
+        function removeTourObject(pk, tour_pk, tr_id) {
+
+            var data = {'tour_pk': tour_pk, 'tour_object_pk': pk};
+
+            ajax("{% url 'app_tourist:remove_object_from_tour' %}", data, function(result) {
+                $("#tr-" + tour_pk + "-" + pk).fadeOut(250);
+            });
+        }
+    </script>
+{% endblock %}
+
+{% block page_header %}
+    Mano maršrutai
+{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="callout callout-{{ message.tags }}" style="text-align: center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% for tour in myToursList %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ tour.title }}</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            {% for to in tour.tour_objects.all %}
+                            <tr id="tr-{{ tour.pk }}-{{ to.pk }}">
+                                <td style="vertical-align: middle; horiz-align: center; width: 30px;">
+                                    <a onclick="removeTourObject({{ to.pk }}, {{ tour.pk }})" style="cursor: pointer;">
+                                        <i class="fa fa-remove" style="color: #F80000;"></i>
+                                    </a>
+                                </td>
+                                <td>{{ to.title }}</td>
+                                <td>{{ to.place.address }}, {{ to.place.city }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <button style="margin-top: 5px;" class="btn btn-default btn-sm">Žiūrėti žemėlapyje</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}

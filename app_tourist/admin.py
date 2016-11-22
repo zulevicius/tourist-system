@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app_tourist.models import Image, Event, Place, TourObject, VisitPlace
+from app_tourist.models import Image, Event, Place, Tour, TourObject, VisitPlace
 
 
 class PlaceAdmin(admin.ModelAdmin):
@@ -33,7 +33,14 @@ admin.site.register(Event, EventAdmin)
 
 
 class ImageAdmin(admin.ModelAdmin):
-    list_display = ['tour_object']
-    search_fields = ['tour_object']
+    list_display = ['tour_object', 'image']
+    search_fields = ['tour_object', 'image']
 
 admin.site.register(Image, ImageAdmin)
+
+
+class TourAdmin(admin.ModelAdmin):
+    list_display = ['user', 'title']
+    search_fields = ['user', 'title']
+
+admin.site.register(Tour, TourAdmin)
