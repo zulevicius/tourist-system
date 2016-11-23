@@ -7,7 +7,7 @@
 {% block my_js %}
     <script type="text/javascript" src="{% static 'ajax.js' %}"></script>
     <script>
-        function removeTourObject(pk, tour_pk, tr_id) {
+        function removeTourObject(pk, tour_pk) {
 
             var data = {'tour_pk': tour_pk, 'tour_object_pk': pk};
 
@@ -62,9 +62,11 @@
     </div>
 
 
-    <h3 style="margin-bottom: 20px;">
+    <h3 style="margin-bottom: 5px;">
         <i class="fa fa-fw fa-map-o"></i> Mano maršrutai
-        <button class="btn btn-success pull-right" data-toggle="modal" data-target="#new-tour">
+    </h3>
+    <h3 style="margin-bottom: 15px;">
+        <button class="btn btn-success" data-toggle="modal" data-target="#new-tour">
             <i class="fa fa-fw fa-plus"></i> Naujas maršrutas
         </button>
     </h3>
@@ -119,7 +121,8 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                    <button style="margin-top: 5px;" class="btn btn-default btn-sm">Žiūrėti žemėlapyje</button>
+                    <a href="{% url 'app_tourist:review_tour' tour.pk %}" style="margin-top: 5px;"
+                        class="btn btn-default btn-sm">Rekomenduojamas kelias</a>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@
 {% load tourist_extras %}
 
 {% block my_css %}
+    <style>
     .modal-escape {
         color:white;
         font-size: large;
@@ -26,7 +27,7 @@
     #hover-white:hover {
         background: #fff;
     }
-
+    </style>
 {% endblock %}
 
 {% block my_js %}
@@ -45,6 +46,11 @@
                         tours.append('<option value="' + prop + '">'+ result[i][prop] +'</option>');
                     }
                 }
+
+                var addDone = $("#add-done");
+                addDone.animate({ "opacity": "0.9" }, 1000, function(){
+                    addDone.animate({ "opacity": "0" }, 700);
+                });
             });
         }
     </script>
@@ -159,16 +165,17 @@
                             title="Lankytinos vietos / renginio pridėjimas prie maršruto. Jeigu pasirinkimuose nerandate
                                 kurio maršruto, vadinasi prie jo šis objektas jau yra pridėtas.">
                         </i>
-                        <select name="tours" id="tours" class="col-sm-6">
+                        <select name="tours" id="tours" class="col-sm-4">
                             {% for tour in tours %}
                                 <option value="{{ tour.pk }}" {% if forloop.counter == 1 %}selected{% endif %}>
                                     {{ tour.title }}
                                 </option>
                             {% endfor %}
                         </select>
-                        <span class="pull-right">
+                        <div class="pull-right">
+                            <h3 style="opacity: 0; display: inline;" id="add-done"><i class="fa fa-check text-success pull-left"></i></h3>
                             <button class="btn btn-default btn-sm" onclick="addToTour()">Pridėti</button>
-                        </span>
+                        </div>
                     </a>
                 </li>
                 {% endif %}
@@ -240,15 +247,17 @@
                 <div class="box-body">
                     <div id="map" style="width: 100%; height: 600px;"></div>
 
-                    <div class="form-group" style="margin-top: 10px;">
+                    <div class="form-group" style="margin-top: 10px; display: inline-block;">
                         <label for="transport"></label>
-                        <select name="transport" id="transport">
+                        <select name="transport" id="transport" style="width: 200px;">
                             <option value="DRIVING" selected>Automobilis</option>
                             <option value="WALKING">Pėsčiomis</option>
                             <option value="BICYCLING">Dviratis</option>
                             <option value="TRANSIT">Viešasis transportas</option>
                         </select>
-                        <button  class="btn btn-sm btn-default" id="get-directions">
+                    </div>
+                    <div class="form-group" style="margin-top: 10px; margin-left: 4px; display: inline-block;">
+                        <button class="btn btn-sm btn-default" id="get-directions">
                             Gauti nuorodas
                         </button>
                     </div>

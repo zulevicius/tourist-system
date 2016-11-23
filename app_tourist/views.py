@@ -11,6 +11,17 @@ from django.views.generic import ListView, TemplateView
 from app_tourist.models import Event, Image, Tour, TourObject, VisitPlace
 
 
+def review_tour(request, pk):
+
+    tour = Tour.objects.get(pk = pk)
+    if tour.user != request.user:
+        return redirect('app_tourist:index')
+
+    args = {'tour': tour}
+
+    return render(request, 'app_tourist/review_tour.html', args)
+
+
 class MyToursView(ListView):
     template_name = 'app_tourist/my_tours.html'
     model = Tour
@@ -24,11 +35,17 @@ class MyToursView(ListView):
 
 def create_tour(request):
 
-    title = request.POST['tour_name']
-    tour = Tour(title = title, user=request.user)
-    tour.save()
+    if request.user.is_anonymous():
+        redirect('app_tourist:index')
 
-    messages.add_message(request, 25, 'Maršrutas %s sukurtas' % title, extra_tags="success")
+    if Tour.objects.filter(user = request.user).count() >= 7:
+        messages.add_message(request, 25, 'Galima turėti ne daugiau nei 7 marštutus', extra_tags="danger")
+    else:
+        title = request.POST['tour_name']
+        tour = Tour(title = title, user=request.user)
+        tour.save()
+
+        messages.add_message(request, 25, 'Maršrutas %s sukurtas' % title, extra_tags="success")
 
     url = reverse('app_tourist:my_tours')
     return HttpResponseRedirect(url)
@@ -132,6 +149,18 @@ def remove_tour_object_from_tour(request):
         tour.tour_objects.remove(tour_object)
 
     return HttpResponse(json.dumps([]), content_type='application/json')
+
+
+def remove_tour_object_from_tour_redirect(request, t_pk, to_pk):
+
+    tour = Tour.objects.get(pk=t_pk)
+    tour_object = TourObject.objects.get(pk = to_pk)
+
+    if tour.user == request.user:
+        tour.tour_objects.remove(tour_object)
+    else: return redirect("app_tourist:index")
+
+    return redirect("app_tourist:review_tour", pk=t_pk)
 
 
 def get_working_hours_by_weekday(request):

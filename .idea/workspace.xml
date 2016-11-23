@@ -2,11 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="058337f6-3525-4ab5-acd5-61fab8670f70" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app_auth/views.py" afterPath="$PROJECT_DIR$/app_auth/views.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/app_tourist/review_tour.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app_tourist/urls.py" afterPath="$PROJECT_DIR$/app_tourist/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app_tourist/views.py" afterPath="$PROJECT_DIR$/app_tourist/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/app_tourist/events.html" afterPath="$PROJECT_DIR$/templates/app_tourist/events.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/app_tourist/my_tours.html" afterPath="$PROJECT_DIR$/templates/app_tourist/my_tours.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tourist/urls.py" afterPath="$PROJECT_DIR$/tourist/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/app_tourist/review_event.html" afterPath="$PROJECT_DIR$/templates/app_tourist/review_event.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/app_tourist/review_visitplace.html" afterPath="$PROJECT_DIR$/templates/app_tourist/review_visitplace.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/app_tourist/visitplaces.html" afterPath="$PROJECT_DIR$/templates/app_tourist/visitplaces.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
     </list>
     <ignored path="tourist.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,11 +35,9 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app_tourist/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="41" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
-              <folding>
-                <element signature="e#25#57#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="323">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -42,8 +45,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app_tourist/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="45" column="41" selection-start-line="45" selection-start-column="41" selection-end-line="45" selection-end-column="41" />
+            <state relative-caret-position="-1932">
+              <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
               <folding>
                 <element signature="e#24#39#0" expanded="true" />
               </folding>
@@ -51,15 +54,64 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="review_tour.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/app_tourist/review_tour.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="140" column="40" selection-start-line="140" selection-start-column="40" selection-end-line="140" selection-end-column="40" />
+              <folding>
+                <element signature="e#3135#3159#0#HTML" expanded="true" />
+                <element signature="e#6621#6669#0#HTML" expanded="true" />
+                <element signature="e#6791#6812#0#HTML" expanded="true" />
+                <element signature="e#7226#7292#0#HTML" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/base.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="152">
+              <caret line="46" column="4" selection-start-line="46" selection-start-column="4" selection-end-line="46" selection-end-column="82" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forgot_password.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/app_auth/forgot_password.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="my_tours.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/app_tourist/my_tours.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="78" column="79" selection-start-line="78" selection-start-column="79" selection-end-line="78" selection-end-column="79" />
+            <state relative-caret-position="102">
+              <caret line="67" column="35" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
               <folding>
-                <element signature="e#1181#1188#0#HTML" expanded="true" />
-                <element signature="e#2169#2197#0#HTML" expanded="true" />
-                <element signature="e#2841#2848#0#HTML" expanded="true" />
+                <element signature="e#2162#2189#0#HTML" expanded="true" />
+                <element signature="e#2266#2294#0#HTML" expanded="true" />
+                <element signature="e#5045#5069#0#HTML" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="review_visitplace.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/app_tourist/review_visitplace.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="188">
+              <caret line="249" column="23" selection-start-line="249" selection-start-column="23" selection-end-line="253" selection-end-column="28" />
+              <folding>
+                <element signature="e#17956#18004#0#HTML" expanded="true" />
+                <element signature="e#18126#18147#0#HTML" expanded="true" />
+                <element signature="e#18561#18627#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -70,9 +122,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
-        <option value="JavaScript File" />
         <option value="Python Script" />
+        <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -98,11 +151,6 @@
         <option value="$PROJECT_DIR$/app_tourist/admin.py" />
         <option value="$PROJECT_DIR$/app_tourist/models.py" />
         <option value="$PROJECT_DIR$/static/doubleScroll.js" />
-        <option value="$PROJECT_DIR$/templates/base.html" />
-        <option value="$PROJECT_DIR$/templates/app_tourist/visitplaces.html" />
-        <option value="$PROJECT_DIR$/templates/app_tourist/events.html" />
-        <option value="$PROJECT_DIR$/templates/app_tourist/review_visitplace.html" />
-        <option value="$PROJECT_DIR$/templates/app_tourist/review_event.html" />
         <option value="$PROJECT_DIR$/tourist/settings.py" />
         <option value="$PROJECT_DIR$/app_auth/forms.py" />
         <option value="$PROJECT_DIR$/app_auth/apps.py" />
@@ -111,8 +159,18 @@
         <option value="$PROJECT_DIR$/templates/menu_side_bar.html" />
         <option value="$PROJECT_DIR$/app_auth/views.py" />
         <option value="$PROJECT_DIR$/tourist/urls.py" />
-        <option value="$PROJECT_DIR$/app_tourist/views.py" />
         <option value="$PROJECT_DIR$/app_tourist/urls.py" />
+        <option value="$PROJECT_DIR$/app_tourist/views.py" />
+        <option value="$PROJECT_DIR$/templates/app_tourist/review_visitplace.html" />
+        <option value="$PROJECT_DIR$/static/bootstrap-select.min.js" />
+        <option value="$PROJECT_DIR$/templates/base.html" />
+        <option value="$PROJECT_DIR$/templates/app_tourist/review_event.html" />
+        <option value="$PROJECT_DIR$/templates/app_tourist/visitplaces.html" />
+        <option value="$PROJECT_DIR$/templates/app_tourist/events.html" />
+        <option value="$PROJECT_DIR$/static/bootstrap-select.min.css" />
+        <option value="$PROJECT_DIR$/static/multiple-select.js" />
+        <option value="$PROJECT_DIR$/static/multiple-select.css" />
+        <option value="$PROJECT_DIR$/templates/app_tourist/review_tour.html" />
         <option value="$PROJECT_DIR$/templates/app_tourist/my_tours.html" />
       </list>
     </option>
@@ -154,6 +212,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -246,24 +306,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app_auth" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tourist" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tourist" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="app_tourist" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -284,27 +326,26 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Zygis\Desktop\tourist\app_auth" />
-      <recent name="C:\Users\Zygis\Desktop\tourist\templates\app_auth" />
-      <recent name="C:\Users\Zygis\Desktop\tourist\templates\registrations" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Zygis\Desktop\tourist\db_dump" />
       <recent name="C:\Users\Zygis\Desktop\tourist\templates" />
       <recent name="C:\Users\Zygis\Desktop\tourist\templates\app_tourist" />
       <recent name="C:\Users\Zygis\Desktop\tourist\templates\forms" />
       <recent name="C:\Users\Zygis\Desktop\tourist\app_tourist" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Zygis\Desktop\tourist\app_auth" />
+      <recent name="C:\Users\Zygis\Desktop\tourist\templates\app_auth" />
+      <recent name="C:\Users\Zygis\Desktop\tourist\templates\registrations" />
     </key>
   </component>
   <component name="RunManager" selected="Django server.tourist">
@@ -586,7 +627,7 @@
     <frame x="-8" y="-8" width="1376" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19832827" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20136778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -619,37 +660,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/core/datatables_js.html" />
-    <entry file="file://$PROJECT_DIR$/app_tourist/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="56" selection-start-line="0" selection-start-column="56" selection-end-line="0" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app_tourist/templatetags/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Python34/Lib/site-packages/django/views/generic/edit.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="208" column="4" selection-start-line="208" selection-start-column="4" selection-end-line="208" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/forms/password_change_form.html" />
-    <entry file="file://$PROJECT_DIR$/templates/registrations/password_reset_complete.html" />
     <entry file="file://$PROJECT_DIR$/templates/registrations/password_reset_confirm.html" />
     <entry file="file://$PROJECT_DIR$/templates/registrations/password_reset_done.html" />
     <entry file="file://$PROJECT_DIR$/templates/registrations/password_reset_email.html" />
@@ -657,22 +672,6 @@
     <entry file="file://$PROJECT_DIR$/templates/registration/password_reset_done.html" />
     <entry file="file://$PROJECT_DIR$/templates/registration/password_reset_form.html" />
     <entry file="file://$PROJECT_DIR$/templates/app_tourist/remind_password.html" />
-    <entry file="file://$PROJECT_DIR$/templates/app_auth/forgot_password.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-255">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/app_auth/register.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="82" column="78" selection-start-line="82" selection-start-column="78" selection-end-line="82" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/datatables/datatables_js.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -742,9 +741,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2601">
           <caret line="153" column="46" selection-start-line="153" selection-start-column="42" selection-end-line="153" selection-end-column="46" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -752,40 +748,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="66" selection-start-line="2" selection-start-column="66" selection-end-line="2" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/app_tourist/visitplaces.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="28" column="37" selection-start-line="28" selection-start-column="37" selection-end-line="28" selection-end-column="37" />
-          <folding>
-            <element signature="e#5036#5064#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="100" column="13" selection-start-line="100" selection-start-column="13" selection-end-line="100" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/app_tourist/review_event.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="161" column="71" selection-start-line="161" selection-start-column="71" selection-end-line="161" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/app_tourist/review_visitplace.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="32" column="4" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="73" />
           <folding />
         </state>
       </provider>
@@ -802,7 +764,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -814,22 +775,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app_auth/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app_tourist/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="26" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app_tourist/forms.py" />
     <entry file="file://$PROJECT_DIR$/app_tourist/apps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -842,7 +788,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
           <caret line="45" column="35" selection-start-line="45" selection-start-column="35" selection-end-line="45" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -850,7 +795,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -866,9 +810,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
           <caret line="26" column="26" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#24#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -876,7 +817,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="33" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -893,7 +833,7 @@
         <state relative-caret-position="391">
           <caret line="23" column="31" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
           <folding>
-            <element signature="e#640#672#0" expanded="true" />
+            <element signature="e#640#672#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -906,20 +846,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/app_tourist/events.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="129" column="30" selection-start-line="110" selection-start-column="24" selection-end-line="129" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app_auth/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="77" selection-start-line="11" selection-start-column="62" selection-end-line="11" selection-end-column="77" />
           <folding>
-            <element signature="e#25#57#0" expanded="true" />
+            <element signature="e#25#57#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -937,39 +869,162 @@
         <state relative-caret-position="214">
           <caret line="33" column="104" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="104" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app_tourist/urls.py">
+    <entry file="file://$PROJECT_DIR$/app_auth/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="41" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python34/Lib/site-packages/rest_framework/static/rest_framework/css/bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="4" column="46832" selection-start-line="4" selection-start-column="46832" selection-end-line="4" selection-end-column="46832" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/app_auth/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/app_auth/forgot_password.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/app_tourist/review_event.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="4" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
           <folding>
-            <element signature="e#25#57#0" expanded="true" />
+            <element signature="e#9812#9860#0#HTML" expanded="true" />
+            <element signature="e#9982#10003#0#HTML" expanded="true" />
+            <element signature="e#10417#10483#0#HTML" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/app_tourist/visitplaces.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="58" column="46" selection-start-line="58" selection-start-column="46" selection-end-line="58" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/app_tourist/events.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="59" column="46" selection-start-line="59" selection-start-column="46" selection-end-line="59" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/bootstrap-select.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/bootstrap-select.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="6" column="5179" selection-start-line="6" selection-start-column="5177" selection-end-line="6" selection-end-column="5179" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="46" column="4" selection-start-line="46" selection-start-column="4" selection-end-line="46" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/multiple-select.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="192" column="35" selection-start-line="192" selection-start-column="29" selection-end-line="192" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app_tourist/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="45" column="41" selection-start-line="45" selection-start-column="41" selection-end-line="45" selection-end-column="41" />
+        <state relative-caret-position="-1932">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
           <folding>
             <element signature="e#24#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/app_tourist/my_tours.html">
+    <entry file="file://$PROJECT_DIR$/static/multiple-select.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
-          <caret line="78" column="79" selection-start-line="78" selection-start-column="79" selection-end-line="78" selection-end-column="79" />
+          <caret line="41" column="22" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app_tourist/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/app_tourist/review_visitplace.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="249" column="23" selection-start-line="249" selection-start-column="23" selection-end-line="253" selection-end-column="28" />
           <folding>
-            <element signature="e#1181#1188#0#HTML" expanded="true" />
-            <element signature="e#2169#2197#0#HTML" expanded="true" />
-            <element signature="e#2841#2848#0#HTML" expanded="true" />
+            <element signature="e#17956#18004#0#HTML" expanded="true" />
+            <element signature="e#18126#18147#0#HTML" expanded="true" />
+            <element signature="e#18561#18627#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/app_tourist/review_tour.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="140" column="40" selection-start-line="140" selection-start-column="40" selection-end-line="140" selection-end-column="40" />
+          <folding>
+            <element signature="e#3135#3159#0#HTML" expanded="true" />
+            <element signature="e#6621#6669#0#HTML" expanded="true" />
+            <element signature="e#6791#6812#0#HTML" expanded="true" />
+            <element signature="e#7226#7292#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/app_tourist/my_tours.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="67" column="35" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
+          <folding>
+            <element signature="e#2162#2189#0#HTML" expanded="true" />
+            <element signature="e#2266#2294#0#HTML" expanded="true" />
+            <element signature="e#5045#5069#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
