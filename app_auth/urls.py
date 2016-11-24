@@ -10,9 +10,6 @@ urlpatterns = [
     url(r'^atsijungti/$', views.logout_view, name='logout'),
     url(r'^pamirsau-slaptazodi/$', views.ForgotPasswordView.as_view(), name='forgot_password'),
     url(r'^keisti-slaptazodi/$', views.change_password, name='change_password'),
-
-
-    # url(r'^nustatymai-terminai/$', login_required(views.rm_year_settings), name='rm_year_settings'),
 ]
 
 

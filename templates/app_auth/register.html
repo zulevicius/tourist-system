@@ -5,28 +5,11 @@
 {% endblock %}
 
 {% block my_js %}
-{#    <script type="text/javascript">#}
-{#        $(document).ready(function() {#}
-{#            $("#id_languages, #id_program, #id_availability_for_extern").select2({width: '100%'});#}
-{#            $("#id_lecturer_1, #id_other_lecturers").select2({width: '100%',#}
-{#                "language": {#}
-{#                   "noResults": function(){#}
-{#                       var url = "{% url 'app_lecturers:create_employment' %}";#}
-{#                       return "Rezultatų nerasta &nbsp;&nbsp;&nbsp;<a href='" + url + "' class='btn btn-success'>Sukurti naują dėstytoją</a>";#}
-{#                   }#}
-{#               },#}
-{#                escapeMarkup: function (markup) {#}
-{#                    return markup;#}
-{#                }#}
-{#            });#}
-{#            $('.select2-selection').css('border-radius','0px');#}
-{#            $('.select2-container').children().css('border-radius','0px');#}
-{#            $('.select2-selection').css('border','1px solid #ccc');#}
-{#            $('.select2-selection--single').addClass('form-control');#}
-{#            $('.select2').append('<span class="glyphicon glyphicon-chevron-down form-control-feedback"></span>');#}
-{##}
-{#        });#}
-{#    </script>#}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#id_captcha_1').addClass("form-control");
+        });
+    </script>
 
 {% endblock %}
 
@@ -49,9 +32,16 @@
     <form method="post" enctype="multipart/form-data" action="">
         {% csrf_token %}
 
-        {% if form.errors or custom_hours_formset.errors or messages %}
+        {% if form.errors %}
             <div class="alert alert-error">
-                <strong>Prašome ištaisyti klaidas.</strong>
+                <strong>
+                    Prašome ištaisyti klaidas.
+                    {% for error in form.errors %}
+                        {% if error == 'captcha' %}
+                            Blogai įvestas CAPTCHA
+                        {% endif %}
+                    {% endfor %}
+                </strong>
             </div>
         {% endif %}
 
@@ -86,6 +76,13 @@
 
                 <div class="row">
                     {% include "forms/form_field.html" with field=form.email label="El. paštas" size="col-sm-5" %}
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-sm-5">
+                        <label for="id_captcha_1" class="control-label">CAPTCHA *</label>
+                        {{ form.captcha }}
+                    </div>
                 </div>
 
                 <small class="pull-left">* - būtini įvesti laukai</small>

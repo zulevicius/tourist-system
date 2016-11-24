@@ -9,12 +9,12 @@ from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
 from django.views.generic import FormView, View
 
-from .forms import RemindPassword, UserRegister
+from .forms import RemindPasswordForm, UserRegisterForm
 
 
 class UserRegisterView(View):
 
-    form_class = UserRegister
+    form_class = UserRegisterForm
     template_name = 'app_auth/register.html'
 
     def get(self, request):
@@ -79,7 +79,7 @@ def logout_view(request):
 
 class ForgotPasswordView(View):
 
-    form_class = RemindPassword
+    form_class = RemindPasswordForm
     template_name = 'app_auth/forgot_password.html'
 
     def get(self, request):
@@ -96,17 +96,22 @@ class ForgotPasswordView(View):
             if user_results.count() > 0:
                 new_psw = get_random_string(length=16)
                 user = user_results.first()
-                user.set_password(new_psw)
-                user.save()
 
                 message = ("Naudotojo vardas: %s\nNaujas slaptažodis: %s" % (user.username, new_psw))
                 email_msg = EmailMessage('Naujas slaptažodis', message, to=[email])
                 email_msg.send()
 
+                user.set_password(new_psw)
+                user.save()
+
                 messages.add_message(request, 25, "Naujas slaptažodis išsiųstas", extra_tags="success")
                 return redirect('app_auth:login')
 
-        messages.add_message(request, 25, "Nerasta paskyra su tokiu el. pašto adresu", extra_tags="danger")
+            else:
+                messages.add_message(request, 25, "Nerasta paskyra su tokiu el. pašto adresu", extra_tags="danger")
+                return render(request, self.template_name, {'form': form})
+
+        messages.add_message(request, 25, "Blogai įvestas CAPTCHA", extra_tags="danger")
         return render(request, self.template_name, {'form': form})
 
 

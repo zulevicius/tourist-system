@@ -24,9 +24,6 @@ urlpatterns = [
     url(r'^gauti-darbo-laika-pagal-sav-diena/$', views.get_working_hours_by_weekday, name='work_hours_by_weekday'),
     url(r'^prideti-objekta-i-marsruta/$', views.add_tour_object_to_tour, name='add_object_to_tour'),
     url(r'^istrinti-objekta-is-marsruto/$', views.remove_tour_object_from_tour, name='remove_object_from_tour'),
-
-
-    # url(r'^nustatymai-terminai/$', login_required(views.rm_year_settings), name='rm_year_settings'),
 ]
 
 

@@ -21,7 +21,9 @@
           {% else %}
                 {% if field|widget_type == "select" %}
                     <div class="col-sm-5">
-                        {{ field|add_class:"form-control" }}<span class="glyphicon glyphicon-menu-down form-control-feedback" style="padding-right: 20px;"></span>
+                        {{ field|add_class:"form-control" }}
+                        <span class="glyphicon glyphicon-menu-down form-control-feedback" style="padding-right: 20px;">
+                        </span>
                     </div>
                 {% else %}
                     {{ field|add_class:"form-control" }}

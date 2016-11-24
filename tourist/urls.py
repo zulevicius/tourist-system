@@ -19,7 +19,9 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^tourist-system/admin/', admin.site.urls),
-    url(r'^tourist-system/', include('app_tourist.urls', namespace='app_tourist')),
-    url(r'^tourist-system/auth/', include('app_auth.urls', namespace='app_auth')),
+    url(r'^turizmo-sistema/admin/', admin.site.urls),
+    url(r'^turizmo-sistema/', include('app_tourist.urls', namespace='app_tourist')),
+    url(r'^turizmo-sistema/nuomones/', include('app_opinions.urls', namespace='app_opinions')),
+    url(r'^turizmo-sistema/autentifikavimas/', include('app_auth.urls', namespace='app_auth')),
+    url(r'^captcha/', include('captcha.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

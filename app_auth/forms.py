@@ -1,10 +1,12 @@
+from captcha.fields import CaptchaField
 from django import forms
 from django.contrib.auth.models import User
 
 
-class UserRegister(forms.ModelForm):
+class UserRegisterForm(forms.ModelForm):
 
     password = forms.CharField(widget=forms.PasswordInput)
+    captcha = CaptchaField()
 
     def clean_password(self):
         password = self.cleaned_data['password']
@@ -20,7 +22,9 @@ class UserRegister(forms.ModelForm):
         fields = ['username', 'email', 'password']
 
 
-class RemindPassword(forms.ModelForm):
+class RemindPasswordForm(forms.ModelForm):
+
+    captcha = CaptchaField()
 
     class Meta:
         model = User

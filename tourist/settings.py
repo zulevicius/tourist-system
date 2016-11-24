@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'captcha',
     'widget_tweaks',
     'app_auth',
+    'app_opinions',
     'app_tourist'
 ]
 
@@ -116,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_URL = "/tourist-system/prisijungimas/"
+LOGIN_URL = "/turizmo-sistema/autentifikavimas/prisijungimas/"
 # LOGIN_REDIRECT_URL = "/tourist-system/pradzia/"
 
 # Internationalization

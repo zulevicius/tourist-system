@@ -1,5 +1,5 @@
-from django.contrib import admin
 from app_tourist.models import Image, Event, Place, Tour, TourObject, VisitPlace
+from django.contrib import admin
 
 
 class PlaceAdmin(admin.ModelAdmin):
@@ -19,7 +19,7 @@ admin.site.register(TourObject, TourObjectAdmin)
 class VisitPlaceAdmin(admin.ModelAdmin):
     list_display = ['tour_object', 'always_available', 'is_museum', 'is_park_or_square', 'is_panorama',
                     'is_monument', 'is_church', 'is_palace', 'is_nature_object']
-    search_fields = ['tour_object', 'always_available', 'is_museum', 'is_park_or_square', 'is_panorama',
+    search_fields = ['tour_object__title', 'always_available', 'is_museum', 'is_park_or_square', 'is_panorama',
                      'is_monument', 'is_church', 'is_palace', 'is_nature_object']
 
 admin.site.register(VisitPlace, VisitPlaceAdmin)
@@ -27,7 +27,7 @@ admin.site.register(VisitPlace, VisitPlaceAdmin)
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ['tour_object', 'is_concert', 'is_festival', 'is_exhibition']
-    search_fields = ['tour_object', 'is_concert', 'is_festival', 'is_exhibition']
+    search_fields = ['tour_object__title', 'is_concert', 'is_festival', 'is_exhibition']
 
 admin.site.register(Event, EventAdmin)
 

@@ -7,10 +7,12 @@ class Place(models.Model):
     title = models.CharField(max_length=50, verbose_name="Pavadinimas", blank=True, null=True)
     address = models.CharField(max_length=64, verbose_name="Adresas")
     city = models.CharField(max_length=30, verbose_name="Miestas")
+    area_code = models.CharField(max_length=10, blank=True, null=True, verbose_name="Pašto kodas")
 
     class Meta:
         verbose_name = "Vieta"
         verbose_name_plural = "Vietos"
+        unique_together = ("title", "address")
 
     def __str__(self):
         return "%s | %s" % (self.title, self.address)
@@ -30,6 +32,7 @@ class TourObject(models.Model):
     class Meta:
         verbose_name = "Turistinis objektas"
         verbose_name_plural = "Turistiniai objektai"
+        unique_together = ("title", "place")
 
     def __str__(self):
         try:
@@ -121,6 +124,7 @@ class Tour(models.Model):
     class Meta:
         verbose_name = "Maršrutas"
         verbose_name_plural = "Maršrutai"
+        unique_together = ("title", "user")
 
     def __str__(self):
         return self.title

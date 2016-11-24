@@ -4,6 +4,16 @@
 
 {% block my_css %}
     <style>
+
+    .modal-content {
+      max-width: 1000px;
+    }
+
+    .modal-content img {
+      max-height: 100%;
+      max-width: 100%;
+    }
+
     .modal-escape {
         color:white;
         font-size: large;
@@ -80,7 +90,7 @@
          </div>
 
          <div class="modal-content">
-             <img class="img-responsive" src="{{ event.tour_object.main_photo.url }}" height="400">
+             <img class="img-responsive" src="{{ event.tour_object.main_photo.url }}">
          </div>
 
          <div class="modal-footer" style="background-color: transparent; border: none;">
@@ -108,7 +118,15 @@
               <ul class="nav nav-stacked">
                 <li>
                     <a>
-                        <i class="fa fa-fw fa-map-pin"></i> Vieta
+                        <i class="fa fa-fw fa-bank"></i> Vieta
+                        <span class="pull-right">
+                            {{ event.tour_object.place.title }}
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <i class="fa fa-fw fa-map-pin"></i> Adresas
                         <span class="pull-right">
                             {{ event.tour_object.place.address }}, {{ event.tour_object.place.city }}
                         </span>

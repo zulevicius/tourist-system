@@ -113,9 +113,14 @@
                     <h4 class="box-title">Pradžia</h4>
                 </div>
                 <div class="box-body">
-                    <select id="start" class="col-sm-12">
+                    <select id="start">
                         {% for to in tour.tour_objects.all %}
-                            <option value="{{ to.place.address }}, {{ to.place.city }} {{ to.title }}">
+                            <option
+                                {% if to.place.area_code %}
+                                    value="{{ to.place.area_code }}, {{ to.title }}"
+                                {% else %}
+                                    value="{{ to.place.address }}, {{ to.place.city }} {{ to.title }}"
+                                {% endif %}>
                                 {{ to.title }}
                             </option>
                         {% endfor %}
@@ -139,7 +144,12 @@
                 <div class="box-body">
                     <select id="waypoints" multiple class="multiple-select">
                         {% for to in tour.tour_objects.all %}
-                            <option selected value="{{ to.place.address }}, {{ to.place.city }} {{ to.title }}">
+                            <option
+                                {% if to.place.area_code %}
+                                    value="{{ to.place.area_code }}, {{ to.title }}"
+                                {% else %}
+                                    value="{{ to.place.address }}, {{ to.place.city }} {{ to.title }}"
+                                {% endif %} selected>
                                 {{ to.title }}
                             </option>
                         {% endfor %}
@@ -153,9 +163,14 @@
                   <h4 class="box-title">Pabaiga</h4>
                 </div>
                 <div class="box-body">
-                    <select id="finish" class="col-sm-12">
+                    <select id="finish">
                         {% for to in tour.tour_objects.all %}
-                            <option value="{{ to.place.address }}, {{ to.place.city }} {{ to.title }}">
+                            <option
+                                {% if to.place.area_code %}
+                                    value="{{ to.place.area_code }}, {{ to.title }}"
+                                {% else %}
+                                    value="{{ to.place.address }}, {{ to.place.city }} {{ to.title }}"
+                                {% endif %}>
                                 {{ to.title }}
                             </option>
                         {% endfor %}
@@ -231,6 +246,7 @@
                         }, function(response, status) {
                           if (status === 'OK') {
                             directionsDisplay.setDirections(response);
+                              console.log(response);
                           } else {
                               if(status === 'ZERO_RESULTS')
                                   window.alert('Maršrutas nerastas');

@@ -4,6 +4,16 @@
 
 {% block my_css %}
     <style>
+
+    .modal-content {
+      max-width: 1000px;
+    }
+
+    .modal-content img {
+      max-height: 100%;
+      max-width: 100%;
+    }
+
     .modal-escape {
         color:white;
         font-size: large;
@@ -113,7 +123,7 @@
               <ul class="nav nav-stacked">
                 <li>
                     <a>
-                        <i class="fa fa-fw fa-map-pin"></i> Vieta
+                        <i class="fa fa-fw fa-map-pin"></i> Adresas
                         <span class="pull-right">
                             {{ visit_place.tour_object.place.address }}, {{ visit_place.tour_object.place.city }}
                         </span>
@@ -266,6 +276,18 @@
                     </a>
                 </li>
                 {% endif %}
+                <li>
+                    <a style="height: 44px;">
+                        <i class="fa fa-fw fa-commenting-o"></i> Nuomonės
+                        <div class="pull-right">
+                            <button onclick="location.href='{% url "app_opinions:opinions" visit_place.tour_object.pk %}';"
+                                    class="btn btn-default btn-sm">
+                                <span style="color: #c9302c; font-size: 12px; font-weight: bold;">({{ opinions_count }})
+                                </span>
+                            </button>
+                        </div>
+                    </a>
+                </li>
               </ul>
             </div>
           </div>

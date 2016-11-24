@@ -8,6 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView
 
+from app_opinions.models import Opinion
 from app_tourist.models import Event, Image, Tour, TourObject, VisitPlace
 
 
@@ -79,6 +80,7 @@ def review_visitplace(request, pk):
     vp = VisitPlace.objects.get(pk = pk)
     events = Event.objects.filter(tour_object__place=vp.tour_object.place, event_date__gte=datetime.datetime.now())
     images = Image.objects.filter(tour_object=vp.tour_object)
+    opinions_count = Opinion.objects.filter(tour_object = vp.tour_object).count()
 
     tours = None
     if not request.user.is_anonymous():
@@ -87,7 +89,7 @@ def review_visitplace(request, pk):
             if vp.tour_object not in t.tour_objects.all():
                 tours.append(t)
 
-    args = {'visit_place': vp, 'events': events, 'images': images, 'tours': tours}
+    args = {'visit_place': vp, 'events': events, 'images': images, 'tours': tours, 'opinions_count': opinions_count}
 
     return render(request, 'app_tourist/review_visitplace.html', args)
 
