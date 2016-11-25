@@ -1,0 +1,152 @@
+<form method="post" enctype="multipart/form-data" action="">
+    {% csrf_token %}
+
+    <div class="row" style="margin-top:150px;">
+        <div class="col-sm-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Rašyti nuomonę</h3>
+                </div>
+                <div class="box-body">
+
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-sm-10 form-group">
+                            <label for="marks-group" class="control-label pull-left">Balas</label>
+                            <br><p>
+                            <div id="marks-group">
+                                <div class="info-box" style="margin-top: 0; box-shadow: none;">
+                                    <span class="btn info-box-icon bg-inactive" id="2-btn"
+                                          style="border-radius: 0; padding-top: 2px; border: none;">
+                                        <i class="glyphicon glyphicon-thumbs-up"></i>
+                                    </span>
+                                </div>
+                                <div class="info-box" style="margin-top: 0; box-shadow: none;">
+                                    <span class="btn info-box-icon bg-inactive" id="1-btn"
+                                          style="border-radius: 0; padding-top: 2px; border: none;">
+                                        <i class="glyphicon glyphicon-hand-right"></i>
+                                    </span>
+                                </div>
+                                <div class="info-box" style="margin-top: 0; box-shadow: none;">
+                                    <span class="btn info-box-icon bg-inactive" id="0-btn"
+                                          style="border-radius: 0; padding-top: 2px; border: none;">
+                                        <i class="glyphicon glyphicon-thumbs-down"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            </p>
+                        </div>
+                    </div>
+
+                    <input id="id_mark" name="mark" type="hidden">
+
+                    <div class="row">
+                        {% include "forms/form_field.html" with field=form.comment label="Komentaras" size="col-sm-11" %}
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <label for="id_captcha_1" class="control-label">CAPTCHA</label>
+                            {{ form.captcha }}
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success" style="float: right;"><i class="fa fa-fw fa-check"></i> Skelbti</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+<script>
+
+    var is0 = false;
+    var is1 = false;
+    var is2 = false;
+
+    var mark = null;
+
+    $(document).ready( function () {
+        $('#id_captcha_1').addClass("form-control");
+
+        var infoBox = $(".info-box");
+        infoBox.css('min-height', '50px');
+        infoBox.css('width', '15%');
+        infoBox.css('display', 'inline');
+
+        var infoIcon = $(".info-box-icon");
+        infoIcon.css('font-size', '25px');
+        infoIcon.css('line-height', '50px');
+        infoIcon.css('height', '50px');
+        infoIcon.css('width', '50px');
+        infoIcon.css('margin-right', '10px');
+
+        mark = $('#id_mark');
+
+        $("#2-btn").click(function () {
+
+            var newClasses = null;
+            if (is2) {
+                newClasses = $(this).attr('class').split("bg-green").join(" ") + "bg-inactive";
+                $(this).attr('class', newClasses);
+                mark.attr('value', '');
+            }
+            else {
+                newClasses = $(this).attr('class').split("bg-inactive").join(" ") + "bg-green";
+                $(this).attr('class', newClasses);
+                mark.attr('value', '2');
+
+                newClasses = $(this).attr('class').split("bg-")[0] + "bg-inactive";
+                $("#1-btn, #0-btn").attr('class', newClasses);
+            }
+            is2 = !is2;
+            if (is1) is1 = false;
+            if (is0) is0 = false;
+        });
+
+        $("#1-btn").click(function () {
+
+            var newClasses = null;
+            if (is1) {
+                newClasses = $(this).attr('class').split("bg-yellow").join(" ") + "bg-inactive";
+                $(this).attr('class', newClasses);
+                mark.attr('value', '');
+            }
+            else {
+                newClasses = $(this).attr('class').split("bg-inactive").join(" ") + "bg-yellow";
+                $(this).attr('class', newClasses);
+                mark.attr('value', '1');
+
+                newClasses = $(this).attr('class').split("bg-")[0] + "bg-inactive";
+                $("#2-btn, #0-btn").attr('class', newClasses);
+            }
+            is1 = !is1;
+            if (is2) is2 = false;
+            if (is0) is0 = false;
+        });
+
+        $("#0-btn").click(function () {
+
+            var newClasses = null;
+            if (is0) {
+                newClasses = $(this).attr('class').split("bg-red").join(" ") + "bg-inactive";
+                $(this).attr('class', newClasses);
+                mark.attr('value', '');
+            }
+            else {
+                newClasses = $(this).attr('class').split("bg-inactive").join(" ") + "bg-red";
+                $(this).attr('class', newClasses);
+                mark.attr('value', '0');
+
+                newClasses = $(this).attr('class').split("bg-")[0] + "bg-inactive";
+                $("#1-btn, #2-btn").attr('class', newClasses);
+            }
+            is0 = !is0;
+            if (is1) is1 = false;
+            if (is2) is2 = false;
+        });
+
+    });
+</script>

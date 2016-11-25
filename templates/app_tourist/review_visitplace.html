@@ -271,7 +271,7 @@
                         </select>
                         <div class="pull-right">
                             <h3 style="opacity: 0; display: inline;" id="add-done"><i class="fa fa-check text-success pull-left"></i></h3>
-                            <button class="btn btn-default btn-sm" onclick="addToTour()">Pridėti</button>
+                            <button class="btn btn-default btn-sm" style="margin-top: -px;" onclick="addToTour()">Pridėti</button>
                         </div>
                     </a>
                 </li>
@@ -281,7 +281,7 @@
                         <i class="fa fa-fw fa-commenting-o"></i> Nuomonės
                         <div class="pull-right">
                             <button onclick="location.href='{% url "app_opinions:opinions" visit_place.tour_object.pk %}';"
-                                    class="btn btn-default btn-sm">
+                                    class="btn btn-default btn-sm" style="margin-top: -4px;">
                                 <span style="color: #c9302c; font-size: 12px; font-weight: bold;">({{ opinions_count }})
                                 </span>
                             </button>

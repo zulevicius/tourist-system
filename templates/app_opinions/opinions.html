@@ -4,25 +4,20 @@
 
 {% block my_css %}
     <style>
-        .mark-green {
-            font-size: 16px;
-            color: #00B000;
-        }
-
-        .mark-red {
-            font-size: 16px;
-            color: #B00000;
-        }
-
-        .mark-yellow {
-            font-size: 16px;
-            color: #e9d400;
-        }
-
         .opinion-text {
             padding-right: 20px;
             word-wrap: break-word;
             overflow: visible;
+            margin-left: 35px;
+        }
+
+        .bg-inactive {
+            color: #fff;
+            background-color: #dbdbdb;
+        }
+
+        .bg-inactive:hover {
+            color: #fff;
         }
 
     </style>
@@ -58,6 +53,24 @@
 
 {% block content %}
 
+    {% if form.errors %}
+        <div class="alert alert-error">
+            <strong>
+                {% for error in form.errors %}
+                    {% if error == 'captcha' %}
+                        Blogai įvestas CAPTCHA
+                    {% endif %}
+                {% endfor %}
+            </strong>
+        </div>
+    {% endif %}
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-error">
+            <strong>{% for i in form.non_field_errors %}{{ i }}{% endfor %}</strong>
+        </div>
+    {% endif %}
+
     <div class="row">
         <div class="col-sm-12">
             <div class="box box-primary">
@@ -66,43 +79,46 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+              {% if not opinionsList %}
+                <h5>Komentarų nėra</h5>
+              {% endif %}
               <ul class="products-list product-list-in-box">
                   {% for opinion in opinionsList %}
                     <li class="item">
+                      <div class="product-img" style="margin-right: 15px;">
+                          <p>
+                            {% with opinion.mark as mark %}
+                              <i style="vertical-align: top; font-size: 30px; margin-top: 0"
+                                 {% if mark == '2' %}class="fa-fw glyphicon glyphicon-thumbs-up text-green"
+                                 {% elif mark == '1' %}class="fa-fw glyphicon glyphicon-hand-right text-yellow"
+                                 {% elif mark == '0' %}class="fa-fw glyphicon glyphicon-thumbs-down text-red"{% endif %}
+                              ></i>
+                            {% endwith %}
+                          </p>
+                      </div>
                       <div class="product-info" style="margin-left: 20px;">
-                          <div class="product-img" style="margin-right: 15px;">
-                              <p>
-                                {% with opinion.mark as mark %}
-                                  <i style="vertical-align: top; font-size: 30px; margin-top: 0"
-                                     {% if mark == '2' %}class="fa-fw glyphicon glyphicon-thumbs-up mark-green"
-                                     {% elif mark == '1' %}class="fa-fw glyphicon glyphicon-hand-right mark-yellow"
-                                     {% elif mark == '0' %}class="fa-fw glyphicon glyphicon-thumbs-down mark-red"{% endif %}
-                                  ></i>
-                                {% endwith %}
-                              </p>
-                          </div>
                         <a style="cursor: default;" class="product-title">{{ opinion.user.username }}
                         </a>
                         <span class="opinion-text">
-                          <br><br>
+                          <br>
                           {% for par in opinion.comment|by_paragraphs %}
                               <p class="opinion-text">{{ par }}</p>
                           {% endfor %}
 
-                          <div class="pull-left">
+                          <div class="pull-left" style="margin-left:32px;">
                             {% with opinion|opinion_votes:votesList as opinion_votes %}
                             {% with opinion_votes|i_did_not_vote:request.user.pk as not_voted %}
 
-                              <div id="p0-{{ opinion.pk }}" class="pull-right mark-red"
+                              <div id="p0-{{ opinion.pk }}" class="pull-right text-red"
                                    {% if not_voted %} style="margin-left: 10px; cursor: pointer;" onclick="vote({{ opinion.pk }}, '0')"
                                    {% else %} style="cursor: default; margin-left: 10px;"{% endif %}
-                                  ><i class="fa fa-fw fa-thumbs-down"></i>
+                                  ><i class="fa fa-fw fa-thumbs-down" style="font-size: 16px;"></i>
                                   <span id="0-{{ opinion.pk }}" style="font-size:17px;">{{ opinion_votes|get_votes:'0' }}</span>
                               </div>
-                              <div id="p1-{{ opinion.pk }}" class="pull-right mark-green"
+                              <div id="p1-{{ opinion.pk }}" class="pull-right text-green"
                                    {% if not_voted %} style="cursor: pointer;" onclick="vote({{ opinion.pk }}, '1')"
                                    {% else %} style="cursor: default;"{% endif %}
-                                  ><i class="fa fa-fw fa-thumbs-up"></i>
+                                  ><i class="fa fa-fw fa-thumbs-up" style="font-size: 16px;"></i>
                                   <span id="1-{{ opinion.pk }}" style="font-size:17px;">{{ opinion_votes|get_votes:'1' }}</span>
                               </div>
 
@@ -123,17 +139,6 @@
         </div>
     </div>
 
-    <div class="row" style="margin-top:150px;">
-        <div class="col-sm-12">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Rašyti komentarą</h3>
-                </div>
-            </div>
-            <div class="box-body">
-
-            </div>
-        </div>
-    </div>
+    {% include "forms/opinion_form.html" %}
 
 {% endblock %}

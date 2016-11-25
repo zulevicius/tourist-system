@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from django.contrib import messages
@@ -6,23 +7,38 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, TemplateView
 
+from .forms import OpinionInputForm
 from .models import Opinion, Vote
 from app_tourist.models import TourObject
 
 
-class OpinionsView(ListView):
-    template_name = 'app_opinions/opinions.html'
-    model = Opinion
+def opinions_view(request, pk):
 
-    def get_context_data(self, **kwargs):
-        context = super(OpinionsView, self).get_context_data()
+    if request.POST:
+        tour_object = TourObject.objects.get(pk = pk)
+        # opinionsList = Opinion.objects.filter(tour_object__pk=pk).order_by("-date_posted")
+        # votesList = Vote.objects.filter(opinion__in=opinionsList)
 
-        optionsList = Opinion.objects.filter(tour_object = self.kwargs['pk']).order_by("-date_posted")
-        context['tour_object'] = TourObject.objects.get(pk = self.kwargs['pk'])
-        context['opinionsList'] = optionsList
-        context['votesList'] = Vote.objects.filter(opinion__in = optionsList)
+        data = request.POST.copy()
+        data['user'] = request.user.pk
+        data['tour_object'] = tour_object.pk
+        data['date_posted'] = datetime.datetime.now()
+        form = OpinionInputForm(data)
 
-        return context
+        if form.is_valid():
+            form.save()
+
+        url = reverse('app_opinions:opinions', kwargs={'pk': pk})
+        return HttpResponseRedirect(url)
+
+    tour_object = TourObject.objects.get(pk = pk)
+    opinionsList = Opinion.objects.filter(tour_object__pk = pk).order_by("-date_posted")
+
+    votesList = Vote.objects.filter(opinion__in = opinionsList)
+    form = OpinionInputForm()
+
+    args = {'tour_object': tour_object, 'opinionsList': opinionsList, 'votesList': votesList, 'form': form}
+    return render(request, 'app_opinions/opinions.html', args)
 
 
 def vote_for_opinion(request):

@@ -108,6 +108,7 @@ def review_event(request, pk):
 
     ev = Event.objects.get(pk = pk)
     images = Image.objects.filter(tour_object=ev.tour_object)
+    opinions_count = Opinion.objects.filter(tour_object=ev.tour_object).count()
 
     tours = None
     if not request.user.is_anonymous():
@@ -116,7 +117,7 @@ def review_event(request, pk):
             if ev.tour_object not in t.tour_objects.all():
                 tours.append(t)
 
-    args = {'event': ev, 'images': images, 'tours': tours}
+    args = {'event': ev, 'images': images, 'tours': tours, 'opinions_count': opinions_count}
 
     return render(request, 'app_tourist/review_event.html', args)
 
