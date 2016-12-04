@@ -4,7 +4,7 @@ from django.db import models
 
 class Place(models.Model):
 
-    title = models.CharField(max_length=50, verbose_name="Pavadinimas", blank=True, null=True)
+    title = models.CharField(max_length=50, verbose_name="Pavadinimas")
     address = models.CharField(max_length=64, verbose_name="Adresas")
     city = models.CharField(max_length=30, verbose_name="Miestas")
     area_code = models.CharField(max_length=10, blank=True, null=True, verbose_name="Pašto kodas")

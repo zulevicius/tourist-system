@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load opinions_extras %}
+
+{% block my_css %}
+    <style>
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block my_js %}
+    {% include 'datatables/datatables_js_no_custom.html' %}
+
+    <script>
+
+        $(document).ready( function () {
+            $('#table').DataTable({
+             "iDisplayLength": 50,
+             {# "dom": 'flrti<"center"p>',#}
+             "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"f><"pull-right"l><"clearfix">>>ti<"row view-pager"<"col-sm-12"<"text-center"p>>>',
+             padding: false,
+             "aoColumnDefs" : [
+             {
+                'bSortable' : false,
+                'aTargets' : [ 0 ]
+             }],
+             "fnInfoCallback": function( oSettings, _START_, _END_, _TOTAL_ ) {
+                 set_markbtn_name();
+                 return "Rodomi įrašai nuo " + _START_ + " iki " + _END_ + " iš " + _TOTAL_ + " įrašų";
+             },
+             "oLanguage": {
+                 "sEmptyTable":      "Lentelėje nėra duomenų",
+                 "sInfo":            "Rodomi įrašai nuo _START_ iki _END_ iš _TOTAL_ įrašų",
+                 "sInfoEmpty":       "Rodomi įrašai nuo 0 iki 0 iš 0",
+                 "sInfoFiltered":    "(atrinkta iš _MAX_ įrašų)",
+                 "sInfoPostFix":     "",
+                 "sInfoThousands":   " ",
+                 "sLengthMenu":      "Rodyti _MENU_ įrašus",
+                 "sLoadingRecords":  "Įkeliama...",
+                 "sProcessing":      "Apdorojama...",
+                 "sSearch":          "Ieškoti:",
+                 "sThousands":       " ",
+                 "sUrl":             "",
+                 "sZeroRecords":     "Įrašų nerasta",
+                 "oPaginate": {
+                     "sFirst": "Pirmas",
+                     "sPrevious": "Ankstesnis",
+                     "sNext": "Tolimesnis",
+                     "sLast": "Paskutinis"
+                }
+            }
+          });
+        });
+    </script>
+
+    <script>
+        var checked = false;
+        function mark_checkboxes()
+        {
+            var checks = document.getElementsByName("checks");
+            checked = false;
+            for (var i = 0; i < checks.length; i++) {
+                if (checks[i].checked == false) {
+                    checked = true;
+                    break;
+                }
+            }
+
+            var markBtn = document.getElementById("mark-btn");
+            if (checked)
+                markBtn.innerHTML = '<i class="fa fa-square-o"></i>';
+            else
+                markBtn.innerHTML = '<i class="fa fa-check-square-o"></i>';
+
+            for (var i = 0; i < checks.length; i++)
+                checks[i].checked = checked;
+        }
+
+        function set_markbtn_name()
+        {
+            var checks = document.getElementsByName("checks");
+            var checked = false;
+            for (var i = 0; i < checks.length; i++) {
+                if (checks[i].checked == false) {
+                    checked = true;
+                    break;
+                }
+            }
+
+            var markBtn = document.getElementById("mark-btn");
+            if (checked)
+                markBtn.innerHTML = '<i class="fa fa-check-square-o"></i>';
+            else
+                markBtn.innerHTML = '<i class="fa fa-square-o"></i>';
+        }
+    </script>
+
+{% endblock %}
+
+{% block page_header %}
+    {% if username %}
+        {{ username }}
+    {% else %}
+        Naujausios
+    {% endif %} nuomonės
+{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="callout callout-{{ message.tags }}" style="text-align: center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    {% if username %}
+        <h3><i class="fa fa-fw fa-user"></i> {{ username }} nuomonės</h3>
+    {% else %}
+        <h3><i class="fa fa-fw fa-newspaper-o"></i> Naujausios nuomonės</h3>
+    {% endif %}
+
+    <form method="post">
+    {% csrf_token %}
+        <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Ar tikrai norite trinti pasirinktas nuomones?</h4>
+                </div>
+
+                <div class="modal-footer">
+                  <div class="pull-left">
+                      <button formaction="{% url 'app_opinions:delete_opinions' %}" class="btn btn-success" type="submit">
+                          <i class="fa fa-fw fa-check"></i> Taip
+                      </button>
+                  </div>
+                  <button type="button" class="btn btn-default" data-dismiss="modal"> Ne</button>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="deactivate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="exampleModalLabel">
+                      {% if user_pk %}
+                      Ar tikrai norite deaktyvuoti {{ username }}?
+                      {% else %}
+                      Ar tikrai norite deaktyvuoti pasirinktus naudotojus?
+                      {% endif %}
+                  </h4>
+                </div>
+
+                <div class="modal-footer">
+                  <div class="pull-left">
+                      <button formaction="{% url 'app_opinions:change_users_activity' 'deaktyvuoti' %}" class="btn btn-success" type="submit">
+                          <i class="fa fa-fw fa-check"></i> Taip
+                      </button>
+                  </div>
+                  <button type="button" class="btn btn-default" data-dismiss="modal"> Ne</button>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <input type="hidden" value="{{ user_pk }}" name="user_pk" checked>
+
+        <div class="box box-primary">
+            <div class="box-body table-responsive">
+                <table id="table" class="table table-bordered table-striped" style="border-top:none;">
+                    <thead>
+                        <tr>
+                            <td colspan="6" style="border: none;">
+                                <i style="font-size: 21px; padding-top: 6px;" class="fa fa-fw fa-check-square-o pull-left"></i>
+                                <a data-toggle="modal" data-target="#delete" class="btn btn-default col-sm-2" style="margin-left: 5px;"> Trinti</a>
+                                <a data-toggle="modal" data-target="#deactivate" class="btn btn-default col-sm-4" style="margin-left: 5px;">
+                                    {% if username %}
+                                        Deaktyvuoti naudotoją
+                                    {% else %}
+                                        Deaktyvuoti naudotojus
+                                    {% endif %}
+                                </a>
+                                <button class="btn btn-default col-sm-4" type="submit" style="margin-left: 5px;"
+                                        formaction="{% url 'app_opinions:change_users_activity' 'aktyvuoti' %}">
+                                    {% if username %}
+                                        Aktyvuoti naudotoją
+                                    {% else %}
+                                        Aktyvuoti naudotojus
+                                    {% endif %}
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <button type="button" class="btn btn-default" id="mark-btn" onclick="mark_checkboxes()">
+                                </button>
+                            </th>
+                            <th>Naudotojas<i class="fa fa-fw fa-sort"></i></th>
+                            <th class="col-sm-2">Turistinis objektas<i class="fa fa-fw fa-sort"></i></th>
+                            <th>Balas<i class="fa fa-fw fa-sort"></i></th>
+                            <th>Komentaras<i class="fa fa-fw fa-sort"></i></th>
+                            <th>Paskelbta<i class="fa fa-fw fa-sort"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for opinion in opinionsList %}
+                        <tr>
+                            <td align="center" style="padding-left: 4px;">
+                                <input type="checkbox" name="checks" value="{{ opinion.pk }}">
+                            </td>
+                            <td>
+                                <a href="{% url 'app_opinions:user_opinions' opinion.user.pk %}">
+                                    <b>
+                                        {{ opinion.user.username }}
+                                        {% if opinion.user.is_active == False %}
+                                            (Deakt.)
+                                        {% endif %}
+                                    </b>
+                                </a>
+                            </td>
+                            <td>{{ opinion.tour_object.title }}</td>
+                            <td>{{ opinion.get_mark_display }}</td>
+                            <td>
+                                {% for par in opinion.comment|by_paragraphs %}
+                                    <p>{{ par }}</p>
+                                {% endfor %}
+                            </td>
+                            <td>{{ opinion.date_posted|date:'Y-m-d H:i' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

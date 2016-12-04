@@ -3,13 +3,31 @@ import datetime
 import json
 
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, TemplateView
 
 from app_opinions.models import Opinion
 from app_tourist.models import Event, Image, Tour, TourObject, VisitPlace
+
+
+class AddressCheckingView(ListView):
+
+    template_name = 'app_tourist/address_checking.html'
+    model = TourObject
+
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super(AddressCheckingView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(AddressCheckingView, self).get_context_data()
+        context['tourObjectsList'] = TourObject.objects.all()
+
+        return context
 
 
 def review_tour(request, pk):

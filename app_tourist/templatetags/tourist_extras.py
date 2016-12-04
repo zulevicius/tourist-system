@@ -1,7 +1,6 @@
-import datetime
-import pytz
 from django import template
 
+from app_tourist.models import Event
 
 register = template.Library()
 
@@ -21,3 +20,14 @@ def by_paragraphs(text):
         if not line: continue
         arr.append(line)
     return arr
+
+
+# v -> visit place
+# e -> event
+@register.filter('tour_object_type')
+def tour_object_type(pk):
+
+    try:
+        Event.objects.get(tour_object__pk=pk)
+        return "e"
+    except: return "v"

@@ -280,7 +280,7 @@
                     <a style="height: 44px;">
                         <i class="fa fa-fw fa-commenting-o"></i> Nuomonės
                         <div class="pull-right">
-                            <button onclick="location.href='{% url "app_opinions:opinions" visit_place.tour_object.pk %}';"
+                            <button onclick="location.href='{% url "app_opinions:opinions" visit_place.tour_object.pk 'naujausios' %}';"
                                     class="btn btn-default btn-sm" style="margin-top: -4px;">
                                 <span style="color: #c9302c; font-size: 12px; font-weight: bold;">({{ opinions_count }})
                                 </span>
@@ -424,7 +424,11 @@
                     <script>
 
                         var address = "{{ visit_place.tour_object.place.address }} " +
-                            "{{ visit_place.tour_object.place.city }} " + "{{ visit_place.tour_object.place.title }}";
+                            "{{ visit_place.tour_object.place.city }} " + "{{ visit_place.tour_object.title }}";
+
+                        {% if visit_place.tour_object.place.area_code %}
+                            address = "{{ visit_place.tour_object.place.area_code }}, {{ visit_place.tour_object.title }}";
+                        {% endif %}
                         var marker = null;
 
                         function initMap() {

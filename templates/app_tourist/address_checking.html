@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tourist_extras %}
+
+{% block my_css %}
+    <style>
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block my_js %}
+    {% include 'datatables/datatables_js_no_custom.html' %}
+
+    <script>
+
+        $(document).ready( function () {
+            $('#table').DataTable({
+             "iDisplayLength": 10,
+             {# "dom": 'flrti<"center"p>',#}
+             "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"f><"clearfix">>>ti<"row view-pager"<"col-sm-12"<"text-center"p>>>',
+             padding: false,
+             "aoColumnDefs" : [
+             {
+                'bSortable' : false,
+                'aTargets' : [ 0 ]
+             }],
+             "fnInfoCallback": function( oSettings, _START_, _END_, _TOTAL_ ) {
+                 set_markbtn_name();
+                 return "Rodomi įrašai nuo " + _START_ + " iki " + _END_ + " iš " + _TOTAL_ + " įrašų";
+             },
+             "oLanguage": {
+                 "sEmptyTable":      "Lentelėje nėra duomenų",
+                 "sInfo":            "Rodomi įrašai nuo _START_ iki _END_ iš _TOTAL_ įrašų",
+                 "sInfoEmpty":       "Rodomi įrašai nuo 0 iki 0 iš 0",
+                 "sInfoFiltered":    "(atrinkta iš _MAX_ įrašų)",
+                 "sInfoPostFix":     "",
+                 "sInfoThousands":   " ",
+                 "sLengthMenu":      "Rodyti _MENU_ įrašus",
+                 "sLoadingRecords":  "Įkeliama...",
+                 "sProcessing":      "Apdorojama...",
+                 "sSearch":          "Ieškoti:",
+                 "sThousands":       " ",
+                 "sUrl":             "",
+                 "sZeroRecords":     "Įrašų nerasta",
+                 "oPaginate": {
+                     "sFirst": "Pirmas",
+                     "sPrevious": "Ankstesnis",
+                     "sNext": "Tolimesnis",
+                     "sLast": "Paskutinis"
+                }
+            }
+          });
+        });
+    </script>
+
+    <script>
+        var checked = false;
+        function mark_checkboxes()
+        {
+            var checks = document.getElementsByName("checks");
+            checked = false;
+            for (var i = 0; i < checks.length; i++) {
+                if (checks[i].checked == false) {
+                    checked = true;
+                    break;
+                }
+            }
+
+            var markBtn = document.getElementById("mark-btn");
+            if (checked)
+                markBtn.innerHTML = '<i class="fa fa-square-o"></i>';
+            else
+                markBtn.innerHTML = '<i class="fa fa-check-square-o"></i>';
+
+            for (var i = 0; i < checks.length; i++)
+                checks[i].checked = checked;
+        }
+
+        function set_markbtn_name()
+        {
+            var checks = document.getElementsByName("checks");
+            var checked = false;
+            for (var i = 0; i < checks.length; i++) {
+                if (checks[i].checked == false) {
+                    checked = true;
+                    break;
+                }
+            }
+
+            var markBtn = document.getElementById("mark-btn");
+            if (checked)
+                markBtn.innerHTML = '<i class="fa fa-check-square-o"></i>';
+            else
+                markBtn.innerHTML = '<i class="fa fa-square-o"></i>';
+        }
+    </script>
+
+{% endblock %}
+
+{% block page_header %}
+    Adresų tikrinimas
+{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="callout callout-{{ message.tags }}" style="text-align: center">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    <h3><i class="fa fa-fw fa-support"></i> Adresų tikrinimas</h3>
+
+    <div class="box box-primary">
+        <div class="box-body table-responsive">
+            <table id="table" class="table table-bordered table-striped" style="border-top:none;">
+                <thead>
+                    <tr>
+                        <td colspan="7" style="border: none;">
+                            <i style="font-size: 21px; padding-top: 6px;" class="fa fa-fw fa-check-square-o pull-left"></i>
+                            <button class="btn btn-default col-sm-3" onclick="checkAddresses(writeCheckResults)">
+                                Tikrinti adresus
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <button type="button" class="btn btn-default" id="mark-btn" onclick="mark_checkboxes()">
+                            </button>
+                        </th>
+                        <th class="col-sm-2">Pavadinimas<i class="fa fa-fw fa-sort"></i></th>
+                        <th>Oficialus puslapis<i class="fa fa-fw fa-sort"></i></th>
+                        <th>Vietovės vardas<i class="fa fa-fw fa-sort"></i></th>
+                        <th>Adresas<i class="fa fa-fw fa-sort"></i></th>
+                        <th>Miestas<i class="fa fa-fw fa-sort"></i></th>
+                        <th>
+                            Pašto kodas
+                            <i data-toggle="tooltip" class="fa fa-fw fa-info-circle"
+                               title="Nurodžius pašto kodą objektai žemėlapyje bus ieškomi pagal jį, o ne pagal adresą.
+                                     Nurodyti pašto kodą patartina kai objektas nerandamas arba randamas netiksliai pagal adresą.">
+                            </i>
+                            <i class="fa fa-fw fa-sort"></i>
+                        </th>
+                        <th><i class="fa fa-search"></i><i class="fa fa-fw fa-sort"></i></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    {% for to in tourObjectsList %}
+
+                    <div class="modal fade" id="edit-place-{{ to.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="exampleModalLabel">
+                                  {{ to.place.title }} redagavimas
+                              </h4>
+                            </div>
+
+                            <br>
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label for="{{ to.pk }}-title" class="control-label">Pavadinimas</label>
+                                    <input class="form-control" name="{{ to.pk }}-title" id="{{ to.pk }}-title" value="{{ to.title }}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label for="{{ to.pk }}-place" class="control-label">Vietovės vardas</label>
+                                    <input class="form-control" name="{{ to.pk }}-place" id="{{ to.pk }}-place" value="{{ to.place.title }}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label for="{{ to.pk }}-address" class="control-label">Adresas</label>
+                                    <input class="form-control" name="{{ to.pk }}-address" id="{{ to.pk }}-address" value="{{ to.place.address }}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label for="{{ to.pk }}-city" class="control-label">Miestas</label>
+                                    <input class="form-control" name="{{ to.pk }}-city" id="{{ to.pk }}-city" value="{{ to.place.city }}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label for="{{ to.pk }}-code" class="control-label">Pašto kodas</label>
+                                    <input class="form-control" name="{{ to.pk }}-code" id="{{ to.pk }}-code"
+                                           {% if to.place.area_code %}value="{{ to.place.area_code }}"{% endif %}>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                              <div class="pull-left">
+                                  <button formaction="" class="btn btn-success" type="submit">
+                                      <i class="fa fa-fw fa-check"></i> Redaguoti
+                                  </button>
+                              </div>
+                              <button type="button" class="btn btn-default" data-dismiss="modal"> Atšaukti</button>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <tr>
+                        <td align="center">
+                            <input type="checkbox" name="checks" class="checks" id="{{ to.pk }}" value="{{ to.pk }}">
+                            <a style="cursor: pointer;" data-toggle="modal" data-target="#edit-place-{{ to.pk }}">
+                                <i style="font-size: 17px;" class="fa fa-fw fa-edit"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a id="title-{{ to.pk }}"
+                                {% if to.pk|tour_object_type  == "v" %}
+                                    href="{% url 'app_tourist:review_visitplace' to.pk %}"
+                                {% else %}
+                                    href="{% url 'app_tourist:review_event' to.pk %}"
+                                {% endif %}
+                            >{{ to.title }}</a>
+                        </td>
+                        <td><a href="{{ to.link }}">{{ to.link }}</a></td>
+                        <td>{{ to.place.title }}</td>
+                        <td id="address-{{ to.pk }}">{{ to.place.address }}</td>
+                        <td id="city-{{ to.pk }}">{{ to.place.city }}</td>
+                        <td id="area_code-{{ to.pk }}">{% if to.place.area_code %}{{ to.place.area_code }}{% endif %}</td>
+                        <td id="confirm-{{ to.pk }}"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        var iconSuccess = "<i class='fa fa-check text-success'></i>";
+        var iconFailure = "<i class='fa fa-remove text-danger'></i>";
+
+        function writeCheckResults(confirmId, icon) {
+            document.getElementById(confirmId).innerHTML = icon;
+        }
+
+        function checkAddresses(callback) {
+
+            var checks = $('#tbody').find('input:checked');
+            var checksLength = checks.size();
+
+            checks.each(function() {
+                var id = $(this).attr('id');
+                var address = null;
+                var confirmId = null;
+
+                var area_code = $("#area_code-" + id).html();
+                if (area_code == '')
+                    address = $("#address-" + id).html() + " " + $("#city-" + id).html() + " " + $("#title-" + id).html();
+                else
+                    address = area_code + " " + $("#title-" + id).html();
+                confirmId = "confirm-" + id;
+
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({'address': address}, function(results, status){
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        callback(confirmId, iconSuccess);
+                    }
+                    else callback(confirmId, iconFailure);
+                });
+            });
+        }
+
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgGtHQYaLqrZ6eOo3NdMShGVUsXzqt9KM">
+    </script>
+
+{% endblock %}

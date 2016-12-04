@@ -30,9 +30,6 @@ class UserRegisterView(View):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
 
-            # if password != request.POST['psw2']:
-            #     messages.add_message(self.request, 25, 'Slaptažodžiai nesutampa', extra_tags="danger")
-            # else:
             user = form.save(commit=False)
             user.set_password(password)
             user.save()

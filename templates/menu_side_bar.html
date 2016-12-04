@@ -8,7 +8,21 @@
 
             {% if user.is_superuser %}
                 <li class="header info" style="font-size: 10pt;">Administratoriui</li>
-                <li><a href="/turizmo-sistema/admin/"><i class="fa fa-fw fa-gears"></i> <span>Administravimas</span></a></li>
+                <li>
+                    <a href="{% url 'admin:index' %}">
+                        <i class="fa fa-fw fa-gears"></i> <span> Administravimas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'app_opinions:newest_opinions' %}">
+                        <i class="fa fa-fw fa-newspaper-o"></i> <span> Naujausios nuomonės</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'app_tourist:address_checking' %}">
+                        <i class="fa fa-fw fa-support"></i> <span> Adresų tikrinimas</span>
+                    </a>
+                </li>
             {% endif %}
 
 

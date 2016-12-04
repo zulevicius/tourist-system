@@ -75,7 +75,16 @@
         <div class="col-sm-12">
             <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">{{ tour_object.title }} - Nuomonės</h3>
+              <h3 class="box-title">{{ tour_object.title }} - Nuomonės ({{ order_by }})</h3>
+              <div class="row" style="margin-top: 14px; font-weight: bold; ">
+                <div class="col-sm-12">
+                  {% with tour_object.pk as pk %}
+                    <a href="{% url 'app_opinions:opinions' pk 'naujausios' %}">Naujausios</a>&emsp;
+                    <a href="{% url 'app_opinions:opinions' pk 'geriausios' %}">Geriausios</a>&emsp;
+                    <a href="{% url 'app_opinions:opinions' pk 'blogiausios' %}">Blogiausios</a>
+                  {% endwith %}
+                </div>
+              </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">

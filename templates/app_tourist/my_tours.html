@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tourist_extras %}
 
 {% block my_css %}
 {% endblock %}
@@ -115,7 +116,15 @@
                                         <i class="fa fa-remove" style="color: #F80000;"></i>
                                     </a>
                                 </td>
-                                <td>{{ to.title }}</td>
+                                <td>
+                                    <a
+                                        {% if to.pk|tour_object_type  == "v" %}
+                                            href="{% url 'app_tourist:review_visitplace' to.pk %}"
+                                        {% else %}
+                                            href="{% url 'app_tourist:review_event' to.pk %}"
+                                        {% endif %}
+                                    >{{ to.title }}</a>
+                                </td>
                                 <td>{{ to.place.address }}, {{ to.place.city }}</td>
                             </tr>
                             {% endfor %}
