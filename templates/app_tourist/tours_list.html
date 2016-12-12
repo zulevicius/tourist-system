@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block page_header %}
-    Mano maršrutai
+    {% if mine %}Mano maršrutai{% else %}Rekomenduojami maršrutai{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -33,46 +33,53 @@
         {% endfor %}
     {% endif %}
 
-    <div class="modal fade" id="new-tour" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Pridėti naują maršrutą</h4>
+    {% if mine %}
+        <div class="modal fade" id="new-tour" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Pridėti naują maršrutą</h4>
+                </div>
+
+                <form method="post" action="{% url 'app_tourist:create_tour' %}">
+                {% csrf_token %}
+
+                  <div class="form-group col-sm-12">
+                    <div class="box-body">
+                        <label for="tour_name" class="pull-left control-label">Maršruto pavadinimas</label>
+                        <input class="form-control" id="tour_name" name="tour_name" maxlength="50">
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <div class="pull-left">
+                        <button class="btn btn-success" type="submit"><i class="fa fa-fw fa-check"></i> Sukurti</button>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Atšaukti</button>
+                  </div>
+                </form>
             </div>
-
-            <form method="post" action="{% url 'app_tourist:create_tour' %}">
-            {% csrf_token %}
-
-              <div class="form-group col-sm-12">
-                <div class="box-body">
-                    <label for="tour_name" class="pull-left control-label">Maršruto pavadinimas</label>
-                    <input class="form-control" id="tour_name" name="tour_name" maxlength="50">
-                </div>
-              </div>
-
-              <div class="modal-footer">
-                <div class="pull-left">
-                    <button class="btn btn-success" type="submit"><i class="fa fa-fw fa-check"></i> Sukurti</button>
-                </div>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Atšaukti</button>
-              </div>
-            </form>
+          </div>
         </div>
-      </div>
-    </div>
+    {% endif %}
 
+    {% if mine %}
+        <h3 style="margin-bottom: 5px;">
+            <i class="fa fa-fw fa-map-o"></i> Mano maršrutai
+        </h3>
+        <h3 style="margin-bottom: 15px;">
+            <button class="btn btn-success" data-toggle="modal" data-target="#new-tour">
+                <i class="fa fa-fw fa-plus"></i> Naujas maršrutas
+            </button>
+        </h3>
+    {% else %}
+        <h3>
+            <i class="fa fa-fw fa-map-o"></i> Rekomenduojami maršrutai
+        </h3>
+    {% endif %}
 
-    <h3 style="margin-bottom: 5px;">
-        <i class="fa fa-fw fa-map-o"></i> Mano maršrutai
-    </h3>
-    <h3 style="margin-bottom: 15px;">
-        <button class="btn btn-success" data-toggle="modal" data-target="#new-tour">
-            <i class="fa fa-fw fa-plus"></i> Naujas maršrutas
-        </button>
-    </h3>
-
-    {% for tour in myToursList %}
+    {% for tour in toursList %}
 
     <div class="modal fade" id="delete-tour-{{ tour.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
       <div class="modal-dialog" role="document">
@@ -101,9 +108,11 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">{{ tour.title }}</h3>
-                    <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#delete-tour-{{ tour.pk }}">
-                        <i class="glyphicon glyphicon-trash"></i>
-                    </button>
+                    {% if mine %}
+                        <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#delete-tour-{{ tour.pk }}">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </button>
+                    {% endif %}
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -111,11 +120,13 @@
                         <tbody>
                             {% for to in tour.tour_objects.all %}
                             <tr id="tr-{{ tour.pk }}-{{ to.pk }}">
-                                <td style="vertical-align: middle; horiz-align: center; width: 30px;">
-                                    <a onclick="removeTourObject({{ to.pk }}, {{ tour.pk }})" style="cursor: pointer;">
-                                        <i class="fa fa-remove" style="color: #F80000;"></i>
-                                    </a>
-                                </td>
+                                {% if mine %}
+                                    <td style="vertical-align: middle; horiz-align: center; width: 30px;">
+                                        <a onclick="removeTourObject({{ to.pk }}, {{ tour.pk }})" style="cursor: pointer;">
+                                            <i class="fa fa-remove" style="color: #F80000;"></i>
+                                        </a>
+                                    </td>
+                                {% endif %}
                                 <td>
                                     <a
                                         {% if to.pk|tour_object_type  == "v" %}
@@ -130,8 +141,15 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                    <a href="{% url 'app_tourist:review_tour' tour.pk %}" style="margin-top: 5px;"
-                        class="btn btn-default btn-sm">Rekomenduojamas kelias</a>
+                    <a
+                        {% if mine %}
+                            href="{% url 'app_tourist:review_tour' tour.pk %}"
+                        {% else %}
+                            href="{% url 'app_tourist:review_rec_tour' tour.pk %}"
+                        {% endif %}
+                         style="margin-top: 5px;"
+                        class="btn btn-default btn-sm">Rekomenduojamas kelias
+                    </a>
                 </div>
             </div>
         </div>

@@ -13,10 +13,15 @@ urlpatterns = [
     url(r'^lankytina-vieta/perziureti/(?P<pk>\d+)/$', views.review_visitplace, name='review_visitplace'),
     url(r'^renginiai/$', views.EventsView.as_view(), name='events'),
     url(r'^renginiai/perziureti/(?P<pk>\d+)/$', views.review_event, name='review_event'),
-    url(r'^turistiniai-objektai/$', views.AddressCheckingView.as_view(), name='address_checking'),
 
-    url(r'^mano-marsrutai/$', login_required(views.MyToursView.as_view()), name='my_tours'),
+    url(r'^adresu-tikrinimas/$', views.AddressCheckingView.as_view(), name='address_checking'),
+    url(r'^redaguoti-adresa/$', views.edit_address, name='edit_address'),
+
+    url(r'^mano-marsrutai/$', login_required(views.ToursListView.as_view()), name='my_tours'),
     url(r'^mano-marsrutai/perziureti/(?P<pk>\d+)/$', login_required(views.review_tour), name='review_tour'),
+    url(r'^rekomenduojami-marsrutai/$', views.ToursListView.as_view(), name='recommended_tours'),
+    url(r'^rekomenduojami/perziureti/(?P<pk>\d+)/$', views.review_tour, name='review_rec_tour'),
+
     url(r'^naujas-marsrutas/$', login_required(views.create_tour), name='create_tour'),
     url(r'^istrinti-marsruta/(?P<pk>\d+)/$', login_required(views.delete_tour), name='delete_tour'),
     url(r'^istrinti-objekta-is-marsruto-ir-peradresuoti/(?P<t_pk>\d+)/(?P<to_pk>\d+)$',

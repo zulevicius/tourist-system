@@ -4,13 +4,12 @@
 {% block my_css %}
     <style>
 
-    .modal-content {
-      max-width: 1000px;
-    }
-
     .modal-content img {
-      max-height: 100%;
-      max-width: 100%;
+      max-height: 70%;
+      max-width: 70%;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .modal-escape {
@@ -157,7 +156,7 @@
 
         <div class="box-body table-responsive" >
             <div class="row form-group col-sm-6" style="margin-bottom: 10px;">
-              <label>Lankymo diena:</label>
+              <label for="datepicker">Lankymo diena:</label>
 
               <div class="input-group date">
                 <div class="input-group-addon">
@@ -166,6 +165,10 @@
                 <input class="form-control pull-right" id="datepicker" type="text">
               </div>
             </div>
+
+{#            <div class="row form-group col-sm-6" style="margin-bottom: 10px;">#}
+{#              <label></label>#}
+{#            </div>#}
 
             <table id="table" class="table table-bordered table-striped">
                 <thead>
@@ -191,7 +194,7 @@
                                </p>
                              </div>
 
-                             <div class="modal-content" style="background-color: transparent;">
+                             <div class="modal-content" style="background-color: transparent; box-shadow: none;">
                                  <img class="img-responsive" src="{{ vp.tour_object.main_photo.url }}">
                              </div>
 
@@ -205,7 +208,7 @@
                         <tr>
                             <td align="center">
                                 <a data-toggle="modal" data-target="#img{{ forloop.counter0 }}">
-                                    <img class="img-thumbnail"
+                                    <img class="img-thumbnail" style="max-width: 150px;"
                                          src="{{ vp.tour_object.main_photo.url }}">
                                 </a>
                             </td>

@@ -90,12 +90,14 @@
                         <tbody>
                             {% for to in tour.tour_objects.all %}
                             <tr id="tr-{{ tour.pk }}-{{ to.pk }}">
-                                <td style="vertical-align: middle; horiz-align: center; width: 30px;">
-                                    <a href="{% url 'app_tourist:remove_object_from_tour_redirect' tour.pk to.pk %}"
-                                            style="cursor: pointer;">
-                                        <i class="fa fa-remove" style="color: #F80000;"></i>
-                                    </a>
-                                </td>
+                                {% if mine %}
+                                    <td style="vertical-align: middle; horiz-align: center; width: 30px;">
+                                        <a href="{% url 'app_tourist:remove_object_from_tour_redirect' tour.pk to.pk %}"
+                                                style="cursor: pointer;">
+                                            <i class="fa fa-remove" style="color: #F80000;"></i>
+                                        </a>
+                                    </td>
+                                {% endif %}
                                 <td>
                                     <a
                                     {% if to.pk|tour_object_type  == "v" %}

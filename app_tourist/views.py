@@ -4,7 +4,7 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import resolve, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
@@ -30,24 +30,56 @@ class AddressCheckingView(ListView):
         return context
 
 
+def edit_address(request):
+
+    tour_object_pk = request.GET['tour_object_pk']
+    place_title = request.GET['place']
+    address = request.GET['address']
+    city = request.GET['city']
+    area_code = request.GET['code'].strip()
+    if area_code == "":
+        area_code = None
+
+    place = TourObject.objects.get(pk = tour_object_pk).place
+    place.title = place_title
+    place.address = address
+    place.city = city
+    place.area_code = area_code
+    place.save()
+
+    result = "success"
+
+    return HttpResponse(json.dumps(result), content_type='application/json')
+
+
 def review_tour(request, pk):
 
     tour = Tour.objects.get(pk = pk)
-    if tour.user != request.user:
+
+    url = resolve(request.path_info).url_name
+    if tour.user != request.user and url == 'review_tour':
         return redirect('app_tourist:index')
 
     args = {'tour': tour}
+    if url == 'review_tour':
+        args['mine'] = True
 
     return render(request, 'app_tourist/review_tour.html', args)
 
 
-class MyToursView(ListView):
-    template_name = 'app_tourist/my_tours.html'
+class ToursListView(ListView):
+    template_name = 'app_tourist/tours_list.html'
     model = Tour
 
     def get_context_data(self, **kwargs):
-        context = super(MyToursView, self).get_context_data()
-        context['myToursList'] = Tour.objects.filter(user = self.request.user)
+        context = super(ToursListView, self).get_context_data()
+
+        url = resolve(self.request.path_info).url_name
+        if url == 'my_tours':
+            context['toursList'] = Tour.objects.filter(user = self.request.user)
+            context['mine'] = True
+        elif url == 'recommended_tours':
+            context['toursList'] = Tour.objects.filter(user=None)
 
         return context
 

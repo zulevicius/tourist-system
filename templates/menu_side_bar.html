@@ -33,6 +33,9 @@
             <li><a href="{% url 'app_tourist:events' %}">
                 <i class="fa-fw glyphicon glyphicon-star-empty"></i> <span> Renginiai</span></a>
             </li>
+            <li><a href="{% url 'app_tourist:recommended_tours' %}">
+                <i class="fa fa-fw fa-map"></i> <span> Rekomenduojami maršrutai</span></a>
+            </li>
 
             {% if request.user.is_authenticated %}
             <li><a href="{% url 'app_tourist:my_tours' %}">

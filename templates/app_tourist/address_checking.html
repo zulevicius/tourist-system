@@ -13,9 +13,9 @@
 
 {% block my_js %}
     {% include 'datatables/datatables_js_no_custom.html' %}
+    <script type="text/javascript" src="{% static 'ajax.js' %}"></script>
 
     <script>
-
         $(document).ready( function () {
             $('#table').DataTable({
              "iDisplayLength": 10,
@@ -96,6 +96,25 @@
             else
                 markBtn.innerHTML = '<i class="fa fa-square-o"></i>';
         }
+
+        function editTourObject(pk) {
+
+            var place = $("#" + pk + "-place").val();
+            var address = $("#" + pk + "-address").val();
+            var city = $("#" + pk + "-city").val();
+            var code = $("#" + pk + "-code").val();
+
+            $("#place-" + pk).html(place);
+            $("#address-" + pk).html(address);
+            $("#city-" + pk).html(city);
+            $("#area_code-" + pk).html(code);
+            $("#confirm-" + pk).html("");
+
+            var data = {'place': place, 'address': address, 'city': city, 'code': code, 'tour_object_pk': pk};
+            ajax("{% url 'app_tourist:edit_address' %}", data, function(result) {});
+
+            $("#edit-place-" + pk).modal("hide");
+        }
     </script>
 
 {% endblock %}
@@ -157,38 +176,44 @@
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
                               <h4 class="modal-title" id="exampleModalLabel">
                                   {{ to.place.title }} redagavimas
                               </h4>
                             </div>
 
                             <br>
-                            <div class="row">
-                                <div class="form-group col-sm-12">
-                                    <label for="{{ to.pk }}-title" class="control-label">Pavadinimas</label>
-                                    <input class="form-control" name="{{ to.pk }}-title" id="{{ to.pk }}-title" value="{{ to.title }}">
-                                </div>
-                            </div>
+{#                            <div class="row">#}
+{#                                <div class="form-group col-sm-12">#}
+{#                                    <label for="{{ to.pk }}-title" class="control-label">Pavadinimas</label>#}
+{#                                    <input class="form-control" name="{{ to.pk }}-title" id="{{ to.pk }}-title"#}
+{#                                           value="{{ to.title }}">#}
+{#                                </div>#}
+{#                            </div>#}
 
                             <div class="row">
                                 <div class="form-group col-sm-12">
                                     <label for="{{ to.pk }}-place" class="control-label">Vietovės vardas</label>
-                                    <input class="form-control" name="{{ to.pk }}-place" id="{{ to.pk }}-place" value="{{ to.place.title }}">
+                                    <input class="form-control" name="{{ to.pk }}-place" id="{{ to.pk }}-place"
+                                           value="{{ to.place.title }}">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-sm-12">
                                     <label for="{{ to.pk }}-address" class="control-label">Adresas</label>
-                                    <input class="form-control" name="{{ to.pk }}-address" id="{{ to.pk }}-address" value="{{ to.place.address }}">
+                                    <input class="form-control" name="{{ to.pk }}-address" id="{{ to.pk }}-address"
+                                           value="{{ to.place.address }}">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-sm-12">
                                     <label for="{{ to.pk }}-city" class="control-label">Miestas</label>
-                                    <input class="form-control" name="{{ to.pk }}-city" id="{{ to.pk }}-city" value="{{ to.place.city }}">
+                                    <input class="form-control" name="{{ to.pk }}-city" id="{{ to.pk }}-city"
+                                           value="{{ to.place.city }}">
                                 </div>
                             </div>
 
@@ -202,7 +227,7 @@
 
                             <div class="modal-footer">
                               <div class="pull-left">
-                                  <button formaction="" class="btn btn-success" type="submit">
+                                  <button formaction="" class="btn btn-success" onclick="editTourObject('{{ to.pk }}')">
                                       <i class="fa fa-fw fa-check"></i> Redaguoti
                                   </button>
                               </div>
@@ -229,7 +254,7 @@
                             >{{ to.title }}</a>
                         </td>
                         <td><a href="{{ to.link }}">{{ to.link }}</a></td>
-                        <td>{{ to.place.title }}</td>
+                        <td id="place-{{ to.pk }}">{{ to.place.title }}</td>
                         <td id="address-{{ to.pk }}">{{ to.place.address }}</td>
                         <td id="city-{{ to.pk }}">{{ to.place.city }}</td>
                         <td id="area_code-{{ to.pk }}">{% if to.place.area_code %}{{ to.place.area_code }}{% endif %}</td>

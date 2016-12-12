@@ -118,7 +118,7 @@ class Image(models.Model):
 class Tour(models.Model):
 
     title = models.CharField(max_length=50, verbose_name="Pavadinimas")
-    user = models.ForeignKey(User, verbose_name="Naudotojas")
+    user = models.ForeignKey(User, blank=True, null=True, verbose_name="Naudotojas")
     tour_objects = models.ManyToManyField(TourObject, verbose_name="Objektai")
 
     class Meta:

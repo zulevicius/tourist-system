@@ -136,7 +136,9 @@
                     <a>
                         <i class="fa fa-fw fa-eur"></i> Bilieto kaina
                         <span class="pull-right">
-                            {% if event.min_ticket_price != event.tour_object.ticket_price %}
+                            {% if event.min_ticket_price == None %}
+                                {{ event.tour_object.ticket_price }}
+                            {% elif event.min_ticket_price != event.tour_object.ticket_price %}
                                 {{ event.min_ticket_price }} - {{ event.tour_object.ticket_price }}
                             {% else %}
                                 {{ event.tour_object.ticket_price }}
