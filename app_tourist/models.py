@@ -1,5 +1,8 @@
+import os
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+from sorl.thumbnail import get_thumbnail
 
 
 class Place(models.Model):
@@ -27,12 +30,61 @@ class TourObject(models.Model):
     last_update = models.DateTimeField(verbose_name="Paskutinis atnaujinimas")
     link = models.CharField(max_length=200, blank=True, null=True, verbose_name="Oficialus puslapis")
     extra_info = models.TextField(blank=True, null=True, verbose_name="Papildoma informacija")
-    main_photo = models.ImageField(verbose_name="Pagrindinė nuotrauka", blank=True, null=True)
+    main_photo = models.ImageField(blank=True, null=True, verbose_name="Pagrindinė nuotrauka")
+    thumbnail = models.ImageField(max_length=500, blank=True, null=True, editable=False, verbose_name="Miniatūra")
 
     class Meta:
         verbose_name = "Turistinis objektas"
         verbose_name_plural = "Turistiniai objektai"
         unique_together = ("title", "place")
+
+    def __init__(self, *args, **kwargs):
+        super(TourObject, self).__init__(*args, **kwargs)
+        self.__original_thumbnail = self.thumbnail
+        self.__original_main_photo = self.main_photo
+
+    def save(self, *args, **kwargs):
+        if self.main_photo != self.__original_main_photo:
+            # try:
+                # folder = "/cache/" + self.__original_thumbnail.name.split("cache")[1].split("/")[1] + "/"
+                # shutil.rmtree(settings.MEDIA_ROOT + folder.replace("/", "\\"))
+            #     os.remove(settings.MEDIA_ROOT + self.__original_thumbnail.name.replace("/tourist/media/", "\\")
+            #           .replace("/", "\\"))
+            # except: pass
+
+            try:
+                os.remove(settings.MEDIA_ROOT + self.__original_main_photo.name.replace("/", "\\"))
+            except:
+                pass
+
+            width = (130 / self.main_photo.height) * self.main_photo.width
+            dimensions = str(int(width)) + 'x130'
+            self.thumbnail = get_thumbnail(self.main_photo, dimensions, quality=99, format='JPEG').url
+
+            super(TourObject, self).save(*args, **kwargs)
+
+            width = (130 / self.main_photo.height) * self.main_photo.width
+            dimensions = str(int(width)) + 'x130'
+            self.thumbnail = get_thumbnail(self.main_photo, dimensions, quality=99, format='JPEG').url
+
+        super(TourObject, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        try:
+            os.remove(settings.MEDIA_ROOT + self.thumbnail.name.replace("/tourist/media/", "\\")
+                  .replace("/", "\\"))
+        except: pass
+
+        try:
+            os.remove(settings.MEDIA_ROOT + self.main_photo.name.replace("/", "\\"))
+        except:
+            pass
+        super(TourObject, self).delete()
+
+    # another way for deleting thumbnails:
+    # use `python manage.py thumbnail clear`
+    # delete `cache` directory in `media` folder
+    # then call function that generates thumbnail for TourObjects
 
     def __str__(self):
         try:

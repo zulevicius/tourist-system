@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^$', views.to_index, name='root'),
     url(r'^pradzia/$', views.IndexView.as_view(), name='index'),
 
+    url(r'^sukurti-miniaturas/$', views.generate_thumbnails, name='generate_thumbnails'),
+
     url(r'^lankytinos-vietos/$', views.VisitPlacesView.as_view(), name='visit_places'),
     url(r'^lankytina-vieta/perziureti/(?P<pk>\d+)/$', views.review_visitplace, name='review_visitplace'),
     url(r'^renginiai/$', views.EventsView.as_view(), name='events'),

@@ -9,6 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, TemplateView
+from sorl.thumbnail import get_thumbnail
 
 from app_opinions.models import Opinion
 from app_tourist.models import Event, Image, Tour, TourObject, VisitPlace
@@ -262,3 +263,16 @@ class IndexView(TemplateView):
         context = super(IndexView, self).get_context_data()
 
         return context
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def generate_thumbnails(request):
+
+    for t in TourObject.objects.all():
+        width = (130 / t.main_photo.height) * t.main_photo.width
+        dimensions = str(int(width)) + 'x130'
+        t.thumbnail = get_thumbnail(t.main_photo, dimensions, quality=99, format='JPEG').url
+        print(get_thumbnail(t.main_photo, dimensions, quality=99, format='JPEG').url)
+        t.save()
+
+    return redirect('app_tourist:index')

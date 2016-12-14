@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'captcha',
+    'sorl.thumbnail',
     'widget_tweaks',
     'app_auth',
     'app_opinions',

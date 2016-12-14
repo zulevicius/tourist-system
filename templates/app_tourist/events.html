@@ -41,6 +41,11 @@
 
     <script>
 
+        function downloadPhoto(pk, url) {
+            document.getElementById("modal-content-" + pk).innerHTML=
+                    "<img class='img-responsive' src='" + url + "' />";
+        }
+
         $(document).ready( function () {
             $('.table').DataTable({
             "iDisplayLength": {{ eventsList|length }},
@@ -126,8 +131,8 @@
                                </p>
                              </div>
 
-                             <div class="modal-content" style="background-color: transparent; box-shadow: none;">
-                                 <img class="img-responsive" src="{{ ev.tour_object.main_photo.url }}">
+                             <div class="modal-content" id="modal-content-{{ ev.tour_object.pk }}" style="background-color: transparent; box-shadow: none;">
+{#                                 <img class="img-responsive" src="{{ ev.tour_object.thumbnail.url }}">#}
                              </div>
 
                              <div class="modal-footer" style="background-color: transparent; border: none;">
@@ -139,9 +144,10 @@
                         </div>
                         <tr>
                             <td align="center">
-                                <a data-toggle="modal" data-target="#img{{ forloop.counter0 }}">
-                                    <img class="img-thumbnail" style="max-width: 150px;"
-                                         src="{{ ev.tour_object.main_photo.url }}">
+                                <a data-toggle="modal" data-target="#img{{ forloop.counter0 }}"
+                                        onclick="downloadPhoto('{{ ev.tour_object.pk }}', '{{ ev.tour_object.main_photo.url }}')">
+                                    <img class="img-thumbnail" style="max-width: 130px;"
+                                         src="{{ ev.tour_object.thumbnail.url }}">
                                 </a>
                             </td>
                             <td style="white-space: normal;">

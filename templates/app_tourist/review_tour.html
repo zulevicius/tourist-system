@@ -67,7 +67,7 @@
                 setWaypointsOptions();
             });
 
-            $("#transport, #start, #finish").select2({'minimumResultsForSearch': -1});
+            $("#transport, #start, #finish").select2({'minimumResultsForSearch': -1, width: '200'});
         });
     </script>
 {% endblock %}
@@ -118,7 +118,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-md-4 col-sm-12">
             <div class="box box-solid">
                 <div class="box-header with-border">
                     <h4 class="box-title">Pradžia</h4>
@@ -139,7 +139,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-md-4 col-sm-12">
             <div class="box box-solid">
                 <div class="box-header with-border">
                     <h4 class="box-title">
@@ -153,7 +153,7 @@
                     </h4>
                 </div>
                 <div class="box-body">
-                    <select id="waypoints" multiple class="multiple-select">
+                    <select id="waypoints" multiple class="multiple-select" style="width: 200px;">
                         {% for to in tour.tour_objects.all %}
                             <option
                                 {% if to.place.area_code %}
@@ -168,12 +168,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-md-4 col-sm-12">
             <div class="box box-solid">
                 <div class="box-header with-border">
                   <h4 class="box-title">Pabaiga</h4>
                 </div>
                 <div class="box-body">
+
                     <select id="finish">
                         {% for to in tour.tour_objects.all %}
                             <option
