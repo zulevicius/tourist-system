@@ -26,8 +26,17 @@ def by_paragraphs(text):
 # e -> event
 @register.filter('tour_object_type')
 def tour_object_type(pk):
-
     try:
         Event.objects.get(tour_object__pk=pk)
         return "e"
     except: return "v"
+
+
+@register.filter('get_tour_object_opinions')
+def get_tour_object_opinions(opinions_list, pk):
+    return opinions_list.filter(tour_object__pk = pk)
+
+
+@register.filter('get_opinions_with_mark_count')
+def get_opinions_with_mark_count(tour_object_opinions, mark):
+    return tour_object_opinions.filter(mark = mark).count()

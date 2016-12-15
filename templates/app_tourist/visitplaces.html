@@ -1,37 +1,41 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load tourist_extras %}
 
 {% block my_css %}
     <style>
 
-    .modal-content img {
-      max-height: 70%;
-      max-width: 70%;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
+        .modal-content img {
+          max-height: 70%;
+          max-width: 70%;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+        }
 
-    .modal-escape {
-        color:white;
-        font-size: large;
-        width: 26px;
-        height: 26px;
-        text-align: center;
-        border: white solid 1px;
-        float: right;
-        cursor: pointer;
-    }
+        .modal-escape {
+            color:white;
+            font-size: large;
+            width: 26px;
+            height: 26px;
+            text-align: center;
+            border: white solid 1px;
+            float: right;
+            cursor: pointer;
+        }
 
-    .modal {
-        text-align: center;
-    }
+        .modal {
+            text-align: center;
+        }
 
-    .modal-dialog {
-        display: inline-block;
-        width:auto;
-    }
-    .row { margin: 0; padding: 0; }
+        .modal-dialog {
+            display: inline-block;
+            width:auto;
+        }
+        .row {
+            margin: 0;
+            padding: 0;
+        }
     </style>
 
 {% endblock %}
@@ -50,7 +54,7 @@
              "aoColumnDefs" : [
              {
                 'bSortable' : false,
-                'aTargets' : [ 0 ]
+                'aTargets' : [ 3 ]
              }],
              "fnInfoCallback": function( oSettings, _START_, _END_, _TOTAL_ ) {
                  return "Rodomi įrašai nuo " + _START_ + " iki " + _END_ + " iš " + _TOTAL_ + " įrašų";
@@ -178,6 +182,15 @@
             <table id="table" class="table table-bordered table-striped">
                 <thead>
                     <tr>
+                        <th style="white-space: nowrap; font-size: 18px; border-right: none;">
+                            <i class="fa-fw glyphicon glyphicon-thumbs-up text-green"></i>
+                        </th>
+                        <th style="white-space: nowrap; font-size: 18px; border-right: none; border-left: none;">
+                            <i class="fa-fw glyphicon glyphicon-hand-right text-yellow"></i>
+                        </th>
+                        <th style="white-space: nowrap; font-size: 18px; border-left: none;">
+                            <i class="fa-fw glyphicon glyphicon-thumbs-down text-red"></i>
+                        </th>
                         <th>Nuotrauka</th>
                         <th style="white-space: normal;">Pavadinimas<i class="fa fa-fw fa-sort"></i></th>
                         <th>Adresas<i class="fa fa-fw fa-sort"></i></th>
@@ -210,6 +223,17 @@
                            </div>
                         </div>
                         <tr>
+                            {% with opinionsList|get_tour_object_opinions:vp.tour_object.pk as tour_object_opinions %}
+                                <td style="text-align: center; border-right: none;">
+                                    {{ tour_object_opinions|get_opinions_with_mark_count:'2' }}
+                                </td>
+                                <td style="text-align: center; border-right: none; border-left: none;">
+                                    {{ tour_object_opinions|get_opinions_with_mark_count:'1' }}
+                                </td>
+                                <td style="text-align: center; border-left: none;">
+                                    {{ tour_object_opinions|get_opinions_with_mark_count:'0' }}
+                                </td>
+                            {% endwith %}
                             <td align="center">
                                 <a data-toggle="modal" data-target="#img{{ forloop.counter0 }}"
                                         onclick="downloadPhoto('{{ vp.tour_object.pk }}', '{{ vp.tour_object.main_photo.url }}')">

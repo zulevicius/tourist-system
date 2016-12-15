@@ -27,7 +27,6 @@ class AddressCheckingView(ListView):
     def get_context_data(self, **kwargs):
         context = super(AddressCheckingView, self).get_context_data()
         context['tourObjectsList'] = TourObject.objects.all()
-
         return context
 
 
@@ -122,14 +121,17 @@ class VisitPlacesView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(VisitPlacesView, self).get_context_data()
-        context['visitPlacesList'] = VisitPlace.objects.all()
+        visit_places = VisitPlace.objects.all()
+        context['visitPlacesList'] = visit_places
+        context['opinionsList'] = Opinion.objects.filter(tour_object__in =
+                                                         visit_places.values_list('tour_object', flat=True))
         return context
 
 
 def review_visitplace(request, pk):
 
     vp = VisitPlace.objects.get(pk = pk)
-    events = Event.objects.filter(tour_object__place=vp.tour_object.place, event_date__gte=datetime.datetime.now())
+    events = Event.objects.filter(tour_object__place=vp.tour_object.place, event_end_date__gte=datetime.datetime.now())
     images = Image.objects.filter(tour_object=vp.tour_object)
     opinions_count = Opinion.objects.filter(tour_object = vp.tour_object).count()
 
@@ -151,13 +153,17 @@ class EventsView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(EventsView, self).get_context_data()
-        context['eventsList'] = Event.objects.all()
+        context['eventsList'] = Event.objects.filter(event_end_date__gte = datetime.datetime.now())
         return context
 
 
 def review_event(request, pk):
 
     ev = Event.objects.get(pk = pk)
+    if ev.event_end_date < datetime.datetime.now():
+        messages.add_message(request, 25, ('%s jau praėjo' % ev.tour_object.title), extra_tags="danger")
+        redirect('app_tourist:events')
+
     images = Image.objects.filter(tour_object=ev.tour_object)
     opinions_count = Opinion.objects.filter(tour_object=ev.tour_object).count()
 
@@ -261,7 +267,9 @@ class IndexView(TemplateView):
 
     def get_context_data(self):
         context = super(IndexView, self).get_context_data()
-
+        context['visit_places_count'] = VisitPlace.objects.count()
+        context['events_count'] = Event.objects.count()
+        context['recommended_tours_count'] = Tour.objects.filter(user = None).count()
         return context
 
 
