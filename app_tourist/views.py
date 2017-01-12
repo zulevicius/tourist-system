@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import resolve, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, TemplateView
 from sorl.thumbnail import get_thumbnail
@@ -160,7 +161,7 @@ class EventsView(ListView):
 def review_event(request, pk):
 
     ev = Event.objects.get(pk = pk)
-    if ev.event_end_date < datetime.datetime.now():
+    if ev.event_end_date < timezone.now():
         messages.add_message(request, 25, ('%s jau praėjo' % ev.tour_object.title), extra_tags="danger")
         redirect('app_tourist:events')
 

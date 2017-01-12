@@ -114,10 +114,10 @@
                 <thead>
                     <tr>
                         <th>Nuotrauka</th>
-                        <th style="white-space: normal;">Pavadinimas<i class="fa fa-fw fa-sort"></i></th>
-                        <th>Adresas<i class="fa fa-fw fa-sort"></i></th>
+                        <th style="white-space: normal;">Pavadinimas <i class="fa fa-fw fa-sort"></i></th>
+                        <th>Adresas <i class="fa fa-fw fa-sort"></i></th>
                         <th>Miestas <i class="fa fa-fw fa-sort"></i></th>
-                        <th>Max bilieto kaina <i class="fa fa-eur"></i><i class="fa fa-fw fa-sort"></i></th>
+                        <th>Bilieto kaina <i class="fa fa-fw fa-sort"></i></th>
                         <th>Renginio pradžia <i class="fa fa-fw fa-sort"></i></th>
                         <th>Renginio pabaiga <i class="fa fa-fw fa-sort"></i></th>
                         <th>Tipas<i class="fa fa-fw fa-sort"></i></th>
@@ -160,7 +160,7 @@
                             </td>
                             <td>{{ ev.tour_object.place.address }}</td>
                             <td>{{ ev.tour_object.place.city }}</td>
-                            <td>{{ ev.tour_object.ticket_price }}</td>
+                            <td>{{ ev.tour_object.ticket_price }} <i class="fa fa-eur"></i></td>
                             <td>
                                 {{ ev.event_date|date:'Y-m-d H:i' }}
                             </td>

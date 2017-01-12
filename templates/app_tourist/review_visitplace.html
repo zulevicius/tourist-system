@@ -5,38 +5,38 @@
 {% block my_css %}
     <style>
 
-    .modal-content {
-      max-width: 1000px;
-    }
+        .modal-content img {
+            max-height: 70%;
+            max-width: 70%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    .modal-content img {
-      max-height: 100%;
-      max-width: 100%;
-    }
+        .modal-escape {
+            color:white;
+            font-size: large;
+            width: 26px;
+            height: 26px;
+            text-align: center;
+            border: white solid 1px;
+            float: right;
+            cursor: pointer;
+        }
 
-    .modal-escape {
-        color:white;
-        font-size: large;
-        width: 26px;
-        height: 26px;
-        text-align: center;
-        border: white solid 1px;
-        float: right;
-        cursor: pointer;
-    }
+        .modal {
+            text-align: center;
+        }
 
-    .modal {
-        text-align: center;
-    }
+        .modal-dialog {
+            display: inline-block;
+            width:auto;
+        }
 
-    .modal-dialog {
-        display: inline-block;
-        width:auto;
-    }
+        #hover-white:hover {
+            background: #fff;
+        }
 
-    #hover-white:hover {
-        background: #fff;
-    }
     </style>
 
 {% endblock %}
@@ -46,7 +46,9 @@
 
     <script>
         function addToTour() {
-            var optionSelected = $("#tours").find("option:selected").val();
+            var tours = $("#tours");
+            var selectedTourName = $.trim(tours.find("option:selected").text());
+            var optionSelected = tours.find("option:selected").val();
             var data = {'tour_pk': optionSelected, 'tour_object_pk': {{ visit_place.tour_object.pk }} };
 
             ajax("{% url 'app_tourist:add_object_to_tour' %}", data, function(result) {
@@ -58,10 +60,7 @@
                     }
                 }
 
-                var addDone = $("#add-done");
-                addDone.animate({ "opacity": "0.9" }, 1000, function(){
-                    addDone.animate({ "opacity": "0" }, 700);
-                });
+                alert('Pridėta į maršrutą "' + selectedTourName + '"');
             });
         }
     </script>
@@ -90,7 +89,7 @@
            </p>
          </div>
 
-         <div class="modal-content">
+         <div class="modal-content" style="background-color: transparent; box-shadow: none;">
              <img class="img-responsive" src="{{ visit_place.tour_object.main_photo.url }}">
          </div>
 
@@ -270,7 +269,6 @@
                             {% endfor %}
                         </select>
                         <div class="pull-right">
-                            <h3 style="opacity: 0; display: inline;" id="add-done"><i class="fa fa-check text-success pull-left"></i></h3>
                             <button class="btn btn-default btn-sm" style="margin-top: -px;" onclick="addToTour()">Pridėti</button>
                         </div>
                     </a>
@@ -423,21 +421,23 @@
                     </div>
                     <script>
 
-                        var address = "{{ visit_place.tour_object.place.address }} " +
-                            "{{ visit_place.tour_object.place.city }} " + "{{ visit_place.tour_object.title }}";
+                        address = "{{ visit_place.tour_object.place.address }} " +
+                        "{{ visit_place.tour_object.place.city }}";
 
                         {% if visit_place.tour_object.place.area_code %}
-                            address = "{{ visit_place.tour_object.place.area_code }}, {{ visit_place.tour_object.title }}";
+                            address += " {{ visit_place.tour_object.place.area_code }}";
                         {% endif %}
+
                         var marker = null;
 
                         function initMap() {
-
+                        console.log(address);
                           var directionsService = new google.maps.DirectionsService;
                           var directionsDisplay = new google.maps.DirectionsRenderer;
                           var geocoder = new google.maps.Geocoder();
 
                           geocoder.geocode({'address': address}, function(results, status){
+                              console.log(status);
                               if (status === google.maps.GeocoderStatus.OK) {
                                   var latitude = parseFloat(results[0].geometry.location.lat());
                                   var longitude = parseFloat(results[0].geometry.location.lng());
@@ -475,7 +475,6 @@
                                       };
 
                                       if (marker !== null || marker !== undefined) marker.setMap(null);
-
                                       directionsService.route({
                                           origin: pos,
                                           destination: address,

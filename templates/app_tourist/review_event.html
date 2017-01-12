@@ -45,7 +45,9 @@
 
     <script>
         function addToTour() {
-            var optionSelected = $("#tours").find("option:selected").val();
+            var tours = $("#tours");
+            var selectedTourName = $.trim(tours.find("option:selected").text());
+            var optionSelected = tours.find("option:selected").val();
             var data = {'tour_pk': optionSelected, 'tour_object_pk': {{ event.tour_object.pk }} };
 
             ajax("{% url 'app_tourist:add_object_to_tour' %}", data, function(result) {
@@ -57,10 +59,7 @@
                     }
                 }
 
-                var addDone = $("#add-done");
-                addDone.animate({ "opacity": "0.9" }, 1000, function(){
-                    addDone.animate({ "opacity": "0" }, 700);
-                });
+                alert('Pridėta į maršrutą "' + selectedTourName + '"');
             });
         }
     </script>
@@ -193,7 +192,6 @@
                             {% endfor %}
                         </select>
                         <div class="pull-right">
-                            <h3 style="opacity: 0; display: inline;" id="add-done"><i class="fa fa-check text-success pull-left"></i></h3>
                             <button class="btn btn-default btn-sm" style="margin-top: -6px;" onclick="addToTour()">Pridėti</button>
                         </div>
                     </a>
@@ -295,11 +293,18 @@
                     </div>
                     <script>
 
-                        var address = "{{ event.tour_object.place.address }} " +
-                            "{{ event.tour_object.place.city }} " + "{{ event.tour_object.title }}";
+{#                        var address = "{{ event.tour_object.place.address }} " +#}
+{#                            "{{ event.tour_object.place.city }} " + "{{ event.tour_object.title }}";#}
+{##}
+{#                        {% if event.tour_object.place.area_code %}#}
+{#                            address = "{{ event.tour_object.place.area_code }}, {{ event.tour_object.title }}";#}
+{#                        {% endif %}#}
+
+                        address = "{{ event.tour_object.place.address }} " +
+                        "{{ event.tour_object.place.city }}";
 
                         {% if event.tour_object.place.area_code %}
-                            address = "{{ event.tour_object.place.area_code }}, {{ event.tour_object.title }}";
+                            address += " {{ event.tour_object.place.area_code }}";
                         {% endif %}
 
                         var marker = null;

@@ -21,7 +21,7 @@ class Opinion(models.Model):
 
     user = models.ForeignKey(User, verbose_name="Naudotojas")
     tour_object = models.ForeignKey(TourObject)
-    comment = models.TextField(verbose_name="Komentaras")
+    comment = models.TextField(max_length=5000, verbose_name="Komentaras")
     mark = models.CharField(choices=MARK_TYPES, max_length=1, verbose_name="Įvertinimas")
     date_posted = models.DateTimeField(verbose_name="Parašymo data")
 

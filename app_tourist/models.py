@@ -160,7 +160,7 @@ class Event(models.Model):
 class Image(models.Model):
 
     tour_object = models.ForeignKey(TourObject, verbose_name="Turistinis objektas")
-    image = models.ImageField(verbose_name="Paveiksliukas", blank=True, null=True)
+    image = models.ImageField(verbose_name="Paveikslėlis", blank=True, null=True)
 
     class Meta:
         verbose_name = "Paveikslėlis"

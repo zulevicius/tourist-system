@@ -18,7 +18,7 @@
     <script>
         $(document).ready( function () {
             $('#table').DataTable({
-             "iDisplayLength": 10,
+             "iDisplayLength": 8,
              {# "dom": 'flrti<"center"p>',#}
              "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"f><"clearfix">>>ti<"row view-pager"<"col-sm-12"<"text-center"p>>>',
              padding: false,
@@ -160,10 +160,6 @@
                         <th>Miestas<i class="fa fa-fw fa-sort"></i></th>
                         <th>
                             Pašto kodas
-                            <i data-toggle="tooltip" class="fa fa-fw fa-info-circle"
-                               title="Nurodžius pašto kodą objektai žemėlapyje bus ieškomi pagal jį, o ne pagal adresą.
-                                     Nurodyti pašto kodą patartina kai objektas nerandamas arba randamas netiksliai pagal adresą.">
-                            </i>
                             <i class="fa fa-fw fa-sort"></i>
                         </th>
                         <th><i class="fa fa-search"></i><i class="fa fa-fw fa-sort"></i></th>
@@ -284,11 +280,12 @@
                 var address = null;
                 var confirmId = null;
 
-                var area_code = $("#area_code-" + id).html();
-                if (area_code == '')
-                    address = $("#address-" + id).html() + " " + $("#city-" + id).html() + " " + $("#title-" + id).html();
-                else
-                    address = area_code + " " + $("#title-" + id).html();
+{#                var area_code = $("#area_code-" + id).html();#}
+{#                if (area_code == '')#}
+                address = $("#address-" + id).html() + " " + $("#city-" + id).html() + " "
+                        + $("#area_code-" + id).html();
+{#                else#}
+{#                    address = area_code + " " + $("#title-" + id).html();#}
                 confirmId = "confirm-" + id;
 
                 var geocoder = new google.maps.Geocoder();

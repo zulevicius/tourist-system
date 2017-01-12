@@ -145,8 +145,8 @@
                     <h4 class="box-title">
                         <small>
                             <i data-toggle="tooltip" class="fa fa-fw fa-info-circle"
-                                title="Rinkdamiesi įspauskit Ctrl (arba Cmd, jeigu Mac kompiuteris), norėdami žymėti
-                                 kelis. Įspaudus Shift žymisi visi esantys tarp paspaustų pasirinkimų.">
+                                title="Rinkdamiesi įspauskite Ctrl (arba Cmd, jeigu Mac kompiuteris), norėdami žymėti
+                                 kelis.">
                             </i>
                         </small>
                         Vidurio taškai
@@ -157,9 +157,9 @@
                         {% for to in tour.tour_objects.all %}
                             <option
                                 {% if to.place.area_code %}
-                                    value="{{ to.place.area_code }}, {{ to.title }}"
+                                    value="{{ to.place.address }} {{ to.place.city }} {{ to.place.area_code }}"
                                 {% else %}
-                                    value="{{ to.place.address }}, {{ to.place.city }} {{ to.title }}"
+                                    value="{{ to.place.address }} {{ to.place.city }}"
                                 {% endif %} selected>
                                 {{ to.title }}
                             </option>

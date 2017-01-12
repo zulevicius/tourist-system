@@ -195,7 +195,7 @@
                         <th style="white-space: normal;">Pavadinimas<i class="fa fa-fw fa-sort"></i></th>
                         <th>Adresas<i class="fa fa-fw fa-sort"></i></th>
                         <th>Miestas <i class="fa fa-fw fa-sort"></i></th>
-                        <th>Max bilieto kaina <i class="fa fa-eur"></i><i class="fa fa-fw fa-sort"></i></th>
+                        <th>Bilieto kaina<i class="fa fa-fw fa-sort"></i></th>
                         <th>Darbo pradžia <i class="fa fa-fw fa-sort"></i></th>
                         <th>Darbo pabaiga <i class="fa fa-fw fa-sort"></i> </th>
                         <th style="width:140px;">Tipas<i class="fa fa-fw fa-sort"></i></th>
@@ -222,6 +222,7 @@
                              </div>
                            </div>
                         </div>
+
                         <tr>
                             {% with opinionsList|get_tour_object_opinions:vp.tour_object.pk as tour_object_opinions %}
                                 <td style="text-align: center; border-right: none;">
@@ -248,7 +249,7 @@
                             </td>
                             <td>{{ vp.tour_object.place.address }}</td>
                             <td>{{ vp.tour_object.place.city }}</td>
-                            <td>{{ vp.tour_object.ticket_price }}</td>
+                            <td>{{ vp.tour_object.ticket_price }} <i class="fa fa-eur"></i></td>
                             <td class="job-start" id="s-{{ vp.pk }}">
                                 {% if vp.always_available %}
                                     Atidaryta visuomet
