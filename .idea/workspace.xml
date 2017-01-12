@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="058337f6-3525-4ab5-acd5-61fab8670f70" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app_opinions/models.py" afterPath="$PROJECT_DIR$/app_opinions/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app_tourist/models.py" afterPath="$PROJECT_DIR$/app_tourist/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app_tourist/views.py" afterPath="$PROJECT_DIR$/app_tourist/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/app_tourist/address_checking.html" afterPath="$PROJECT_DIR$/templates/app_tourist/address_checking.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/app_tourist/events.html" afterPath="$PROJECT_DIR$/templates/app_tourist/events.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/app_tourist/index.html" afterPath="$PROJECT_DIR$/templates/app_tourist/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/app_tourist/review_event.html" afterPath="$PROJECT_DIR$/templates/app_tourist/review_event.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/app_tourist/review_tour.html" afterPath="$PROJECT_DIR$/templates/app_tourist/review_tour.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/app_tourist/review_visitplace.html" afterPath="$PROJECT_DIR$/templates/app_tourist/review_visitplace.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/app_tourist/visitplaces.html" afterPath="$PROJECT_DIR$/templates/app_tourist/visitplaces.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/forms/opinion_form.html" afterPath="$PROJECT_DIR$/templates/forms/opinion_form.html" />
-    </list>
+    <list default="true" id="058337f6-3525-4ab5-acd5-61fab8670f70" name="Default" comment="" />
     <ignored path="tourist.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -615,7 +602,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2912254" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
