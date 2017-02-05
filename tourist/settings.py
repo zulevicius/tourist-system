@@ -84,10 +84,10 @@ WSGI_APPLICATION = 'tourist.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tourist-system',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
+        'NAME': 'sql11156563',
+        'USER': 'sql11156563',
+        'PASSWORD': 'aGf1EalVCG',
+        'HOST': 'sql11.freemysqlhosting.net',
         'PORT': '3306',
     }
 }
