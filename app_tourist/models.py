@@ -30,7 +30,7 @@ class TourObject(models.Model):
     last_update = models.DateTimeField(verbose_name="Paskutinis atnaujinimas")
     link = models.CharField(max_length=200, blank=True, null=True, verbose_name="Oficialus puslapis")
     extra_info = models.TextField(blank=True, null=True, verbose_name="Papildoma informacija")
-    main_photo = models.ImageField(blank=True, null=True, verbose_name="Pagrindinė nuotrauka")
+    main_photo = models.ImageField(verbose_name="Pagrindinė nuotrauka")
     thumbnail = models.ImageField(max_length=500, blank=True, null=True, editable=False, verbose_name="Miniatūra")
 
     class Meta:
@@ -44,7 +44,7 @@ class TourObject(models.Model):
         self.__original_main_photo = self.main_photo
 
     def save(self, *args, **kwargs):
-        if self.main_photo != self.__original_main_photo:
+        if self.main_photo != self.__original_main_photo and self.main_photo:
             # try:
                 # folder = "/cache/" + self.__original_thumbnail.name.split("cache")[1].split("/")[1] + "/"
                 # shutil.rmtree(settings.MEDIA_ROOT + folder.replace("/", "\\"))
@@ -54,9 +54,9 @@ class TourObject(models.Model):
 
             try:
                 os.remove(settings.MEDIA_ROOT + self.__original_main_photo.name.replace("/", "\\"))
-            except:
-                pass
+            except: pass
 
+            print('aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', self.main_photo)
             width = (130 / self.main_photo.height) * self.main_photo.width
             dimensions = str(int(width)) + 'x130'
             self.thumbnail = get_thumbnail(self.main_photo, dimensions, quality=99, format='JPEG').url

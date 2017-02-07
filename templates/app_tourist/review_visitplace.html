@@ -294,25 +294,26 @@
         <div class="col-md-6">
           <div class="box box-solid">
             <div class="box-header with-border">
-              <h3 class="box-title">Daugiau nuotraukų</h3>
+              <h3 class="box-title">Visos nuotraukos</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              {% if images %}
+              {% if images or visit_place.tour_object.main_photo %}
               <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
                     {% for img in images %}
-                        <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}"
-                            {% if forloop.counter0 == 0 %}
-                                class="active"
-                            {% endif %}
-                        >
+                        <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter }}">
                         </li>
                     {% endfor %}
                 </ol>
                 <div class="carousel-inner">
+                    <div class="item active">
+                      <img style="max-height: 350px;"
+                              class="img-responsive center-block" src="{{ visit_place.tour_object.main_photo.url }}">
+                    </div>
                   {% for img in images %}
-                    <div class="item {% if forloop.counter0 == 0%}active{% endif %}">
+                    <div class="item">
                       <img style="max-height: 350px;"
                               class="img-responsive center-block" src="{{ img.image.url }}">
                     </div>
@@ -429,13 +430,11 @@
                         var marker = null;
 
                         function initMap() {
-                        console.log(address);
                           var directionsService = new google.maps.DirectionsService;
                           var directionsDisplay = new google.maps.DirectionsRenderer;
                           var geocoder = new google.maps.Geocoder();
 
                           geocoder.geocode({'address': address}, function(results, status){
-                              console.log(status);
                               if (status === google.maps.GeocoderStatus.OK) {
                                   var latitude = parseFloat(results[0].geometry.location.lat());
                                   var longitude = parseFloat(results[0].geometry.location.lng());
