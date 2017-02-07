@@ -163,6 +163,7 @@ def review_event(request, pk):
         messages.add_message(request, 25, ('%s jau praėjo' % ev.tour_object.title), extra_tags="danger")
         redirect('app_tourist:events')
 
+    visitplaces = VisitPlace.objects.filter(tour_object__place = ev.tour_object.place)
     images = Image.objects.filter(tour_object=ev.tour_object)
     opinions_count = Opinion.objects.filter(tour_object=ev.tour_object).count()
 
@@ -173,7 +174,7 @@ def review_event(request, pk):
             if ev.tour_object not in t.tour_objects.all():
                 tours.append(t)
 
-    args = {'event': ev, 'images': images, 'tours': tours, 'opinions_count': opinions_count}
+    args = {'event': ev, 'visitplaces': visitplaces,'images': images, 'tours': tours, 'opinions_count': opinions_count}
 
     return render(request, 'app_tourist/review_event.html', args)
 

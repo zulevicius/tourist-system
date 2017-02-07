@@ -101,11 +101,7 @@
     </div>
 
     <div class="row">
-        <div
-            {% if images %}class="col-md-6"
-            {% else %}class="col-md-8"
-            {% endif %}
-        >
+        <div class="col-md-6">
           <div class="box box-widget widget-user">
             <a data-toggle="modal" data-target="#main_photo" style="cursor:pointer;">
               <div class="widget-user-header bg-black" style="background: url('{{ event.tour_object.main_photo.url }}') center center;">
@@ -129,7 +125,7 @@
                 </li>
                 <li>
                     <a>
-                        <i class="fa fa-fw fa-map-pin"></i> Adresas
+                        <i class="fa fa-fw fa-map-marker"></i> Adresas
                         <span class="pull-right">
                             {{ event.tour_object.place.address }}, {{ event.tour_object.place.city }}
                         </span>
@@ -151,7 +147,7 @@
                 </li>
                 <li>
                     <a>
-                        <i class="fa fa-fw fa-external-link"></i> Daugiau informacijos
+                        <i class="fa fa-fw fa-globe"></i> Daugiau informacijos
                         <div id="link" style="color: #3c8dbc; cursor: pointer; word-break: break-all;">
                             {{ event.tour_object.link }}
                         </div>
@@ -217,44 +213,47 @@
             </div>
           </div>
         </div>
-            {% if images %}
-            <div class="col-md-6">
-              <div class="box box-solid">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Daugiau nuotraukų</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                  <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        {% for img in images %}
-                            <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}"
-                                {% if forloop.counter0 == 0 %}
-                                    class="active"
-                                {% endif %}
-                            >
-                            </li>
-                        {% endfor %}
-                    </ol>
-                    <div class="carousel-inner">
-                      {% for img in images %}
-                        <div class="item {% if forloop.counter0 == 0%}active{% endif %}">
-                          <img style="max-height: 350px;"
-                                  class="img-responsive center-block" src="{{ img.image.url }}">
-                        </div>
-                      {% endfor %}
-                    </div>
-                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                      <span class="fa fa-angle-left"></span>
-                    </a>
-                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                      <span class="fa fa-angle-right"></span>
-                    </a>
-                  </div>
-                </div>
-              </div>
+
+        <div class="col-md-6">
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">Daugiau nuotraukų</h3>
             </div>
-            {% endif %}
+            <!-- /.box-header -->
+            <div class="box-body">
+            {% if images %}
+              <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for img in images %}
+                        <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}"
+                            {% if forloop.counter0 == 0 %}
+                                class="active"
+                            {% endif %}
+                        >
+                        </li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                  {% for img in images %}
+                    <div class="item {% if forloop.counter0 == 0%}active{% endif %}">
+                      <img style="max-height: 350px;"
+                              class="img-responsive center-block" src="{{ img.image.url }}">
+                    </div>
+                  {% endfor %}
+                </div>
+                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                  <span class="fa fa-angle-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                  <span class="fa fa-angle-right"></span>
+                </a>
+              </div>
+              {% else %}
+                Nėra
+              {% endif %}
+            </div>
+          </div>
+        </div>
     </div>
 
     <div class="row">
@@ -271,6 +270,43 @@
             </div>
         </div>
     </div>
+
+    {% if visitplaces %}
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">Čia esančios lankytinos vietos</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive">
+              <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Pavadinimas</th>
+                      <th>Kaina</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for vp in visitplaces %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>
+                            <a href="{% url 'app_tourist:review_visitplace' vp.pk %}">{{ vp.tour_object.title }}</a>
+                        </td>
+                        <td>
+                            {{ vp.tour_object.ticket_price }}
+                        </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
 
     <div class="row">
         <div class="col-sm-12">
