@@ -50,11 +50,10 @@
              {# "dom": 'flrti<"center"p>',#}
              "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"f><"clearfix">>>',
              padding: false,
-             "order": [[ 1, "asc" ]],
              "aoColumnDefs" : [
              {
                 'bSortable' : false,
-                'aTargets' : [ 3 ]
+                'aTargets' : [ 0 ]
              }],
              "fnInfoCallback": function( oSettings, _START_, _END_, _TOTAL_ ) {
                  return "Rodomi įrašai nuo " + _START_ + " iki " + _END_ + " iš " + _TOTAL_ + " įrašų";
@@ -106,7 +105,7 @@
                     }
                     else {
                         document.getElementById('s-' + pk).innerHTML =
-                                results[1][1].substring(0, results[1][1].length - 3);
+                                results[1][1].substring(0, results[1][1].length - 3) + " - ";
                         document.getElementById('e-' + pk).innerHTML =
                                 results[2][1].substring(0, results[2][1].length - 3);
                     }
@@ -163,7 +162,7 @@
 
      <div class="box box-primary">
 
-        <div class="box-body table-responsive" >
+        <div class="box-body table-responsive">
             <div class="row form-group col-sm-6" style="margin-bottom: 10px;">
               <label for="datepicker">Lankymo diena:</label>
 
@@ -175,30 +174,10 @@
               </div>
             </div>
 
-{#            <div class="row form-group col-sm-6" style="margin-bottom: 10px;">#}
-{#              <label></label>#}
-{#            </div>#}
-
-            <table id="table" class="table table-bordered table-striped">
-                <thead>
+            <table id="table" class="table table-bordered table-hover">
+                <thead id="thead" style="display: none;">
                     <tr>
-                        <th style="white-space: nowrap; font-size: 18px; border-right: none;">
-                            <i class="fa-fw glyphicon glyphicon-thumbs-up text-green"></i>
-                        </th>
-                        <th style="white-space: nowrap; font-size: 18px; border-right: none; border-left: none;">
-                            <i class="fa-fw glyphicon glyphicon-hand-right text-yellow"></i>
-                        </th>
-                        <th style="white-space: nowrap; font-size: 18px; border-left: none;">
-                            <i class="fa-fw glyphicon glyphicon-thumbs-down text-red"></i>
-                        </th>
-                        <th>Nuotrauka</th>
-                        <th style="white-space: normal;">Pavadinimas<i class="fa fa-fw fa-sort"></i></th>
-                        <th>Adresas<i class="fa fa-fw fa-sort"></i></th>
-                        <th>Miestas <i class="fa fa-fw fa-sort"></i></th>
-                        <th>Bilieto kaina<i class="fa fa-fw fa-sort"></i></th>
-                        <th>Darbo pradžia <i class="fa fa-fw fa-sort"></i></th>
-                        <th>Darbo pabaiga <i class="fa fa-fw fa-sort"></i> </th>
-                        <th style="width:140px;">Tipas<i class="fa fa-fw fa-sort"></i></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -224,52 +203,61 @@
                         </div>
 
                         <tr>
-                            {% with opinionsList|get_tour_object_opinions:vp.tour_object.pk as tour_object_opinions %}
-                                <td style="text-align: center; border-right: none;">
-                                    {{ tour_object_opinions|get_opinions_with_mark_count:'2' }}
-                                </td>
-                                <td style="text-align: center; border-right: none; border-left: none;">
-                                    {{ tour_object_opinions|get_opinions_with_mark_count:'1' }}
-                                </td>
-                                <td style="text-align: center; border-left: none;">
-                                    {{ tour_object_opinions|get_opinions_with_mark_count:'0' }}
-                                </td>
-                            {% endwith %}
-                            <td align="center">
-                                <a data-toggle="modal" data-target="#img{{ forloop.counter0 }}"
+                            <td align="left">
+                                <a data-toggle="modal" data-target="#img{{ forloop.counter0 }}" class="info-box-icon"
+                                   style="margin-right: 50px; background-color: transparent; height: 120px;"
                                         onclick="downloadPhoto('{{ vp.tour_object.pk }}', '{{ vp.tour_object.main_photo.url }}')">
                                     <img class="img-thumbnail" style="max-width: 130px;"
                                          src="{{ vp.tour_object.thumbnail.url }}">
                                 </a>
-                            </td>
-                            <td style="white-space: normal;">
-                                <a href="{% url 'app_tourist:review_visitplace' vp.pk %}">
-                                    {{ vp.tour_object.title }}
-                                </a>
-                            </td>
-                            <td>{{ vp.tour_object.place.address }}</td>
-                            <td>{{ vp.tour_object.place.city }}</td>
-                            <td>{{ vp.tour_object.ticket_price }} <i class="fa fa-eur"></i></td>
-                            <td class="job-start" id="s-{{ vp.pk }}">
-                                {% if vp.always_available %}
-                                    Atidaryta visuomet
-                                {% elif vp.mondayWorkingHoursStart %}
-                                    {{ vp.mondayWorkingHoursStart }}
-                                {% endif %}
-                            </td>
-                            <td class="job-end" id="e-{{ vp.pk }}">
-                                {% if vp.mondayWorkingHoursEnd %}
-                                    {{ vp.mondayWorkingHoursEnd }}
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if vp.is_museum %}Muziejus<br>{% endif %}
-                                {% if vp.is_park_or_square %}Parkas / Aikštė<br>{% endif %}
-                                {% if vp.is_panorama %}Panorama<br>{% endif %}
-                                {% if vp.is_monument %}Istorinis paminklas<br>{% endif %}
-                                {% if vp.is_church%}Bažnyčia<br>{% endif %}
-                                {% if vp.is_palace%}Dvaras / Pilis<br>{% endif %}
-                                {% if vp.is_nature_object %}Gamtos objektas{% endif %}
+
+                                <div class="info-box-content">
+
+                                    &emsp;&nbsp;<a style="font-size: 16px; font-weight: bold; white-space: normal;"
+                                       href="{% url 'app_tourist:review_visitplace' vp.pk %}">
+                                        {{ vp.tour_object.title }}
+                                    </a><br>
+
+                                    <span> <i class="fa fa-fw fa-map-marker"></i>
+                                        {{ vp.tour_object.place.address }}, {{ vp.tour_object.place.city }}
+                                    </span><br>
+
+                                    <span>
+                                        <i class="fa fa-fw fa-euro"></i>
+                                        {{ vp.tour_object.ticket_price }}
+                                    </span><br>
+
+                                    <i class="fa fa-fw fa-clock-o"></i>
+                                    <span class="job-start" id="s-{{ vp.pk }}">
+                                        {% if vp.always_available %}
+                                            Atidaryta visuomet
+                                        {% elif vp.mondayWorkingHoursStart %}
+                                            {{ vp.mondayWorkingHoursStart }}
+                                        {% endif %}
+                                    </span>
+                                    <span class="job-end" id="e-{{ vp.pk }}">
+                                        {% if vp.mondayWorkingHoursEnd %}
+                                            {{ vp.mondayWorkingHoursEnd }}
+                                        {% endif %}
+                                    </span>
+                                    <br>
+
+                                    <span>
+                                        <i class="fa fa-fw fa-globe"></i>
+                                        <a href="{{ vp.tour_object.link }}">{{ vp.tour_object.link }}</a>
+                                    </span><br>
+
+                                    <span>
+                                        <i class="fa fa-fw fa-asterisk"></i>
+                                        {% if vp.is_museum %}Muziejus &emsp;{% endif %}
+                                        {% if vp.is_park_or_square %}Parkas / Aikštė &emsp;{% endif %}
+                                        {% if vp.is_panorama %}Panorama &emsp;{% endif %}
+                                        {% if vp.is_monument %}Istorinis paminklas &emsp;{% endif %}
+                                        {% if vp.is_church%}Bažnyčia &emsp;{% endif %}
+                                        {% if vp.is_palace%}Dvaras / Pilis &emsp;{% endif %}
+                                        {% if vp.is_nature_object %}Gamtos objektas{% endif %}
+                                    </span>
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}

@@ -55,7 +55,6 @@
              {# "dom": 'flrti<"center"p>',#}
              "sDom": '<"row view-filter"<"col-sm-12"<"pull-left"f><"clearfix">>>',
              padding: false,
-             "order": [[ 1, "asc" ]],
              "aoColumnDefs" : [
              {
                 'bSortable' : false,
@@ -110,17 +109,10 @@
      <div class="box box-primary">
 
         <div class="box-body table-responsive">
-            <table id="table" class="table table-bordered table-striped">
-                <thead>
+            <table id="table" class="table table-bordered table-hover">
+                <thead id="thead" style="display: none;">
                     <tr>
-                        <th>Nuotrauka</th>
-                        <th style="white-space: normal;">Pavadinimas <i class="fa fa-fw fa-sort"></i></th>
-                        <th>Adresas <i class="fa fa-fw fa-sort"></i></th>
-                        <th>Miestas <i class="fa fa-fw fa-sort"></i></th>
-                        <th>Bilieto kaina <i class="fa fa-fw fa-sort"></i></th>
-                        <th>Renginio pradžia <i class="fa fa-fw fa-sort"></i></th>
-                        <th>Renginio pabaiga <i class="fa fa-fw fa-sort"></i></th>
-                        <th>Tipas<i class="fa fa-fw fa-sort"></i></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -146,31 +138,48 @@
                            </div>
                         </div>
                         <tr>
-                            <td align="center">
-                                <a data-toggle="modal" data-target="#img{{ forloop.counter0 }}"
+                            <td align="left">
+                                <a data-toggle="modal" data-target="#img{{ forloop.counter0 }}" class="info-box-icon"
+                                   style="margin-right: 50px; background-color: transparent; height: 120px;"
                                         onclick="downloadPhoto('{{ ev.tour_object.pk }}', '{{ ev.tour_object.main_photo.url }}')">
                                     <img class="img-thumbnail" style="max-width: 130px;"
                                          src="{{ ev.tour_object.thumbnail.url }}">
                                 </a>
-                            </td>
-                            <td style="white-space: normal;">
-                                <a href="{% url 'app_tourist:review_event' ev.pk %}">
-                                    {{ ev.tour_object.title }}
-                                </a>
-                            </td>
-                            <td>{{ ev.tour_object.place.address }}</td>
-                            <td>{{ ev.tour_object.place.city }}</td>
-                            <td>{{ ev.tour_object.ticket_price }} <i class="fa fa-eur"></i></td>
-                            <td>
-                                {{ ev.event_date|date:'Y-m-d H:i' }}
-                            </td>
-                            <td>
-                                {{ ev.event_end_date|date:'Y-m-d H:i' }}
-                            </td>
-                            <td>
-                                {% if ev.is_concert %}Koncertas<br>{% endif %}
-                                {% if ev.is_exhibition %}Paroda<br>{% endif %}
-                                {% if ev.is_festival %}Masinė kultūros šv.<br>{% endif %}
+
+                                <div class="info-box-content">
+
+                                    &emsp;&nbsp;<a style="font-size: 16px; font-weight: bold; white-space: normal;"
+                                       href="{% url 'app_tourist:review_event' ev.pk %}">
+                                        {{ ev.tour_object.title }}
+                                    </a><br>
+
+                                    <span> <i class="fa fa-fw fa-map-marker"></i>
+                                        {{ ev.tour_object.place.address }}, {{ ev.tour_object.place.city }}
+                                    </span><br>
+
+                                    <span>
+                                        <i class="fa fa-fw fa-euro"></i>
+                                        {{ ev.tour_object.ticket_price }}
+                                    </span><br>
+
+                                    <i class="fa fa-fw fa-clock-o"></i>
+                                    <span>
+                                        {{ ev.event_date|date:'Y-m-d H:i' }} - {{ ev.event_end_date|date:'Y-m-d H:i' }}
+                                    </span>
+                                    <br>
+
+                                    <span>
+                                        <i class="fa fa-fw fa-globe"></i>
+                                        <a href="{{ ev.tour_object.link }}">{{ ev.tour_object.link }}</a>
+                                    </span><br>
+
+                                    <span>
+                                        <i class="fa fa-fw fa-asterisk"></i>
+                                        {% if ev.is_concert %}Koncertas &emsp;{% endif %}
+                                        {% if ev.is_exhibition %}Paroda &emsp;{% endif %}
+                                        {% if ev.is_festival %}Masinė kultūros šv. &emsp;{% endif %}
+                                    </span>
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}

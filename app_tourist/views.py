@@ -124,8 +124,6 @@ class VisitPlacesView(ListView):
         context = super(VisitPlacesView, self).get_context_data()
         visit_places = VisitPlace.objects.all()
         context['visitPlacesList'] = visit_places
-        context['opinionsList'] = Opinion.objects.filter(tour_object__in =
-                                                         visit_places.values_list('tour_object', flat=True))
         return context
 
 

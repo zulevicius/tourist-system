@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 
 {% block my_css %}
+    <style>
+
+    .btn-redirect {
+        text-align: start;
+        padding: 11px 12px !important;
+        display: block !important;
+        border-radius: 0 !important;
+        color: white;
+    }
+    </style>
 {% endblock %}
 
 {% block page_header %}
@@ -26,9 +36,11 @@
                 <div class="info-box bg-yellow">
                     <span class="info-box-icon"><i class="fa fa-map-signs"></i></span>
 
-                    <div class="info-box-content">
-                      <span class="info-box-text">Lankytinų vietų<br>&nbsp;</span>
-                      <span class="info-box-number">{{ visit_places_count }}</span>
+                    <div class="info-box-content" style="padding: 0 0 0 0;">
+                      <a class="btn btn-warning btn-redirect" href="{% url 'app_tourist:visit_places' %}">
+                        <span class="info-box-text">Lankytinų vietų<br>&nbsp;</span>
+                        <span class="info-box-number">{{ visit_places_count }}</span>
+                      </a>
                     </div>
                 </div>
             </div>
@@ -37,9 +49,11 @@
                 <div class="info-box bg-red">
                     <span class="info-box-icon"><i class="glyphicon glyphicon-star-empty"></i></span>
 
-                    <div class="info-box-content">
-                      <span class="info-box-text">Renginių<br>&nbsp;</span>
-                      <span class="info-box-number">{{ events_count }}</span>
+                    <div class="info-box-content" style="padding: 0 0 0 0;">
+                      <a class="btn btn-danger btn-redirect" href="{% url 'app_tourist:events' %}">
+                        <span class="info-box-text">Renginių<br>&nbsp;</span>
+                        <span class="info-box-number">{{ events_count }}</span>
+                      </a>
                     </div>
                 </div>
             </div>
@@ -48,9 +62,11 @@
                 <div class="info-box bg-green">
                     <span class="info-box-icon"><i class="fa fa-map"></i></span>
 
-                    <div class="info-box-content">
-                      <span class="info-box-text">Rekomenduojamų<br>maršrutų</span>
-                      <span class="info-box-number">{{ recommended_tours_count }}</span>
+                    <div class="info-box-content" style="padding: 0 0 0 0;">
+                      <a class="btn btn-success btn-redirect" href="{% url 'app_tourist:recommended_tours' %}">
+                        <span class="info-box-text">Rekomenduojamų<br>maršrutų</span>
+                        <span class="info-box-number">{{ recommended_tours_count }}</span>
+                      </a>
                     </div>
                 </div>
             </div>

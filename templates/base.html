@@ -89,11 +89,61 @@
                     height: 28px;
                 }
         }
+
+       .back-to-top {
+           background: none;
+           margin: 0;
+           position: fixed;
+           padding: 5px 9px 5px 9px;
+           bottom: 0;
+           right: 0;
+           width: 60px;
+           height: 60px;
+           z-index: 100;
+           display: none;
+           text-decoration: none;
+           color: #ffffff;
+           background-color: #ff9000;
+       }
+
+       .back-to-top:hover, .back-to-top:active, .back-to-top:focus {
+           color: #ffffff;
+       }
+       .back-to-top i {
+           font-size: 50px;
+       }
     </style>
 
     <script>
         $(document).ready(function(){
             $(".callout").fadeOut(10000);
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            var offset = 250;
+            var duration = 300;
+            var backToTop = jQuery('.back-to-top');
+
+            if ($(window).scrollTop() == 0) {
+                backToTop.fadeOut(0);
+            }
+
+            jQuery(window).scroll(function() {
+                if (jQuery(this).scrollTop() > offset) {
+                    backToTop.fadeIn(duration);
+                }
+                else {
+                    backToTop.fadeOut(duration);
+                }
+            });
+
+            backToTop.click(function(event) {
+                event.preventDefault();
+                jQuery('html, body').animate({scrollTop: 0}, duration);
+                return false;
+            })
         });
     </script>
 
@@ -117,6 +167,10 @@
             {% block content %}
             {% endblock %}
         </section>
+
+    <a href="#" class="back-to-top" style="display: inline;">
+        <i class="fa fa-arrow-circle-up"></i>
+    </a>
 
     </div>
 

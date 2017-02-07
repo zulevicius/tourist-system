@@ -82,13 +82,20 @@ WSGI_APPLICATION = 'tourist.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'Dzedajus$tourism',
+    #     'USER': 'Dzedajus',
+    #     'PASSWORD': 'Abcd1234!',
+    #     'HOST': 'Dzedajus.mysql.pythonanywhere-services.com',
+    # }
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Dzedajus$tourism',
-        'USER': 'Dzedajus',
-        'PASSWORD': 'Abcd1234!',
-        'HOST': 'Dzedajus.mysql.pythonanywhere-services.com',
-        #'PORT': '3306',
+        'NAME': 'tourist-system',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
