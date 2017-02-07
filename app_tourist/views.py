@@ -268,7 +268,7 @@ class IndexView(TemplateView):
     def get_context_data(self):
         context = super(IndexView, self).get_context_data()
         context['visit_places_count'] = VisitPlace.objects.count()
-        context['events_count'] = Event.objects.count()
+        context['events_count'] = Event.objects.filter(event_end_date__gte=datetime.datetime.now()).count()
         context['recommended_tours_count'] = Tour.objects.filter(user = None).count()
         return context
 
